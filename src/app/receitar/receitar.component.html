@@ -1,0 +1,1040 @@
+<table class="table table-striped m-4">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col" class="text-center" colspan="2">FOLHA DE RECOMENDAÇÃO TÉCNICA</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <th scope="row" class="text-right">NOME DO PROPRIETÁRIO</th>
+            <td><input></td>
+        </tr>
+        <tr>
+            <th scope="row" class="text-right">PROPRIEDADE</th>
+            <td><input></td>
+        </tr>
+        <tr>
+            <th scope="row" class="text-right">EXPLORAÇÃO</th>
+            <td><input></td>
+        </tr>
+        <tr>
+            <th scope="row" class="text-right">UNIDADE LOCAL</th>
+            <td><input></td>
+        </tr>
+        <tr>
+            <th scope="row" class="text-right">DATA</th>
+            <td><input></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<mat-accordion class="example-headers-align">
+    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Informações
+            </mat-panel-title>
+            <mat-panel-description>
+                Recomendação de amostragem do solo para análise
+                <mat-icon>account_circle</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <table class="table m-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center">Recomendação de amostragem do solo para análise</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p>
+                            Para uma amostragem de solo bem feita, deve-se primeiramente dividir toda a área em
+                            glebas ou talhões com características semelhantes (Figura 1). Cada gleba ou talhão
+                            deve apresentar a mesma topografia (topo de morro, encosta, baixada), a mesma vegetação,
+                            as mesmas características perceptíveis de solo (cor, textura, condição de drenagem) e o
+                            mesmo histórico de cultivo (plantas com mesma idade, uso de fertilizantes, culturas
+                            plantadas
+                            anteriormente).
+                        </p>
+                        <table>
+                            <tr>
+                                <td><img class="img-fluid img-thumbnail" src="assets/receita/i-001.png"></td>
+                                <td><img class="img-fluid img-thumbnail" src="assets/receita/i-002.png"></td>
+                            </tr>
+                        </table>
+                        <p>
+                            As amostragens devem ser feitas coletando-se amostras simples em <b>20 pontos ao acaso</b>,
+                            caminhando em
+                            ziguezague em cada gleba ou talhão homogêneo e com o uso de trados, enxadas ou pás (Figura
+                            2).
+                            Misturando-se bem as amostras simples, obtém-se uma amostra composta, da qual separam-se
+                            mais ou
+                            menos 300 gramas em embalagens limpas. Deve-se identificar cada amostra e levar para um
+                            laboratório
+                            para realizar a análise de solo.
+                        </p>
+                        <p>
+                            Para <b>áreas novas</b>, as amostras devem ser coletadas na profundidade de 0 a 20 cm e 20 a
+                            40 cm.
+                        </p>
+                        <p>
+                            Para <b>áreas de fruticultura já implantadas</b>, as amostras devem ser coletadas na camada
+                            de 0 a 20 cm na
+                            <b>projeção da copa</b> para avaliação de aspectos nutricionais. Também deve ser coletada
+                            amostras na
+                            profundidade de 0 a 20 cm nas entrelinhas ou no centro das ruas para avaliação dos efeitos
+                            da
+                            calagem.
+                        </p>
+                        <p>
+                            A frequência da amostragem depende do manejo da cultura. Recomenda-se amostragem anual a
+                            partir da
+                            fase produtiva e realizada antes do período das chuvas. E a cada três anos coletar amostras
+                            nas
+                            camadas de 20 a 40 cm.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+            </tbody>
+        </table>
+        <mat-action-row>
+            <button mat-button color="primary" (click)="nextStep()">Próximo</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                PASSO 1
+            </mat-panel-title>
+            <mat-panel-description>
+                Análise Foliar
+                <mat-icon>map</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <form>
+            <div class="form-group">
+                <label for="cultura">ESCOLHA A CULTURA</label>
+                <select class="form-control" name="cultura" [(ngModel)]="modelo.cultura">
+                    <option [ngValue]="1">Abacate</option>
+                    <option [ngValue]="2">Abacaxi</option>
+                    <option [ngValue]="3">Acerola</option>
+                    <option [ngValue]="4">Banana</option>
+                    <option [ngValue]="5">Citros</option>
+                </select>
+            </div>
+            <div *ngIf="modelo.cultura">
+                <table class="table m-4">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="text-center">Recomendação de amostragem do solo para análise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p>
+                                    A análise foliar e a análise do solo são complementares e podem oferecer informações
+                                    valiosas na solução de algum problema nutricional nas frutíferas.
+                                </p>
+                                <p>
+                                    A amostragem deve ser feita seguindo os critérios abaixo:
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table m-4">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="text-center">Época</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p>
+                                    Início da frutificação.
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table m-4">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="text-center">Tipo de Folha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p>
+                                    Folhas jovens, expandidas, coletadas nos quatro lados da planta.
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table m-4">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="text-center">Número de folhas por gleba</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p>
+                                    100 folhas, de 25 plantas.
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table m-4">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="text-center">Armazenagem e envio das amostras para analise em
+                                laboratório</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p>
+                                    100 folhas, de 25 plantas.
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table m-4">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="text-center">Observações para coleta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p>
+                                    Deve-se evitar a amostragem em locais próximos de estradas e carreadores
+                                    (contaminação pela poeira) e em plantas atacadas por doenças e pragas.
+                                </p>
+                                <p>
+                                    Plantações que receberam pulverizações contendo nutrientes, só devem ser amostrados
+                                    um mês após.
+                                </p>
+                                <p>
+                                    As folhas coletadas devem ser colocadas em sacos de papel, identificadas (incluindo
+                                    informações de manejo nutricional da planta) e envidas para o laboratório em um
+                                    prazo máximo de 24h.
+                                </p>
+                                <p>
+                                    Solicitar uma análise completa para uma boa interpretação dos resultados.
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+
+        <mat-action-row>
+            <button mat-button color="warn" (click)="prevStep()">Anterior</button>
+            <button mat-button color="primary" (click)="nextStep()">Proximo</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                PASSO 2
+            </mat-panel-title>
+            <mat-panel-description>
+                Análise de Solo
+                <mat-icon>date_range</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <table class="table m-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center" colspan="2">DADOS DA ANALISE DE SOLOS</th>
+                    <th scope="col" class="text-center">UNIDADE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>pH</td>
+                    <td><input value="6,9"></td>
+                    <td> - </td>
+                </tr>
+                <tr>
+                    <td>CALCIO</td>
+                    <td><input value="2,90"></td>
+                    <td>cmolс/dm³ = mE/100mL</td>
+                </tr>
+                <tr>
+                    <td>MAGNÉSIO</td>
+                    <td><input value="0,5"></td>
+                    <td>cmolс/dm³ = mE/100mL</td>
+                </tr>
+                <tr>
+                    <td>POTÁSSIO</td>
+                    <td><input value="0,33"></td>
+                    <td>cmolс/dm³ = mE/100mL</td>
+                </tr>
+                <tr>
+                    <td>SÓDIO</td>
+                    <td><input value="0,1"></td>
+                    <td>cmolс/dm³ = mE/100mL</td>
+                </tr>
+                <tr>
+                    <td>ALUMÍNIO</td>
+                    <td><input value="0,00"></td>
+                    <td>cmolс/dm³ = mE/100mL</td>
+                </tr>
+                <tr>
+                    <td>H + Al</td>
+                    <td><input value="4,0"></td>
+                    <td>cmolс/dm³ = mE/100mL</td>
+                </tr>
+                <tr>
+                    <td>CARBONO</td>
+                    <td><input value="8,70"></td>
+                    <td>g/kg</td>
+                </tr>
+                <tr>
+                    <td>FÓSFORO</td>
+                    <td><input value="2,5"></td>
+                    <td>mg/dm³ = ppm</td>
+                </tr>
+                <tr>
+                    <td>BORO</td>
+                    <td><input value="0,05"></td>
+                    <td>mg/dm³ = ppm</td>
+                </tr>
+                <tr>
+                    <td>ENXOFRE</td>
+                    <td><input value="2,3"></td>
+                    <td>mg/dm³ = ppm</td>
+                </tr>
+                <tr>
+                    <td>COBRE</td>
+                    <td><input value="0,60"></td>
+                    <td>mg/dm³ = ppm</td>
+                </tr>
+                <tr>
+                    <td>FERRO</td>
+                    <td><input value="84,8"></td>
+                    <td>mg/dm³ = ppm</td>
+                </tr>
+                <tr>
+                    <td>MANGANÊS</td>
+                    <td><input value="14,90"></td>
+                    <td>mg/dm³ = ppm</td>
+                </tr>
+                <tr>
+                    <td>ZINCO</td>
+                    <td><input value="1,7"></td>
+                    <td>mg/dm³ = ppm</td>
+                </tr>
+                <tr>
+                    <td>AREIA</td>
+                    <td><input value="35,00"></td>
+                    <td>%</td>
+                </tr>
+                <tr>
+                    <td>Argila</td>
+                    <td><input value="47,5"></td>
+                    <td>%</td>
+                </tr>
+                <tr>
+                    <td>SILTE</td>
+                    <td><input value="17,5"></td>
+                    <td>%</td>
+                </tr>
+                <tr>
+                    <td>MAT. ORGÂNICA</td>
+                    <td><input value="16,9"></td>
+                    <td>g/kg</td>
+                </tr>
+                <tr>
+                    <td>SAT. BASE</td>
+                    <td><input value="48,59"></td>
+                    <td>%</td>
+                </tr>
+                <tr>
+                    <td>C.T.C</td>
+                    <td><input value="7,8"></td>
+                    <td>cmolс/dm³ = mE/100mL</td>
+                </tr>
+            </tbody>
+        </table>
+        <mat-action-row>
+            <button mat-button color="warn" (click)="prevStep()">Anterior</button>
+            <button mat-button color="primary" (click)="nextStep()">Próximo</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                PASSO 3
+            </mat-panel-title>
+            <mat-panel-description>
+                Espaçamento
+                <mat-icon>date_range</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <table class="table m-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center" colspan="3">DETALHE O ESPAÇAMENTO SE ESTE FOR SIMPLES</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input value="10,0"></td>
+                    <td>X</td>
+                    <td><input value="8,0"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table m-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center" colspan="3">DETALHE O ESPAÇAMENTO SE ESTE FOR DUPLO</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input value="10,0"></td>
+                    <td>X</td>
+                    <td><input value="10,0"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table m-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center" colspan="3">TAMANHO DA ÁREA PLANTADA EM HECTARES</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input value="10,0"></td>
+                    <td>X</td>
+                    <td><input value="8,0"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <mat-action-row>
+            <button mat-button color="warn" (click)="prevStep()">Anterior</button>
+            <button mat-button color="primary" (click)="nextStep()">Próximo</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="step ===4" (opened)="setStep(4)" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                PASSO 4
+            </mat-panel-title>
+            <mat-panel-description>
+                Calcário
+                <mat-icon>date_range</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <table class="table m-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center" colspan="3">ESCOLHA O CALCÁRIO E DIGA SEU PERCENTUAL PARA
+                        ATENDER A DEMANDA</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select>
+                            <option>AGROSILICIO</option>
+                        </select>
+                    </td>
+                    <td>X</td>
+                    <td>
+                        <select>
+                            <option>100%</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table m-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center" colspan="3">ESCOLHA O PÓ DE ROCHA E DIGA SEU PERCENTUAL PARA
+                        ATENDER A DEMANDA</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Pó de brita Fmx (62) 3924 8565</option>
+                        </select>
+                    </td>
+                    <td>X</td>
+                    <td>
+                        <select>
+                            <option>10%</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <mat-action-row>
+            <button mat-button color="warn" (click)="prevStep()">Anterior</button>
+            <button mat-button color="primary" (click)="nextStep()">Próximo</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                PASSO 5
+            </mat-panel-title>
+            <mat-panel-description>
+                Gesso
+                <mat-icon>date_range</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <table class="table m-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center">ESCOLHA O GESSO</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Gesso Agronelli</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table m-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center">DIGA SE FOI REALIZADA AMOSTRAGEM DE SOLO DE 40-60 CM</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="checkbox"> Sim
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table m-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center" colspan="3">SE A RESPOSTA ANTERIOR FOI SIM, DIGA OS DADOS ABAIXO
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        CÁLCIO
+                    </td>
+                    <td><input value="2,00"></td>
+                    <td>
+                        cmolс/dm³ = mE/100mL
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        ALUMÍNIO
+                    </td>
+                    <td><input value="0,40"></td>
+                    <td>
+                        cmolс/dm³ = mE/100mL
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        SAT. ALUMÍNIO
+                    </td>
+                    <td><input value="25,00"></td>
+                    <td>
+                        %
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <mat-action-row>
+            <button mat-button color="warn" (click)="prevStep()">Anterior</button>
+            <button mat-button color="primary" (click)="nextStep()">Próximo</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                PASSO 6
+            </mat-panel-title>
+            <mat-panel-description>
+                Adubo
+                <mat-icon>date_range</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <table class="table m-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center" colspan="2">
+                        ESCOLHA O ADUBO FONTE DE FÓSFORO E DIGA O PERCENTUAL QUE CABERÁ A CADA ADUBO
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select>
+                            <option value="Nitrato de cálcio"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="30%"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option value="Termofosfato YOORIN"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="100%"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option value=""></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value=""></option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p>
+        <table class="table m-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center" colspan="2">
+                        ESCOLHA O ADUBO FONTE DE POTÁSSIO E DIGA O PERCENTUAL QUE CABERÁ A CADA ADUBO
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select>
+                            <option value="Kmag"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="100%"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option value=""></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value=""></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option value=""></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value=""></option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p>
+        <table class="table m-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center" colspan="2">
+                        ESCOLHA O ADUBO FONTE DE NITROGÊNIO E DIGA O PERCENTUAL QUE CABERÁ A CADA ADUBO
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select>
+                            <option value="Torta de mamona Hortibraz"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value="100%"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option value=""></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value=""></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option value=""></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select>
+                            <option value=""></option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p>
+
+        <table>
+            <tr>
+                <td>Nutrientes</td>
+                <td>N</td>
+                <td>P2O5</td>
+                <td>K2O</td>
+            </tr>
+            <tr>
+                <td>Demanda (g/planta)</td>
+                <td>300,00</td>
+                <td>300,00</td>
+                <td>70,00</td>
+            </tr>
+            <tr>
+                <td>Excesso ou déficit (g/planta)</td>
+                <td>0,00</td>
+                <td>0,00</td>
+                <td>0,00</td>
+            </tr>
+        </table>
+        <mat-action-row>
+            <button mat-button color="warn" (click)="prevStep()">Anterior</button>
+            <button mat-button color="primary" (click)="nextStep()">Próximo</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                PASSO 7
+            </mat-panel-title>
+            <mat-panel-description>
+                Adubo Micronutriente
+                <mat-icon>date_range</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <table class="table m-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center" colspan="2">
+                        ESCOLHA O ADUBO FONTE DE MICRONUTRIENTE
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select>
+                            <option value="Ácido Bórico"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option value="Sulfato de cobre"></option>
+                        </select>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option value="Sulfato de zinco"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option value="Sulfato de manganês"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option value=""></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option value=""></option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p>
+
+        <table>
+            <tr>
+                <td>Nutrientes</td>
+                <td>B</td>
+                <td>Cu</td>
+                <td>Mn</td>
+                <td>Zn</td>
+            </tr>
+            <tr>
+                <td>Demanda (g/planta)</td>
+                <td>16,00</td>
+                <td>0,00</td>
+                <td>0,00</td>
+                <td>0,00</td>
+            </tr>
+            <tr>
+                <td>Excesso ou déficit (g/planta)</td>
+                <td>0,00</td>
+                <td>0,00</td>
+                <td>0,00</td>
+                <td>0,00</td>
+            </tr>
+        </table>
+        <mat-action-row>
+            <button mat-button color="warn" (click)="prevStep()">Anterior</button>
+            <button mat-button color="primary" (click)="nextStep()">Próximo</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)" hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                PASSO 8
+            </mat-panel-title>
+            <mat-panel-description>
+                Simular Cominação de Adubos
+                <mat-icon>date_range</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <table class="table m-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-center" colspan="2">
+                        ESCOLHA OS ADUBOS E VEJA AS QUANTIDADES
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Esterco de galinha</option>
+                        </select></td>
+                    <td><input value="0,0"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Esterco de gado</option>
+                        </select></td>
+                    <td><input value="0,0"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Minhofertil (61 3361-6634)</option>
+                        </select></td>
+                    <td><input value="0,0"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Composto ORGANICS (062 3247-3100)</option>
+                        </select></td>
+                    <td><input value="3,7"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Composto Bioforte BONASA (061 9 9967-0863)</option>
+                        </select></td>
+                    <td><input value="0,0"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Composto Bioensima BONASA (061 9 9967-0863)</option>
+                        </select></td>
+                    <td><input value="35416,7"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Bokashi Carlos (061 9 9681-3730)</option>
+                        </select></td>
+                    <td><input value="4547,0"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Bokashi Valdemar (9 9811-2414)</option>
+                        </select></td>
+                    <td><input value="5109,0"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Biobokashi Farelado FERTIBIO (61 9827-4439)</option>
+                        </select></td>
+                    <td><input value="0,0"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Torta de mamona Super thorg (061 9 9827-4439)</option>
+                        </select></td>
+                    <td><input value="-0,0"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Torta de mamona Nutrisafra (062 3310-8133)</option>
+                        </select></td>
+                    <td><input value="0,0"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Torta de mamona Vitaplan (061 3234-8485)</option>
+                        </select></td>
+                    <td><input value="0,0"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Farinha de osso</option>
+                        </select></td>
+                    <td><input value="0,0"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Termofosfato YOORIN</option>
+                        </select></td>
+                    <td><input value="0,0"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Kmag</option>
+                        </select></td>
+                    <td><input value="963,6"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Algas marinhas Algen</option>
+                        </select></td>
+                    <td><input value="0,0"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option>Torta de mamona Hortibraz</option>
+                        </select></td>
+                    <td><input value="0,0"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select>
+                            <option></option>
+                        </select></td>
+                    <td><input value="0,0"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <tr>
+                <td rowspan="2">
+                    PARA OBTER O MENOR CUSTO
+                </td>
+                <td>Custo/área total</td>
+                <td><input value="2794,51057848193"></td>
+            </tr>
+            <tr>
+                <td>Custo/planta </td>
+                <td><input value="22,3560846278554"></td>
+            </tr>
+        </table>
+        <mat-action-row>
+            <button mat-button color="warn" (click)="prevStep()">Anterior</button>
+            <button mat-button color="primary" (click)="nextStep()">Final</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+
+</mat-accordion>

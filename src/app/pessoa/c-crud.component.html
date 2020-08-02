@@ -1,0 +1,17 @@
+<h1 class="m-0">
+    {{funcionalidade}}
+</h1>
+<p>
+    acao {{acao}}
+</p>
+
+<app-frz-barra-acoes [botaoList]="service.botaoList" mini="false" fixoNoTopo="true" exibeSombra="true">
+    <div class="flex-fill">total registros: ({{totalRegistros}})</div>
+    <div class="flex-fill">filtro ativado: (sim)</div>
+</app-frz-barra-acoes>
+
+<router-outlet>
+</router-outlet>
+
+<app-frz-botao-subir>
+</app-frz-botao-subir>

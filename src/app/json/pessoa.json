@@ -1,0 +1,189 @@
+[
+    {
+        "id": 1,
+        "nome": "Teste A",
+        "pessoaTipo": "PF",
+        "cpfCnpj": "123.456.789-11",
+        "email": "teste1@t.com",
+        "contato1": "(61) 1234-1234",
+        "contato2": "(61) 2234-1234",
+        "contato3": "(61) 3234-1234",
+        "fornecedor": {
+            "id": 1
+        }
+    },
+    {
+        "id": 2,
+        "nome": "Teste B",
+        "pessoaTipo": "PF",
+        "cpfCnpj": "111.111.111-11",
+        "email": "teste2@t.com",
+        "contato1": "(61) 99999-1234",
+        "fornecedor": {
+            "id": 2
+        }
+    },
+    {
+        "id": 3,
+        "nome": "Teste C",
+        "pessoaTipo": "PJ",
+        "cpfCnpj": "222.222.222-22"
+    },
+    {
+        "id": 4,
+        "nome": "Teste D",
+        "pessoaTipo": "PJ",
+        "cpfCnpj": "333.333.333-33",
+        "pessoaEnderecoList": [
+            {
+                "id": 1,
+                "pessoa": {
+                    "id": 4
+                },
+                "endereco": {
+                    "id": 1,
+                    "logradouro": "Log A",
+                    "complemento": "Comp A",
+                    "numero": "Num A",
+                    "bairro": "Bai A",
+                    "cidade": "Cid A",
+                    "uf": "Uf A",
+                    "cep": "Cep A"
+                }
+            },
+            {
+                "id": 2,
+                "pessoa": {
+                    "id": 4
+                },
+                "endereco": {
+                    "id": 2,
+                    "logradouro": "Log B",
+                    "complemento": "Comp B",
+                    "numero": "Num B",
+                    "bairro": "Bai B",
+                    "cidade": "Cid B",
+                    "uf": "Uf B",
+                    "cep": "Cep B"
+                }
+            },
+            {
+                "id": 3,
+                "pessoa": {
+                    "id": 4
+                },
+                "endereco": {
+                    "id": 3,
+                    "logradouro": "Log C",
+                    "complemento": "Comp C",
+                    "numero": "Num C",
+                    "bairro": "Bai C",
+                    "cidade": "Cid C",
+                    "uf": "Uf C",
+                    "cep": "Cep C"
+                }
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "nome": "Teste E",
+        "pessoaTipo": "PJ",
+        "cpfCnpj": "08.193.863/0001-34",
+        "email": "teste_e@t.com",
+        "contato1": "(61) 98510-2938",
+        "fornecedor": {
+            "id": 5
+        },
+        "parceiro": {
+            "id": 5,
+            "funcao": "Costureiro(a)"
+        }
+    },
+    {
+        "id": 6,
+        "nome": "Teste F",
+        "pessoaTipo": "PJ",
+        "cpfCnpj": "77.015.793/0001-47",
+        "email": "sebastianacatarinaandreiaoliveira-77@brasildakar.com.br",
+        "contato1": "(61) 99281-3175",
+        "contato2": "(61) 3221-0171",
+        "fornecedor": {
+            "id": 6
+        },
+        "cliente": {
+            "id": 6
+        },
+        "pessoaEnderecoList": [
+            {
+                "id": 21,
+                "endereco": {
+                    "id": 32,
+                    "logradouro": "Quadra SHIGS 713 Bloco M",
+                    "complemento": "apartamento",
+                    "numero": "110",
+                    "bairro": "Asa Sul",
+                    "cidade": "Brasília",
+                    "uf": "DF",
+                    "cep": "70380-713"
+                }
+            },
+            {
+                "id": 22,
+                "endereco": {
+                    "id": 33,
+                    "logradouro": "Quadra QI 9 Bloco B",
+                    "complemento": "casa",
+                    "numero": "13",
+                    "bairro": "Guará I",
+                    "cidade": "Brasília",
+                    "uf": "DF",
+                    "cep": "71020-628"
+                }
+            },
+            {
+                "id": 23,
+                "endereco": {
+                    "id": 34,
+                    "logradouro": "Quadra QNA 17",
+                    "complemento": "casa",
+                    "numero": "18",
+                    "bairro": "Taguatinga Norte (Taguatinga)",
+                    "cidade": "Brasília",
+                    "uf": "DF",
+                    "cep": "72110-170"
+                }
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "nome": "Teste G",
+        "pessoaTipo": "PJ",
+        "cpfCnpj": "27.517.774/0001-40",
+        "email": "tanialeticiarodrigues_@adherminer.com.br",
+        "contato1": "(61) 2703-1361",
+        "fornecedor": {
+            "id": 7
+        },
+        "parceiro": {
+            "id": 7,
+            "funcao": "Costureiro(a)"
+        }
+    },
+    {
+        "id": 8,
+        "nome": "Teste H",
+        "pessoaTipo": "PJ",
+        "cpfCnpj": "13.295.221/0001-86",
+        "email": "gabriellyemanuellylunarezende_@i9pneus.com.br",
+        "contato1": "(61) 3511-0462",
+        "fornecedor": {
+            "id": 8
+        },
+        "parceiro": {
+            "id": 8,
+            "funcao": "Entregador(a)"
+        }
+    }
+]

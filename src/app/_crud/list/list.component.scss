@@ -1,0 +1,17 @@
+table {
+  width: 100%;
+}
+
+td,
+th {
+  min-width: 5%;
+}
+
+.mat-sort-header-sorted {
+  background-color: green;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}

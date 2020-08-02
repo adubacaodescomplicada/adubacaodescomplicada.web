@@ -1,0 +1,84 @@
+<span (click)="mini=!mini" class="exibeMini">
+    <span *ngIf="mini" data-toggle="tooltip" data-placement="top" title="Ampliar Visão">+</span>
+    <span *ngIf="!mini" data-toggle="tooltip" data-placement="top" title="Reduzir Visão">-</span>
+</span>
+<mat-toolbar [ngClass]="defineClasses()" style="height: 100%; z-index: 10;">
+    <mat-toolbar-row *ngIf="mini" class="d-flex justify-content-end flex-wrap mh100 p-0 m-0" style="height: 100%;">
+        <ng-template ngFor let-i="index" let-botao [ngForOf]="botaoList">
+            <mat-menu #appMenu="matMenu">
+                <ng-template ngFor let-subBotao [ngForOf]="botao.subBotaoList">
+                    <button *ngIf="subBotao.visivel" mat-menu-item [attr.aria-label]="subBotao.nome" aria-hidden="false"
+                        (click)="subBotao.acao($event, subBotao)" [disabled]="subBotao.desabilitado"
+                        style="outline: none !important; outline-style: none !important;" data-toggle="tooltip"
+                        data-placement="top" title="{{subBotao.descricao}}">
+                        <mat-icon>
+                            {{subBotao.icon}}
+                        </mat-icon>
+                        <mat-label>{{subBotao.nome}}</mat-label>
+                    </button>
+                </ng-template>
+            </mat-menu>
+            <button *ngIf="botao.visivel && botao.subBotaoList?.length" mat-mini-fab class="m-1" [color]="botao.cor"
+                [attr.aria-label]="botao.nome" aria-hidden="false" (click)="botao.acao($event, botao)"
+                [matMenuTriggerFor]="appMenu" [disabled]="botao.desabilitado"
+                style="outline: none !important; outline-style: none !important;" data-toggle="tooltip"
+                data-placement="top" title="{{botao.descricao}}">
+                <mat-icon>
+                    {{botao.icon}}
+                </mat-icon>
+            </button>
+            <button *ngIf="botao.visivel && !botao.subBotaoList?.length" mat-mini-fab class="m-1" [color]="botao.cor"
+                [attr.aria-label]="botao.nome" aria-hidden="false" (click)="botao.acao($event, botao)"
+                [disabled]="botao.desabilitado" style="outline: none !important; outline-style: none !important;"
+                data-toggle="tooltip" data-placement="top" title="{{botao.descricao}}">
+                <mat-icon>
+                    {{botao.icon}}
+                </mat-icon>
+            </button>
+        </ng-template>
+    </mat-toolbar-row>
+    <mat-toolbar-row *ngIf="!mini" class="d-flex justify-content-end flex-wrap mh100 p-2 m-1" style="height: 100%;">
+        <ng-template ngFor let-i="index" let-botao [ngForOf]="botaoList">
+            <mat-menu #appMenu="matMenu">
+                <ng-template ngFor let-subBotao [ngForOf]="botao.subBotaoList">
+                    <button *ngIf="subBotao.visivel" mat-menu-item [attr.aria-label]="subBotao.nome" aria-hidden="false"
+                        (click)="subBotao.acao($event, subBotao)" [disabled]="subBotao.desabilitado"
+                        style="outline: none !important; outline-style: none !important;" data-toggle="tooltip"
+                        data-placement="top" title="{{subBotao.descricao}}">
+                        <mat-icon>
+                            {{subBotao.icon}}
+                        </mat-icon>
+                        <mat-label>{{subBotao.nome}}</mat-label>
+                    </button>
+                </ng-template>
+            </mat-menu>
+            <button *ngIf="botao.visivel && botao.subBotaoList?.length" mat-fab class="m-2" [color]="botao.cor"
+                [attr.aria-label]="botao.nome" aria-hidden="false" (click)="botao.acao($event, botao)"
+                [matMenuTriggerFor]="appMenu" [disabled]="botao.desabilitado"
+                style="outline: none !important; outline-style: none !important;" data-toggle="tooltip"
+                data-placement="top" title="{{botao.descricao}}">
+                <mat-icon>
+                    {{botao.icon}}
+                </mat-icon>
+                <div class="text-dark mt-2">
+                    {{botao.nome}}
+                </div>
+            </button>
+            <button *ngIf="botao.visivel && !botao.subBotaoList?.length" mat-fab class="m-2" [color]="botao.cor"
+                [attr.aria-label]="botao.nome" aria-hidden="false" (click)="botao.acao($event, botao)"
+                [disabled]="botao.desabilitado" style="outline: none !important; outline-style: none !important;"
+                data-toggle="tooltip" data-placement="top" title="{{botao.descricao}}">
+                <mat-icon>
+                    {{botao.icon}}
+                </mat-icon>
+                <div class="text-dark mt-2">
+                    {{botao.nome}}
+                </div>
+            </button>
+        </ng-template>
+    </mat-toolbar-row>
+    <mat-toolbar-row class="d-flex flex-row flex-wrap text-monospace text-lowercase"
+        style="height: 100%; font-size: 60%;">
+        <ng-content></ng-content>
+    </mat-toolbar-row>
+</mat-toolbar>
