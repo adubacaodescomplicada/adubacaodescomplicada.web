@@ -5,6 +5,7 @@ export class Token {
     public email: string;
     public grant_type: string;
     public nome: string;
+    public pessoa_id: number;
     public perfil: string;
     public scope: string;
     public token_type: string;
