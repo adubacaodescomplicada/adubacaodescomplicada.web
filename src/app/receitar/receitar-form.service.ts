@@ -8,7 +8,7 @@ import { ReceitaFiltroDTO } from './receita-filtro-dto';
 import { Subject, Observable } from 'rxjs';
 
 const faixaArgilaFosforo = [
-    [null, 15, [[null, 12, 'baixo'], [12, 18, 'medio'], [18, null, 'adequado']]],
+    [null, 16, [[null, 12, 'baixo'], [12, 18, 'medio'], [18, null, 'adequado']]],
     [16, 35, [[null, 10, 'baixo'], [10, 15, 'medio'], [15, null, 'adequado']]],
     [35, 60, [[null, 5, 'baixo'], [5, 8, 'medio'], [8, null, 'adequado']]],
     [60, null, [[null, 3, 'baixo'], [3, 6, 'medio'], [6, null, 'adequado']]]
@@ -64,9 +64,12 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         const result = this.fb.group({
             id: [entidade.id, []],
             analiseSoloParametro: [entidade.analiseSoloParametro, [Validators.required]],
-            valor: [entidade.valor, [Validators.required]],
+            valor: [entidade.valor, [Validators.required, Validators.min(0)]],
             avaliacao: [null, []],
         });
+        if (entidade?.analiseSoloParametro?.unidadeMedida?.codigo === 'PERCENTUAL') {
+            result.get('valor'). setValidators([Validators.required, Validators.min(0), Validators.max(100)]);
+        }
 
         return result;
     }
@@ -90,7 +93,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         fosforo.get('avaliacao').setValue(null, { emitEvent: false });
         argila.get('avaliacao').setValue(null, { emitEvent: false });
 
-        if (argila.value.valor && fosforo.value.valor) {
+        if (argila.value.valor > 0 && fosforo.value.valor > 0) {
             let achou = false;
             for (const faixaArgila of faixaArgilaFosforo) {
                 if ((faixaArgila[0] ? argila.value.valor >= faixaArgila[0] : true) &&
