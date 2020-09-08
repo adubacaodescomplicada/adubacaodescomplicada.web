@@ -1,6 +1,9 @@
 {
   "name": "adubacaodescomplicada.web",
   "version": "0.0.0",
+  "engines": {
+    "node": "12.18.2"
+  },
   "scripts": {
     "ng": "ng",
     "build": "ng build",
