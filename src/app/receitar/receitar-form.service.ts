@@ -91,7 +91,8 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         argila.get('avaliacao').setValue(null, { emitEvent: false });
 
         if (argila.value.valor && fosforo.value.valor) {
-            principal: for (const faixaArgila of faixaArgilaFosforo) {
+            let achou = false;
+            for (const faixaArgila of faixaArgilaFosforo) {
                 if ((faixaArgila[0] ? argila.value.valor >= faixaArgila[0] : true) &&
                     (faixaArgila[1] ? argila.value.valor <= faixaArgila[1] : true)) {
                     for (const faixaFosforo of faixaArgila[2] as []) {
@@ -99,9 +100,13 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
                             (faixaFosforo[1] ? fosforo.value.valor <= faixaFosforo[1] : true)) {
                             argila.get('avaliacao').setValue(faixaFosforo[2], { emitEvent: false });
                             fosforo.get('avaliacao').setValue(faixaFosforo[2], { emitEvent: false });
-                            break principal;
+                            achou = true;
+                            break;
                         }
                     }
+                }
+                if (achou) {
+                    break;
                 }
             }
         }
