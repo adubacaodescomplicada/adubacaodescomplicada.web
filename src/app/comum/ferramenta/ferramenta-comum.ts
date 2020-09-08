@@ -323,3 +323,8 @@ export function codificaNome(nome: string, primeiraLetraMaiuscula = false): stri
         .replace(/^(\w)/g, (v0, v1) => primeiraLetraMaiuscula ? v1.toUpperCase() : v1.toLowerCase());
     return nome;
 }
+
+export function idListComparar(o1: {id: number}, o2: {id: number}) {
+    const result = o1 && o2 ? o1.id === o2.id : o1 === o2;
+    return result;
+}

@@ -1,20 +1,24 @@
-import { UnidadeMedida } from './../modelo/entidade/unidade-medida';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { LoginService } from './../seguranca/login/login.service';
-import { Nutriente } from './../modelo/entidade/nutriente';
-import { Cultura } from './../modelo/entidade/cutura';
+import { CrudService } from './../_crud/crud.service';
 import { environment } from './../../environments/environment';
+import { Receita } from './receita';
+import { ReceitaFiltroDTO } from './receita-filtro-dto';
+import { LoginService } from './../seguranca/login/login.service';
+import { AnaliseSoloParametro } from './../modelo/entidade/analise-solo-parametro';
+import { Cultura } from './../modelo/entidade/cutura';
+import { UnidadeMedida } from './../modelo/entidade/unidade-medida';
 
 @Injectable({ providedIn: 'root' })
-export class ReceitarService {
+export class ReceitarService extends CrudService<ReceitaFiltroDTO, Receita, Receita> {
 
     constructor(
         private _http: HttpClient,
         private loginService: LoginService
     ) {
+        super();
     }
 
     public culturaList(): Observable<Cultura[]> {
@@ -22,8 +26,8 @@ export class ReceitarService {
             { headers: this.loginService.apiRequestHttpHeader });
     }
 
-    public nutrienteList(): Observable<Nutriente[]> {
-        return this._http.get<Nutriente[]>(`${environment.REST_API_URL}/nutriente`,
+    public analiseSoloParametroList(): Observable<AnaliseSoloParametro[]> {
+        return this._http.get<AnaliseSoloParametro[]>(`${environment.REST_API_URL}/analise-solo-parametro`,
             { headers: this.loginService.apiRequestHttpHeader });
     }
 

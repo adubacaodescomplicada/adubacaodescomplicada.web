@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
+
 import { environment } from 'src/environments/environment';
 
 import { Token } from '../../modelo/token';
@@ -52,9 +54,17 @@ export class LoginService {
         // observe: 'response',
         headers: this.apiRequestHttpHeader
       }
-    ) .pipe(
+    ).pipe(
       tap(resposta => {
         this._localStorageService.apagar(LocalStorageService.CHAVE_SEGURANCA);
+      })
+    ).pipe(
+      catchError(error => {
+        console.error(error);
+        if (error && error.error && error.error.error && error.error.error.toLowerCase() === 'invalid_token') {
+          this._localStorageService.apagar(LocalStorageService.CHAVE_SEGURANCA);
+        }
+        return of(null);
       })
     );
   }

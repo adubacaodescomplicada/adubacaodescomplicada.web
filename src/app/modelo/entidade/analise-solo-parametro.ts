@@ -1,10 +1,11 @@
+import { UnidadeMedida } from './unidade-medida';
 import { EntidadeId } from '../entidade-id';
 
-export class Nutriente implements EntidadeId {
+export class AnaliseSoloParametro implements EntidadeId {
 
     public id: number;
     public nome: string;
     public codigo: string;
     public sigla: string;
-
+    public unidadeMedida: UnidadeMedida;
 }

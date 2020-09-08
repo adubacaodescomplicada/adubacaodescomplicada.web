@@ -1,11 +1,16 @@
-import { Cultura } from './../modelo/entidade/cutura';
-import { Router, ActivatedRoute } from '@angular/router';
-import { MensagemService } from './../comum/servico/mensagem/mensagem.service';
-import { LoginService } from './../seguranca/login/login.service';
 import { FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { Cultura } from './../modelo/entidade/cutura';
+import { ReceitarService } from './receitar.service';
+import { MensagemService } from './../comum/servico/mensagem/mensagem.service';
+import { LoginService } from './../seguranca/login/login.service';
 import { ReceitarFormService } from './receitar-form.service';
-import { culturaListComparar, unidadeMedidaListComparar } from '../ferramenta-sistema/ferramenta-sistema';
+import { idListComparar } from '../comum/ferramenta/ferramenta-comum';
+import { Receita } from './receita';
+import { Pessoa } from '../modelo/entidade/pessoa';
+import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
 
 @Component({
   selector: 'app-receitar',
@@ -20,7 +25,7 @@ export class ReceitarComponent implements OnInit {
   frm: FormGroup;
 
   culturaList: [];
-  nutrienteList: [];
+  analiseSoloParametroList: [];
   unidadeMedidaList: [];
   calcarioList: [{
     id: number,
@@ -108,8 +113,9 @@ export class ReceitarComponent implements OnInit {
     ];
 
   constructor(
+    private service: ReceitarService,
+    private serviceForm: ReceitarFormService,
     private loginService: LoginService,
-    private formService: ReceitarFormService,
     private mensagem: MensagemService,
     private route: ActivatedRoute,
     private router: Router,
@@ -118,7 +124,24 @@ export class ReceitarComponent implements OnInit {
   ngOnInit(): void {
     this.route.data.subscribe((resolver) => {
       resolver[0].apoio.culturaList.subscribe((lista) => this.culturaList = lista);
-      resolver[0].apoio.nutrienteList.subscribe((lista) => this.nutrienteList = lista);
+      resolver[0].apoio.analiseSoloParametroList.subscribe((lista) => {
+        this.analiseSoloParametroList = lista;
+        const entidade = new Receita();
+        entidade.data = `${new Date().getFullYear()}-0${new Date().getMonth() + 1}-0${new Date().getDate()}`;
+        entidade.pessoa = new Pessoa();
+        entidade.pessoa.id = this.loginService.dadosLogin.pessoa_id;
+        entidade.pessoa.nome = this.loginService.dadosLogin.nome;
+        entidade.culturaTipo = null;
+        entidade.cultura = null;
+        entidade.receitaAnaliseSoloParametroList = [];
+        for (const analiseSoloParametro of this.analiseSoloParametroList) {
+          const receitaAnaliseSoloParametro = new ReceitaAnaliseSoloParametro();
+          receitaAnaliseSoloParametro.analiseSoloParametro = Object.assign({}, analiseSoloParametro);
+          receitaAnaliseSoloParametro.valor = 0;
+          entidade.receitaAnaliseSoloParametroList.push(receitaAnaliseSoloParametro);
+        }
+        this.carregar(entidade);
+      });
       resolver[0].apoio.unidadeMedidaList.subscribe((lista) => this.unidadeMedidaList = lista);
     });
     if (!this.loginService.estaLogado) {
@@ -129,18 +152,20 @@ export class ReceitarComponent implements OnInit {
       this.mensagem.erro(`Faltam as informações pessoais do usuário ${this.loginService.dadosLogin.username}!`);
       this.router.navigate(['/', 'login']);
     }
-    const entidade = {
-      // data: `${new Date().getFullYear()}-0${new Date().getMonth() + 1}-0${new Date().getDate()}`,
-      data: `${new Date().getFullYear()}-0${new Date().getMonth() + 1}-0${new Date().getDate()}`,
-      pessoa: {
-        id: this.loginService.dadosLogin.pessoa_id,
-        nome: this.loginService.dadosLogin.nome
-      },
-      tipo: null,
-      cultura: null,
-    };
-    this.entidade = entidade;
-    this.frm = this.formService.criarFrm(this.entidade);
+  }
+
+  protected carregar(valor: any) {
+    console.log('carregar');
+    if (this.service) {
+      this.service.entidade = valor;
+    }
+    if (this.serviceForm) {
+      this.frm = this.serviceForm.criarForm(valor);
+    }
+    this.aposCarregar(valor);
+  }
+
+  protected aposCarregar(valor: any) {
   }
 
   setStep(index: number) {
@@ -155,17 +180,18 @@ export class ReceitarComponent implements OnInit {
     this.step--;
   }
 
-  culturaListComparar(o1, o2) {
-    return culturaListComparar(o1, o2);
-  }
-  unidadeMedidaListComparar(o1, o2) {
-    return unidadeMedidaListComparar(o1, o2);
+  idListComparar(o1, o2) {
+    return idListComparar(o1, o2);
   }
 
-  filtraTipoCultura(cultura: Cultura, tipoCultura: string) {
-    return tipoCultura && tipoCultura.length && (
-      (tipoCultura === 'F' && cultura.formacao === 'S') ||
-      (tipoCultura === 'P' && cultura.producao === 'S'));
+  idListComparar2(o1, o2) {
+    return idListComparar(o1, o2);
+  }
+
+  filtraCulturaTipo(cultura: Cultura, culturaTipo: string) {
+    return culturaTipo && culturaTipo.length && (
+      (culturaTipo === 'F' && cultura.formacao === 'S') ||
+      (culturaTipo === 'P' && cultura.producao === 'S'));
   }
 
 }

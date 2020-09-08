@@ -17,7 +17,7 @@ export class ReceitarResolver implements Resolve<any> {
       principal: null,
       apoio: {
         culturaList: this.service.culturaList(),
-        nutrienteList: this.service.nutrienteList(),
+        analiseSoloParametroList: this.service.analiseSoloParametroList(),
         unidadeMedidaList: this.service.unidadeMedidaList(),
       }
     };

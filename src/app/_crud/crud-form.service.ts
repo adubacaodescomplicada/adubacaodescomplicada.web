@@ -22,9 +22,7 @@ export class CrudFormService <F, E, L> {
         if (!entidade) {
             entidade = {} as E;
         }
-        const result = this.fb.group({
-            valor: ['', [Validators.required]],
-        });
+        const result = this.fb.group({});
         return result;
     }
 

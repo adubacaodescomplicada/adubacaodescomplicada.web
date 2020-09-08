@@ -1,4 +1,4 @@
-<form [formGroup]="frm">
+<form [formGroup]="frm" *ngIf="frm">
     <table class="table table-striped m-4">
         <thead class="thead-dark">
             <tr>
@@ -9,7 +9,7 @@
             <tr>
                 <th scope="row" class="align-middle">NOME DO PROPRIETÁRIO</th>
                 <td>
-                    <b>{{frm.value.pessoa.nome}}</b>
+                    <b>{{frm?.value.pessoa?.nome}}</b>
                 </td>
             </tr>
             <!-- <tr>
@@ -29,7 +29,7 @@
                 <td>
                     <mat-form-field>
                         <input matInput type="date" formControlName="data">
-                        <mat-error *ngIf="frm.controls.data.hasError('required')">
+                        <mat-error *ngIf="frm?.controls?.data?.hasError('required')">
                             Campo Obrigatório!
                         </mat-error>
                     </mat-form-field>
@@ -143,12 +143,13 @@
                     <tr>
                         <th scope="row" class="align-middle">Tipo</th>
                         <td>
-                            <mat-radio-group formControlName="tipo" (change)="frm.controls.cultura.setValue(null)">
+                            <mat-radio-group formControlName="culturaTipo"
+                                (change)="frm?.controls.cultura.setValue(null)">
                                 <mat-radio-button value="F" style="margin-right: 16px">Formação</mat-radio-button>
                                 <mat-radio-button value="P" style="margin-right: 16px">Produção</mat-radio-button>
                             </mat-radio-group>
                             <mat-error style="font-size: 75%;"
-                                *ngIf="frm.controls.tipo.touched && frm.controls.tipo.hasError('required')">
+                                *ngIf="frm?.controls.culturaTipo.touched && frm?.controls.culturaTipo.hasError('required')">
                                 Campo Obrigatório!
                             </mat-error>
                         </td>
@@ -157,21 +158,21 @@
                         <th scope="row" class="align-middle">Cultura</th>
                         <td>
                             <mat-form-field>
-                                <mat-select formControlName="cultura" [compareWith]="culturaListComparar">
+                                <mat-select formControlName="cultura" [compareWith]="idListComparar">
                                     <mat-option
-                                        *ngFor="let cultura of culturaList | callback: filtraTipoCultura: frm.value.tipo"
+                                        *ngFor="let cultura of culturaList | callback: filtraCulturaTipo: frm?.value.culturaTipo"
                                         [value]="cultura">{{cultura.nome}}</mat-option>
                                 </mat-select>
-                                <mat-error *ngIf="frm.controls.cultura.hasError('required')">
+                                <!-- <mat-error *ngIf="frm?.controls.cultura.hasError('required')">
                                     Campo Obrigatório!
-                                </mat-error>
+                                </mat-error> -->
                             </mat-form-field>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-            <div *ngIf="frm.value.cultura">
+            <div *ngIf="frm?.value.cultura">
                 <table class="table m-4">
                     <thead class="thead-dark">
                         <tr>
@@ -182,7 +183,7 @@
                         <tr>
                             <td>
                                 <p>
-                                    {{frm.value.cultura.recomendacao}}
+                                    {{frm?.value.cultura.recomendacao}}
                                 </p>
                             </td>
                         </tr>
@@ -198,7 +199,7 @@
                         <tr>
                             <td>
                                 <p>
-                                    {{frm.value.cultura.epoca}}
+                                    {{frm?.value.cultura.epoca}}
                                 </p>
                             </td>
                         </tr>
@@ -214,7 +215,7 @@
                         <tr>
                             <td>
                                 <p>
-                                    {{frm.value.cultura.tipoFolha}}
+                                    {{frm?.value.cultura.tipoFolha}}
                                 </p>
                             </td>
                         </tr>
@@ -230,7 +231,7 @@
                         <tr>
                             <td>
                                 <p>
-                                    {{frm.value.cultura.numeroFolha}}
+                                    {{frm?.value.cultura.numeroFolha}}
                                 </p>
                             </td>
                         </tr>
@@ -247,7 +248,7 @@
                         <tr>
                             <td>
                                 <p>
-                                    {{frm.value.cultura.armazanamentoEnvio}}
+                                    {{frm?.value.cultura.armazanamentoEnvio}}
                                 </p>
                             </td>
                         </tr>
@@ -263,7 +264,7 @@
                         <tr>
                             <td>
                                 <p>
-                                    {{frm.value.cultura.observacaoColeta}}
+                                    {{frm?.value.cultura.observacaoColeta}}
                                 </p>
                             </td>
                         </tr>
@@ -287,146 +288,65 @@
                     <mat-icon>date_range</mat-icon>
                 </mat-panel-description>
             </mat-expansion-panel-header>
+            <div class="table-responsive">
+                <table class="table m-4">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="text-center" colspan="4">DADOS DA ANALISE DE SOLOS</th>
+                        </tr>
+                        <tr>
+                            <th scope="col" class="text-center">#</th>
+                            <th scope="col" class="text-center">ELEMENTO</th>
+                            <th scope="col" class="text-center">VALOR</th>
+                            <th scope="col" class="text-center">UNIDADE</th>
+                        </tr>
+                    </thead>
 
-            <table class="table m-4">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col" class="text-center" colspan="3">DADOS DA ANALISE DE SOLOS</th>
-                        <th scope="col" class="text-center">UNIDADE</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let nutriente of nutrienteList; let i = index">
-                        <td>
-                            {{i+1}}
-                        </td>
-                        <td>
-                            {{nutriente.nome}}
-                        </td>
-                        <td>
-                            <mat-form-field>
-                                <mat-label>Valor</mat-label>
-                                <input matInput type="number" class="text-right">
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td>
-                            <mat-form-field>
-                                <mat-select [compareWith]="unidadeMedidaListComparar">
-                                    <mat-option *ngFor="let unidadeMedida of unidadeMedidaList" [value]="unidadeMedida">
-                                        {{unidadeMedida.nome}}</mat-option>
-                                </mat-select>
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                    </tr>
-                    <!--<tr>
-                        <td>pH</td>
-                        <td><input value="6,9"></td>
-                        <td> - </td>
-                    </tr>
-                    <tr>
-                        <td>CALCIO</td>
-                        <td><input value="2,90"></td>
-                        <td>cmolс/dm³ = mE/100mL</td>
-                    </tr>
-                    <tr>
-                        <td>MAGNÉSIO</td>
-                        <td><input value="0,5"></td>
-                        <td>cmolс/dm³ = mE/100mL</td>
-                    </tr>
-                    <tr>
-                        <td>POTÁSSIO</td>
-                        <td><input value="0,33"></td>
-                        <td>cmolс/dm³ = mE/100mL</td>
-                    </tr>
-                    <tr>
-                        <td>SÓDIO</td>
-                        <td><input value="0,1"></td>
-                        <td>cmolс/dm³ = mE/100mL</td>
-                    </tr>
-                    <tr>
-                        <td>ALUMÍNIO</td>
-                        <td><input value="0,00"></td>
-                        <td>cmolс/dm³ = mE/100mL</td>
-                    </tr>
-                    <tr>
-                        <td>H + Al</td>
-                        <td><input value="4,0"></td>
-                        <td>cmolс/dm³ = mE/100mL</td>
-                    </tr>
-                    <tr>
-                        <td>CARBONO</td>
-                        <td><input value="8,70"></td>
-                        <td>g/kg</td>
-                    </tr>
-                    <tr>
-                        <td>FÓSFORO</td>
-                        <td><input value="2,5"></td>
-                        <td>mg/dm³ = ppm</td>
-                    </tr>
-                    <tr>
-                        <td>BORO</td>
-                        <td><input value="0,05"></td>
-                        <td>mg/dm³ = ppm</td>
-                    </tr>
-                    <tr>
-                        <td>ENXOFRE</td>
-                        <td><input value="2,3"></td>
-                        <td>mg/dm³ = ppm</td>
-                    </tr>
-                    <tr>
-                        <td>COBRE</td>
-                        <td><input value="0,60"></td>
-                        <td>mg/dm³ = ppm</td>
-                    </tr>
-                    <tr>
-                        <td>FERRO</td>
-                        <td><input value="84,8"></td>
-                        <td>mg/dm³ = ppm</td>
-                    </tr>
-                    <tr>
-                        <td>MANGANÊS</td>
-                        <td><input value="14,90"></td>
-                        <td>mg/dm³ = ppm</td>
-                    </tr>
-                    <tr>
-                        <td>ZINCO</td>
-                        <td><input value="1,7"></td>
-                        <td>mg/dm³ = ppm</td>
-                    </tr>
-                    <tr>
-                        <td>AREIA</td>
-                        <td><input value="35,00"></td>
-                        <td>%</td>
-                    </tr>
-                    <tr>
-                        <td>Argila</td>
-                        <td><input value="47,5"></td>
-                        <td>%</td>
-                    </tr>
-                    <tr>
-                        <td>SILTE</td>
-                        <td><input value="17,5"></td>
-                        <td>%</td>
-                    </tr>
-                    <tr>
-                        <td>MAT. ORGÂNICA</td>
-                        <td><input value="16,9"></td>
-                        <td>g/kg</td>
-                    </tr>
-                    <tr>
-                        <td>SAT. BASE</td>
-                        <td><input value="48,59"></td>
-                        <td>%</td>
-                    </tr>
-                    <tr>
-                        <td>C.T.C</td>
-                        <td><input value="7,8"></td>
-                        <td>cmolс/dm³ = mE/100mL</td>
-                    </tr>-->
-                </tbody>
-            </table>
+                    <tbody formArrayName="receitaAnaliseSoloParametroList">
+                        <ng-template ngFor let-receitaAnaliseSoloParametro
+                            [ngForOf]="frm?.get('receitaAnaliseSoloParametroList')['controls']" let-i="index">
+                            <tr [formGroupName]="i">
+                                <td
+                                    [attr.rowspan]="receitaAnaliseSoloParametro.value.valor && receitaAnaliseSoloParametro.value.avaliacao ? 2 : 1">
+                                    {{i+1}}
+                                </td>
+                                <td>
+                                    {{receitaAnaliseSoloParametro.value.analiseSoloParametro?.nome}}
+                                </td>
+                                <td class="text-right">
+                                    <mat-form-field>
+                                        <mat-label>Valor</mat-label>
+                                        <input matInput type="number" class="text-right" formControlName="valor">
+                                        <mat-error>Campo Obrigatório!</mat-error>
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    {{receitaAnaliseSoloParametro.value.analiseSoloParametro?.unidadeMedida?.nome}}
+                                    <!--
+                                        <mat-form-field>
+                                        <mat-select [compareWith]="idListComparar2" 
+                                            [(ngModel)]="analiseSoloParametro.unidadeMedida"
+                                            [ngModelOptions]="{standalone: true}">
+                                            <mat-option *ngFor="let unidadeMedida of unidadeMedidaList" [value]="unidadeMedida">
+                                                {{unidadeMedida.nome}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error>Campo Obrigatório!</mat-error>
+                                    </mat-form-field>
+                                -->
+                                </td>
+                            </tr>
+                            <tr [formGroupName]="i"
+                                *ngIf="receitaAnaliseSoloParametro.value.valor && receitaAnaliseSoloParametro.value.avaliacao">
+                                <td colspan="3"
+                                    [ngClass]="receitaAnaliseSoloParametro.value.avaliacao === 'baixo' ? 'table-danger' : receitaAnaliseSoloParametro.value.avaliacao === 'medio' ? 'table-warning' : receitaAnaliseSoloParametro.value.avaliacao === 'adequado' ? 'table-success' : ''">
+                                    {{receitaAnaliseSoloParametro.value.avaliacao}}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </tbody>
+                </table>
+            </div>
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>
                 <button mat-button color="primary" (click)="nextStep()">Próximo</button>
@@ -541,7 +461,7 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="unidadeMedidaListComparar" #calcariov>
+                                <mat-select [compareWith]="idListComparar" #calcariov>
                                     <mat-option *ngFor="let calcario of calcarioList" [value]="calcario">
                                         {{calcario.nome}}</mat-option>
                                 </mat-select>
@@ -568,7 +488,7 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="unidadeMedidaListComparar" #poDeRochav>
+                                <mat-select [compareWith]="idListComparar" #poDeRochav>
                                     <mat-option *ngFor="let poDeBrita of poDeBritaList" [value]="poDeBrita">
                                         {{poDeBrita.nome}}</mat-option>
                                 </mat-select>
@@ -633,7 +553,7 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="unidadeMedidaListComparar">
+                                <mat-select [compareWith]="idListComparar">
                                     <mat-option *ngFor="let gesso of gessoList" [value]="gesso">
                                         {{gesso.nome}}</mat-option>
                                 </mat-select>
@@ -746,7 +666,7 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="unidadeMedidaListComparar">
+                                <mat-select [compareWith]="idListComparar">
                                     <mat-option *ngFor="let fosforo of fosforoList" [value]="fosforo">
                                         {{fosforo.nome}}</mat-option>
                                 </mat-select>
@@ -760,7 +680,7 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="unidadeMedidaListComparar">
+                                <mat-select [compareWith]="idListComparar">
                                     <mat-option *ngFor="let fosforo of fosforoList" [value]="fosforo">
                                         {{fosforo.nome}}</mat-option>
                                 </mat-select>
@@ -774,7 +694,7 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="unidadeMedidaListComparar">
+                                <mat-select [compareWith]="idListComparar">
                                     <mat-option *ngFor="let fosforo of fosforoList" [value]="fosforo">
                                         {{fosforo.nome}}</mat-option>
                                 </mat-select>
@@ -788,7 +708,7 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="unidadeMedidaListComparar">
+                                <mat-select [compareWith]="idListComparar">
                                     <mat-option *ngFor="let fosforo of fosforoList" [value]="fosforo">
                                         {{fosforo.nome}}</mat-option>
                                 </mat-select>
@@ -814,7 +734,7 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="unidadeMedidaListComparar">
+                                <mat-select [compareWith]="idListComparar">
                                     <mat-option *ngFor="let fosforo of fosforoList" [value]="fosforo">
                                         {{fosforo.nome}}</mat-option>
                                 </mat-select>
@@ -828,7 +748,7 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="unidadeMedidaListComparar">
+                                <mat-select [compareWith]="idListComparar">
                                     <mat-option *ngFor="let fosforo of fosforoList" [value]="fosforo">
                                         {{fosforo.nome}}</mat-option>
                                 </mat-select>
@@ -842,7 +762,7 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="unidadeMedidaListComparar">
+                                <mat-select [compareWith]="idListComparar">
                                     <mat-option *ngFor="let fosforo of fosforoList" [value]="fosforo">
                                         {{fosforo.nome}}</mat-option>
                                 </mat-select>
@@ -868,7 +788,7 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="unidadeMedidaListComparar">
+                                <mat-select [compareWith]="idListComparar">
                                     <mat-option *ngFor="let nitrogenio of nitrogenioList" [value]="nitrogenio">
                                         {{nitrogenio.nome}}</mat-option>
                                 </mat-select>
@@ -882,7 +802,7 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="unidadeMedidaListComparar">
+                                <mat-select [compareWith]="idListComparar">
                                     <mat-option *ngFor="let nitrogenio of nitrogenioList" [value]="nitrogenio">
                                         {{nitrogenio.nome}}</mat-option>
                                 </mat-select>
@@ -945,7 +865,7 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="unidadeMedidaListComparar">
+                                <mat-select [compareWith]="idListComparar">
                                     <mat-option *ngFor="let microNutriente of microNutrienteList"
                                         [value]="microNutriente">
                                         {{microNutriente.nome}}</mat-option>
@@ -957,7 +877,7 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="unidadeMedidaListComparar">
+                                <mat-select [compareWith]="idListComparar">
                                     <mat-option *ngFor="let microNutriente of microNutrienteList"
                                         [value]="microNutriente">
                                         {{microNutriente.nome}}</mat-option>
@@ -969,7 +889,7 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="unidadeMedidaListComparar">
+                                <mat-select [compareWith]="idListComparar">
                                     <mat-option *ngFor="let microNutriente of microNutrienteList"
                                         [value]="microNutriente">
                                         {{microNutriente.nome}}</mat-option>
@@ -1017,7 +937,7 @@
                     PASSO 8
                 </mat-panel-title>
                 <mat-panel-description>
-                    Simular Cominação de Adubos
+                    Resultado
                     <mat-icon>date_range</mat-icon>
                 </mat-panel-description>
             </mat-expansion-panel-header>
@@ -1025,7 +945,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" class="text-center" colspan="2">
-                            ESCOLHA OS ADUBOS E VEJA AS QUANTIDADES
+                            RECOMENDAÇÃO TÉCNICA
                         </th>
                     </tr>
                 </thead>
@@ -1182,4 +1102,4 @@
 
     </mat-accordion>
 </form>
-[{{frm.value | json}}]
+[{{frm?.value | json}}]
