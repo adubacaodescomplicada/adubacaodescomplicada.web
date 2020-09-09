@@ -1,17 +1,45 @@
 import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
 import { Injectable } from '@angular/core';
-import { Validators, FormGroup, FormArray, Form, FormControl } from '@angular/forms';
+import { Validators, FormGroup, FormArray } from '@angular/forms';
 
 import { CrudFormService } from '../_crud/crud-form.service';
 import { Receita } from './receita';
 import { ReceitaFiltroDTO } from './receita-filtro-dto';
-import { Subject, Observable } from 'rxjs';
 
 const faixaArgilaFosforo = [
     [null, 16, [[null, 12, 'baixo'], [12, 18, 'medio'], [18, null, 'adequado']]],
     [16, 35, [[null, 10, 'baixo'], [10, 15, 'medio'], [15, null, 'adequado']]],
     [35, 60, [[null, 5, 'baixo'], [5, 8, 'medio'], [8, null, 'adequado']]],
     [60, null, [[null, 3, 'baixo'], [3, 6, 'medio'], [6, null, 'adequado']]]
+];
+
+const faixaArgilaPotassio = [
+    [null, 20, [[null, 0.04, 'baixo'], [0.04, 0.1, 'medio'], [0.1, null, 'adequado']]],
+    [20, null, [[null, 0.06, 'baixo'], [0.06, 0.2, 'medio'], [0.2, null, 'adequado']]],
+];
+
+const faixaBoro = [
+    [null, 0.2, 'baixo'],
+    [0.2, 0.5, 'medio'],
+    [0.5, null, 'adequado']
+];
+
+const faixaCobre = [
+    [null, 0.4, 'baixo'],
+    [0.4, 0.8, 'medio'],
+    [0.8, null, 'adequado']
+];
+
+const faixaManganes = [
+    [null, 1.9, 'baixo'],
+    [1.9, 5, 'medio'],
+    [5, null, 'adequado']
+];
+
+const faixaZinco = [
+    [null, 1, 'baixo'],
+    [1, 1.6, 'medio'],
+    [1.6, null, 'adequado']
 ];
 
 @Injectable({ providedIn: 'root' })
@@ -68,7 +96,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             avaliacao: [null, []],
         });
         if (entidade?.analiseSoloParametro?.unidadeMedida?.codigo === 'PERCENTUAL') {
-            result.get('valor'). setValidators([Validators.required, Validators.min(0), Validators.max(100)]);
+            result.get('valor').setValidators([Validators.required, Validators.min(0), Validators.max(100)]);
         }
 
         return result;
@@ -80,50 +108,56 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
 
     private receitaAnaliseSoloParametroCalcAvaliacao(ctrl: FormGroup, receita: Receita) {
 
-        // calc potassio
+        const argila = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'argila');
+        const fosforo = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'fosforo');
+        const potassio = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'potassio');
+        const boro = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'boro');
+        const cobre = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'cobre');
+        const manganes = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'manganes');
+        const zinco = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'zinco');
         const calcio = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'calcio');
         const magnesio = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'magnesio');
-        const potassio = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'potassio');
-        const fosforo = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'fosforo');
-        const argila = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'argila');
 
-        calcio.get('avaliacao').setValue(null, { emitEvent: false });
-        magnesio.get('avaliacao').setValue(null, { emitEvent: false });
-        potassio.get('avaliacao').setValue(null, { emitEvent: false });
-        fosforo.get('avaliacao').setValue(null, { emitEvent: false });
-        argila.get('avaliacao').setValue(null, { emitEvent: false });
+        // calc fósforo solo
+        fosforo.get('avaliacao').setValue(this.avaliaFaixa(
+            [argila.value.valor, fosforo.value.valor], faixaArgilaFosforo), { emitEvent: false });
+        potassio.get('avaliacao').setValue(this.avaliaFaixa(
+            [argila.value.valor, potassio.value.valor], faixaArgilaPotassio), { emitEvent: false });
+        boro.get('avaliacao').setValue(this.avaliaFaixa(
+            [boro.value.valor], faixaBoro), { emitEvent: false });
+        cobre.get('avaliacao').setValue(this.avaliaFaixa(
+            [cobre.value.valor], faixaCobre), { emitEvent: false });
+        manganes.get('avaliacao').setValue(this.avaliaFaixa(
+            [manganes.value.valor], faixaManganes), { emitEvent: false });
+        zinco.get('avaliacao').setValue(this.avaliaFaixa(
+            [zinco.value.valor], faixaZinco), { emitEvent: false });
 
-        if (argila.value.valor > 0 && fosforo.value.valor > 0) {
-            let achou = false;
-            for (const faixaArgila of faixaArgilaFosforo) {
-                if ((faixaArgila[0] ? argila.value.valor >= faixaArgila[0] : true) &&
-                    (faixaArgila[1] ? argila.value.valor <= faixaArgila[1] : true)) {
-                    for (const faixaFosforo of faixaArgila[2] as []) {
-                        if ((faixaFosforo[0] ? fosforo.value.valor >= faixaFosforo[0] : true) &&
-                            (faixaFosforo[1] ? fosforo.value.valor <= faixaFosforo[1] : true)) {
-                            argila.get('avaliacao').setValue(faixaFosforo[2], { emitEvent: false });
-                            fosforo.get('avaliacao').setValue(faixaFosforo[2], { emitEvent: false });
-                            achou = true;
-                            break;
-                        }
-                    }
-                }
-                if (achou) {
-                    break;
-                }
-            }
-        }
-
-        // if (calcio?.valor && magnesio?.valor && potassio?.valor && fosforo?.valor && argila?.valor) {
-        // }
     }
 
     private receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl: FormGroup, codigo: string): FormGroup {
-        for (const r of (ctrl.get('receitaAnaliseSoloParametroList') as FormArray).controls) {
-            if (r.get('analiseSoloParametro').value.codigo === codigo) {
-                return r as FormGroup;
+        for (const c of (ctrl.get('receitaAnaliseSoloParametroList') as FormArray).controls) {
+            if ((c.get('analiseSoloParametro').value.codigo) === (codigo)) {
+                return c as FormGroup;
             }
         }
+    }
+
+    private avaliaFaixa(valor: number[], faixaList: any[]) {
+        if (!valor?.length || valor.filter(v => !v || v <= 0).length > 0) {
+            return null;
+        }
+        for (const faixa of faixaList) {
+            if ((faixa[0] ? valor[0] >= faixa[0] : true) &&
+                (faixa[1] ? valor[0] < faixa[1] : true)) {
+                if (typeof faixa[2] === 'string') {
+                    return faixa[2];
+                } else {
+                    valor.shift();
+                    return this.avaliaFaixa(valor, faixa[2]);
+                }
+            }
+        }
+        return null;
     }
 
 }
