@@ -60,6 +60,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             pessoa: [entidade.pessoa, [Validators.required]],
             culturaTipo: [entidade.culturaTipo, [Validators.required]],
             cultura: [entidade.cultura, [Validators.required]],
+            idadePlantio: [entidade.idadePlantio, []],
             receitaAnaliseSoloParametroList: this.criarFormReceitaAnaliseSoloParametroList(entidade.receitaAnaliseSoloParametroList)
         });
 

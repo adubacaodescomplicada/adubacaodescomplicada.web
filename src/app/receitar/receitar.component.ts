@@ -2,7 +2,7 @@ import { FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Cultura } from './../modelo/entidade/cutura';
+import { Cultura } from '../modelo/entidade/cultura';
 import { ReceitarService } from './receitar.service';
 import { MensagemService } from './../comum/servico/mensagem/mensagem.service';
 import { LoginService } from './../seguranca/login/login.service';

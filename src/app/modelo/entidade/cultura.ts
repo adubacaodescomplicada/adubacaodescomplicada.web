@@ -1,4 +1,5 @@
 import { EntidadeId } from '../entidade-id';
+import { CulturaIdadePlantio } from './cultura-idade-plantio';
 
 export class Cultura implements EntidadeId {
 
@@ -13,5 +14,7 @@ export class Cultura implements EntidadeId {
     public numeroFolha: string;
     public armazanamentoEnvio: string;
     public observacaoColeta: string;
+    public metaSaturacaoBase: number;
+    public culturaIdadePlantioList: CulturaIdadePlantio[];
 
 }

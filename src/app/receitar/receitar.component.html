@@ -169,6 +169,21 @@
                             </mat-form-field>
                         </td>
                     </tr>
+                    <tr *ngIf="frm.value.cultura">
+                        <th scope="row" class="align-middle">Idade Plantio</th>
+                        <td>
+                            <mat-form-field>
+                                <mat-select formControlName="idadePlantio" [compareWith]="idListComparar">
+                                    <mat-option
+                                        *ngFor="let idadePlantio of frm.value.cultura.culturaIdadePlantioList"
+                                        [value]="idadePlantio">{{idadePlantio.nome}}</mat-option>
+                                    </mat-select>
+                                <!-- <mat-error *ngIf="frm?.controls.cultura.hasError('required')">
+                                    Campo Obrigatório!
+                                </mat-error> -->
+                            </mat-form-field>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
 

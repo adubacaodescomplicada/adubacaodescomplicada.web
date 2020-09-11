@@ -8,7 +8,7 @@ import { Receita } from './receita';
 import { ReceitaFiltroDTO } from './receita-filtro-dto';
 import { LoginService } from './../seguranca/login/login.service';
 import { AnaliseSoloParametro } from './../modelo/entidade/analise-solo-parametro';
-import { Cultura } from './../modelo/entidade/cutura';
+import { Cultura } from '../modelo/entidade/cultura';
 import { UnidadeMedida } from './../modelo/entidade/unidade-medida';
 
 @Injectable({ providedIn: 'root' })
