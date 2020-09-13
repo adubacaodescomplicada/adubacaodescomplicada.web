@@ -8,6 +8,7 @@ import { Receita } from './receita';
 import { ReceitaFiltroDTO } from './receita-filtro-dto';
 import { LoginService } from './../seguranca/login/login.service';
 import { AnaliseSoloParametro } from './../modelo/entidade/analise-solo-parametro';
+import { Adubo } from './../modelo/entidade/adubo';
 import { Cultura } from '../modelo/entidade/cultura';
 import { UnidadeMedida } from './../modelo/entidade/unidade-medida';
 
@@ -19,6 +20,11 @@ export class ReceitarService extends CrudService<ReceitaFiltroDTO, Receita, Rece
         private loginService: LoginService
     ) {
         super();
+    }
+
+    public aduboList(): Observable<Adubo[]> {
+        return this._http.get<Adubo[]>(`${environment.REST_API_URL}/adubo`,
+            { headers: this.loginService.apiRequestHttpHeader });
     }
 
     public culturaList(): Observable<Cultura[]> {

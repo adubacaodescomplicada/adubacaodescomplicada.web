@@ -64,6 +64,49 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             receitaAnaliseSoloParametroList: this.criarFormReceitaAnaliseSoloParametroList(entidade.receitaAnaliseSoloParametroList)
         });
 
+        result.get('culturaTipo').setValue('F');
+        result.get('cultura').setValue({
+            armazanamentoEnvio: 'e',
+            codigo: 'ABACATE',
+            culturaIdadePlantioList: [{
+                id: 4,
+                nome: 'primeiro ano',
+                quantidade: 1,
+                unidade: 'anos'
+            }, {
+                id: 5,
+                nome: 'segundo ano',
+                quantidade: 2,
+                unidade: 'anos'
+            }, {
+                id: 6,
+                nome: 'terceiro ano',
+                quantidade: 3,
+                unidade: 'anos'
+            }, {
+                id: 7,
+                nome: 'quarto ano',
+                quantidade: 4,
+                unidade: 'anos'
+            }],
+            epoca: 'b',
+            formacao: 'S',
+            id: 1,
+            metaSaturacaoBase: 70,
+            nome: 'Abacate',
+            numeroFolha: 'd',
+            observacaoColeta: 'f',
+            producao: 'S',
+            recomendacao: 'a',
+            tipoFolha: 'c'
+        });
+        result.get('idadePlantio').setValue({
+            id: 7,
+            nome: 'quarto ano',
+            quantidade: 4,
+            unidade: 'anos'
+        });
+
         this.calculaForm(result, result.value);
 
         result.valueChanges.subscribe((receita: Receita) => {

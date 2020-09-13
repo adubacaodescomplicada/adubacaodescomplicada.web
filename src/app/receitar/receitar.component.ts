@@ -24,6 +24,7 @@ export class ReceitarComponent implements OnInit {
   entidade = null;
   frm: FormGroup;
 
+  aduboList: [];
   culturaList: [];
   analiseSoloParametroList: [];
   unidadeMedidaList: [];
@@ -123,9 +124,10 @@ export class ReceitarComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe((resolver) => {
+      resolver[0].apoio.aduboList.subscribe((lista) => this.aduboList = lista);
       resolver[0].apoio.culturaList.subscribe((lista) => this.culturaList = lista);
       resolver[0].apoio.analiseSoloParametroList.subscribe((lista) => {
-        this.analiseSoloParametroList = lista;
+        this.analiseSoloParametroList = lista.sort((a, b) => a.ordem > b.ordem ? 1 : (a.ordem < b.ordem ? -1 : 0));
         const entidade = new Receita();
         entidade.data = `${new Date().getFullYear()}-0${new Date().getMonth() + 1}-0${new Date().getDate()}`;
         entidade.pessoa = new Pessoa();

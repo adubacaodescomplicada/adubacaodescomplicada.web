@@ -167,6 +167,7 @@
                                     Campo Obrigatório!
                                 </mat-error> -->
                             </mat-form-field>
+                            {{frm.value.cultura | json}}
                         </td>
                     </tr>
                     <tr *ngIf="frm.value.cultura">
@@ -478,16 +479,17 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="idListComparar" #calcariov>
-                                    <mat-option *ngFor="let calcario of calcarioList" [value]="calcario">
-                                        {{calcario.nome}}</mat-option>
+                                <mat-select [compareWith]="idListComparar" #adubovlr>
+                                    <mat-option *ngFor="let adubo of aduboList" [value]="adubo" >
+                                        {{adubo.nome}}</mat-option>
                                 </mat-select>
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
+                            {{adubovlr.value | json}}
                         </td>
                         <td>X</td>
                         <td>
-                            <mat-slider thumbLabel min="0" max="100" step="0.5" #vlr1 [disabled]="!calcariov.value">
+                            <mat-slider thumbLabel min="0" max="100" step="0.5" #vlr1 [disabled]="!adubovlr.value">
                             </mat-slider>
                             [{{vlr1.value | number:'3.1-1':'pt-BR' }}]%
                         </td>
@@ -684,8 +686,8 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let fosforo of fosforoList" [value]="fosforo">
-                                        {{fosforo.nome}}</mat-option>
+                                    <mat-option *ngFor="let adubo of aduboList" [value]="adubo" >
+                                        {{adubo.nome}}</mat-option>
                                 </mat-select>
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
@@ -698,8 +700,8 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let fosforo of fosforoList" [value]="fosforo">
-                                        {{fosforo.nome}}</mat-option>
+                                    <mat-option *ngFor="let adubo of aduboList" [value]="adubo">
+                                        {{adubo.nome}}</mat-option>
                                 </mat-select>
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
@@ -712,8 +714,8 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let fosforo of fosforoList" [value]="fosforo">
-                                        {{fosforo.nome}}</mat-option>
+                                    <mat-option *ngFor="let adubo of aduboList" [value]="adubo">
+                                        {{adubo.nome}}</mat-option>
                                 </mat-select>
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
@@ -726,8 +728,8 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let fosforo of fosforoList" [value]="fosforo">
-                                        {{fosforo.nome}}</mat-option>
+                                    <mat-option *ngFor="let adubo of aduboList" [value]="adubo">
+                                        {{adubo.nome}}</mat-option>
                                 </mat-select>
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
@@ -752,8 +754,8 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let fosforo of fosforoList" [value]="fosforo">
-                                        {{fosforo.nome}}</mat-option>
+                                    <mat-option *ngFor="let adubo of aduboList" [value]="adubo">
+                                        {{adubo.nome}}</mat-option>
                                 </mat-select>
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
@@ -766,8 +768,8 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let fosforo of fosforoList" [value]="fosforo">
-                                        {{fosforo.nome}}</mat-option>
+                                    <mat-option *ngFor="let adubo of aduboList" [value]="adubo">
+                                        {{adubo.nome}}</mat-option>
                                 </mat-select>
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
@@ -780,8 +782,8 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let fosforo of fosforoList" [value]="fosforo">
-                                        {{fosforo.nome}}</mat-option>
+                                    <mat-option *ngFor="let adubo of aduboList" [value]="adubo">
+                                        {{adubo.nome}}</mat-option>
                                 </mat-select>
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
