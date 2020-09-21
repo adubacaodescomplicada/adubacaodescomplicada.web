@@ -489,7 +489,9 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar" #adubovlr formControlName="calcario">
-                                    <mat-option *ngFor="let adubo of aduboList" [value]="adubo">
+                                    <mat-option
+                                        *ngFor="let adubo of aduboList | callback : filtraAduboTipo : ['calcario']"
+                                        [value]="adubo">
                                         {{adubo.nome}}</mat-option>
                                 </mat-select>
                                 <mat-error>Campo Obrigatório!</mat-error>
@@ -518,7 +520,7 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar" #poDeRochav formControlName="poDeRocha">
-                                    <mat-option *ngFor="let poDeBrita of aduboList" [value]="poDeBrita">
+                                    <mat-option *ngFor="let poDeBrita of aduboList | callback : filtraAduboTipo : ['po_de_rocha']" [value]="poDeBrita">
                                         {{poDeBrita.nome}}</mat-option>
                                 </mat-select>
                                 <mat-error>Campo Obrigatório!</mat-error>

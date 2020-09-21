@@ -1,3 +1,4 @@
+import { Adubo } from './../modelo/entidade/adubo';
 import { FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -196,4 +197,7 @@ export class ReceitarComponent implements OnInit {
       (culturaTipo === 'P' && cultura.producao === 'S'));
   }
 
+  filtraAduboTipo(adubo: Adubo, aduboTipo: string) {
+    return aduboTipo && aduboTipo.length && aduboTipo[0] === adubo.aduboTipo.codigo;
+  }
 }
