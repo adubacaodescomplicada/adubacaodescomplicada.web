@@ -61,7 +61,13 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             culturaTipo: [entidade.culturaTipo, [Validators.required]],
             cultura: [entidade.cultura, [Validators.required]],
             idadePlantio: [entidade.idadePlantio, []],
-            receitaAnaliseSoloParametroList: this.criarFormReceitaAnaliseSoloParametroList(entidade.receitaAnaliseSoloParametroList)
+            receitaAnaliseSoloParametroList: this.criarFormReceitaAnaliseSoloParametroList(entidade.receitaAnaliseSoloParametroList),
+            calcario: [entidade.calcario, []],
+            calcarioPercentual: [entidade.calcarioPercentual, []],
+            poDeRocha: [entidade.poDeRocha, []],
+            poDeRochaPercentual: [entidade.poDeRochaPercentual, []],
+            necessidadeCalcarioCorrigido: [entidade.necessidadeCalcarioCorrigido, []],
+            necessidadePoDeRochaCorrigido: [entidade.necessidadePoDeRochaCorrigido, []],
         });
 
         result.get('culturaTipo').setValue('F');
@@ -146,8 +152,45 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         return result;
     }
 
+    private necessidadeCalagemTHaCalc(ctrl: FormGroup, receita: Receita) {
+        const idadePlantio = receita.idadePlantio.quantidade; // p39
+        const satBase = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'sat_base')?.value.valor; // p24
+        const ctc = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'ctc')?.value.valor; // p25
+        const satBaseCultura = receita.cultura.metaSaturacaoBase; // v46
+
+        receita.necessidadeCalcarioCorrigido = null;
+        receita.necessidadePoDeRochaCorrigido = null;
+
+        const calcario = receita.calcario;
+        if (calcario) {
+            // V49	PRNT (BUSCAR EM TABELA NO MYSQL)
+            const prnt: number = calcario.aduboGarantiaList?.find(a => a.garantia?.codigo?.toLowerCase() === 'prnt')?.valor;
+
+            if (prnt) {
+                let necessidadeCalcario = ((satBaseCultura - satBase) * ctc) / prnt;
+                necessidadeCalcario = necessidadeCalcario < 0 ? 0 : necessidadeCalcario;
+                receita.necessidadeCalcarioCorrigido = necessidadeCalcario * receita.calcarioPercentual;
+                console.log('calcario', necessidadeCalcario, receita.necessidadeCalcarioCorrigido);
+            }
+        }
+
+        const poDeRocha = receita.poDeRocha;
+        if (poDeRocha) {
+            // V50	CaO + MgO (BUSCAR EM TABELA NO MYSQL)
+            const caoMgO: any = poDeRocha.aduboGarantiaList?.find(a => a.garantia?.codigo?.toLowerCase() === 'caoMgO')?.valor;
+            // Z46	CaO+MgO+K20 (BUSCAR EM TABELA NO MYSQL)
+            const caoMgOK20: any = poDeRocha.aduboGarantiaList?.find(a => a.garantia?.codigo?.toLowerCase() === 'caoMgOK20')?.valor;
+
+            let necessidadePoDeRocha = (caoMgO / caoMgOK20) * receita.necessidadeCalcarioCorrigido;
+            necessidadePoDeRocha = necessidadePoDeRocha < 0 ? 0 : necessidadePoDeRocha;
+            receita.necessidadePoDeRochaCorrigido = necessidadePoDeRocha * receita.poDeRochaPercentual;
+            console.log('poDeRocha', necessidadePoDeRocha, receita.necessidadePoDeRochaCorrigido);
+        }
+    }
+
     private calculaForm(ctrl: FormGroup, receita: Receita) {
         this.receitaAnaliseSoloParametroCalcAvaliacao(ctrl, receita);
+        this.necessidadeCalagemTHaCalc(ctrl, receita);
     }
 
     private receitaAnaliseSoloParametroCalcAvaliacao(ctrl: FormGroup, receita: Receita) {

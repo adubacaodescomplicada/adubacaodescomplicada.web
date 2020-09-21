@@ -5,7 +5,7 @@ export class AduboGarantia implements EntidadeId {
 
     public id: number;
     public garantia: Garantia;
-    public valor: string;
+    public valor: number;
     public descricao: string;
 
 }
