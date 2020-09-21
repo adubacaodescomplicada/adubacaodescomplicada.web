@@ -29,33 +29,6 @@ export class ReceitarComponent implements OnInit {
   culturaList: [];
   analiseSoloParametroList: [];
   unidadeMedidaList: [];
-  calcarioList: [{
-    id: number,
-    nome: string,
-  }] = [
-      {
-        id: 1,
-        nome: 'AGROSILICIO'
-      }
-    ];
-  poDeBritaList: [{
-    id: number,
-    nome: string,
-  }] = [
-      {
-        id: 1,
-        nome: 'Pó de brita Fmx'
-      }
-    ];
-  gessoList: [{
-    id: number,
-    nome: string,
-  }] = [
-      {
-        id: 1,
-        nome: 'Gesso Agronelli'
-      }
-    ];
   realizadaAmostragemSolo4060 = false;
   fosforoList: {
     id: number,
@@ -90,27 +63,6 @@ export class ReceitarComponent implements OnInit {
       {
         id: 1,
         nome: 'Torta de mamona Hortibraz'
-      },
-    ];
-  microNutrienteList: {
-    id: number,
-    nome: string,
-  }[] = [
-      {
-        id: 1,
-        nome: 'Ácido Bórico'
-      },
-      {
-        id: 2,
-        nome: 'Sulfato de cobre'
-      },
-      {
-        id: 3,
-        nome: 'Sulfato de zinco'
-      },
-      {
-        id: 4,
-        nome: 'Sulfato de manganês'
       },
     ];
 

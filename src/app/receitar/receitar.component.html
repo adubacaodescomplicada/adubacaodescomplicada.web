@@ -592,7 +592,7 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let gesso of gessoList" [value]="gesso">
+                                    <mat-option *ngFor="let gesso of aduboList | callback : filtraAduboTipo : ['gesso_agricola']" [value]="gesso">
                                         {{gesso.nome}}</mat-option>
                                 </mat-select>
                                 <mat-error>Campo Obrigatório!</mat-error>
@@ -904,7 +904,7 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let microNutriente of microNutrienteList"
+                                    <mat-option *ngFor="let microNutriente of aduboList | callback : filtraAduboTipo : ['micronutriente']"
                                         [value]="microNutriente">
                                         {{microNutriente.nome}}</mat-option>
                                 </mat-select>
@@ -916,7 +916,7 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let microNutriente of microNutrienteList"
+                                    <mat-option *ngFor="let microNutriente of aduboList | callback : filtraAduboTipo : ['micronutriente']"
                                         [value]="microNutriente">
                                         {{microNutriente.nome}}</mat-option>
                                 </mat-select>
@@ -928,7 +928,7 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let microNutriente of microNutrienteList"
+                                    <mat-option *ngFor="let microNutriente of aduboList | callback : filtraAduboTipo : ['micronutriente']"
                                         [value]="microNutriente">
                                         {{microNutriente.nome}}</mat-option>
                                 </mat-select>
