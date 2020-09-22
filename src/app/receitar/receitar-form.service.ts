@@ -66,8 +66,18 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             calcarioPercentual: [entidade.calcarioPercentual, []],
             poDeRocha: [entidade.poDeRocha, []],
             poDeRochaPercentual: [entidade.poDeRochaPercentual, []],
+            necessidadeCalcario: [entidade.necessidadeCalcario, []],
             necessidadeCalcarioCorrigido: [entidade.necessidadeCalcarioCorrigido, []],
+            necessidadePoDeRocha: [entidade.necessidadePoDeRocha, []],
             necessidadePoDeRochaCorrigido: [entidade.necessidadePoDeRochaCorrigido, []],
+            receitaAmostragemSolo: this.fb.group({
+                gesso: [entidade.receitaAmostragemSolo?.gesso, []],
+                realizada: [entidade.receitaAmostragemSolo?.realizada, []],
+                calcio: [entidade.receitaAmostragemSolo?.calcio, []],
+                aluminio: [entidade.receitaAmostragemSolo?.aluminio, []],
+                satAluminio: [entidade.receitaAmostragemSolo?.satAluminio, []]
+            }),
+            necessidadeDeGesso: [entidade.necessidadeDeGesso, []]
         });
 
         result.get('culturaTipo').setValue('F');
@@ -152,45 +162,75 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         return result;
     }
 
+    private calculaForm(ctrl: FormGroup, receita: Receita) {
+        this.receitaAnaliseSoloParametroCalcAvaliacao(ctrl, receita);
+        this.necessidadeCalagemTHaCalc(ctrl, receita);
+        this.necessidadeGessoAgricolaQGCalc(ctrl, receita);
+    }
+
     private necessidadeCalagemTHaCalc(ctrl: FormGroup, receita: Receita) {
-        const idadePlantio = receita.idadePlantio.quantidade; // p39
+
+        const idadePlantio = receita?.idadePlantio?.quantidade; // p39
         const satBase = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'sat_base')?.value.valor; // p24
         const ctc = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'ctc')?.value.valor; // p25
-        const satBaseCultura = receita.cultura.metaSaturacaoBase; // v46
+        const satBaseCultura = receita?.cultura?.metaSaturacaoBase; // v46
 
-        receita.necessidadeCalcarioCorrigido = null;
-        receita.necessidadePoDeRochaCorrigido = null;
+        let necessidadeCalcario = null;
+        let necessidadeCalcarioCorrigido = null;
+
+        let necessidadePoDeRocha = null;
+        let necessidadePoDeRochaCorrigido = null;
 
         const calcario = receita.calcario;
-        if (calcario) {
+        if (calcario && idadePlantio && satBase && ctc && satBaseCultura) {
             // V49	PRNT (BUSCAR EM TABELA NO MYSQL)
             const prnt: number = calcario.aduboGarantiaList?.find(a => a.garantia?.codigo?.toLowerCase() === 'prnt')?.valor;
 
             if (prnt) {
-                let necessidadeCalcario = ((satBaseCultura - satBase) * ctc) / prnt;
+                necessidadeCalcario = ((satBaseCultura - satBase) * ctc) / prnt;
                 necessidadeCalcario = necessidadeCalcario < 0 ? 0 : necessidadeCalcario;
-                receita.necessidadeCalcarioCorrigido = necessidadeCalcario * receita.calcarioPercentual;
-                console.log('calcario', necessidadeCalcario, receita.necessidadeCalcarioCorrigido);
+                necessidadeCalcarioCorrigido = necessidadeCalcario * (receita.calcarioPercentual / 100);
+                console.log('calcario', necessidadeCalcario, necessidadeCalcarioCorrigido);
             }
         }
 
         const poDeRocha = receita.poDeRocha;
-        if (poDeRocha) {
+        if (poDeRocha && calcario) {
             // V50	CaO + MgO (BUSCAR EM TABELA NO MYSQL)
-            const caoMgO: any = poDeRocha.aduboGarantiaList?.find(a => a.garantia?.codigo?.toLowerCase() === 'caoMgO')?.valor;
+            const caoMgO: any = calcario.aduboGarantiaList?.find(a => a.garantia?.codigo?.toLowerCase()
+                === 'caoMgO'.toLowerCase())?.valor;
             // Z46	CaO+MgO+K20 (BUSCAR EM TABELA NO MYSQL)
-            const caoMgOK20: any = poDeRocha.aduboGarantiaList?.find(a => a.garantia?.codigo?.toLowerCase() === 'caoMgOK20')?.valor;
+            const caoMgOK20: any = poDeRocha.aduboGarantiaList?.find(a => a.garantia?.codigo?.toLowerCase()
+                === 'caoMgOK20'.toLowerCase())?.valor;
 
-            let necessidadePoDeRocha = (caoMgO / caoMgOK20) * receita.necessidadeCalcarioCorrigido;
+            necessidadePoDeRocha = (caoMgO / caoMgOK20) * necessidadeCalcario;
             necessidadePoDeRocha = necessidadePoDeRocha < 0 ? 0 : necessidadePoDeRocha;
-            receita.necessidadePoDeRochaCorrigido = necessidadePoDeRocha * receita.poDeRochaPercentual;
-            console.log('poDeRocha', necessidadePoDeRocha, receita.necessidadePoDeRochaCorrigido);
+            necessidadePoDeRochaCorrigido = necessidadePoDeRocha * receita.poDeRochaPercentual;
+            console.log('poDeRocha', necessidadePoDeRocha, necessidadePoDeRochaCorrigido);
         }
+
+        ctrl.get('necessidadeCalcario')
+            .setValue(necessidadeCalcario, { emitEvent: false });
+        ctrl.get('necessidadeCalcarioCorrigido')
+            .setValue(necessidadeCalcarioCorrigido, { emitEvent: false });
+        ctrl.get('necessidadePoDeRocha')
+            .setValue(necessidadePoDeRocha, { emitEvent: false });
+        ctrl.get('necessidadePoDeRochaCorrigido')
+            .setValue(necessidadePoDeRochaCorrigido, { emitEvent: false });
     }
 
-    private calculaForm(ctrl: FormGroup, receita: Receita) {
-        this.receitaAnaliseSoloParametroCalcAvaliacao(ctrl, receita);
-        this.necessidadeCalagemTHaCalc(ctrl, receita);
+    private necessidadeGessoAgricolaQGCalc(ctrl: FormGroup, receita: Receita) {
+        let necessidadeDeGesso = null;
+        if (receita.receitaAmostragemSolo.realizada === true) {
+            if ((receita.receitaAmostragemSolo.calcio <= 0.5) ||
+                (receita.receitaAmostragemSolo.aluminio > 0.5) ||
+                (receita.receitaAmostragemSolo.satAluminio > 0.2)) {
+                necessidadeDeGesso = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'argila')?.value.valor * 7.5;
+            }
+        }
+        ctrl.get('necessidadeDeGesso')
+            .setValue(necessidadeDeGesso,
+                { emitEvent: false });
     }
 
     private receitaAnaliseSoloParametroCalcAvaliacao(ctrl: FormGroup, receita: Receita) {
@@ -202,8 +242,8 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         const cobre = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'cobre');
         const manganes = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'manganes');
         const zinco = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'zinco');
-        const calcio = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'calcio');
         const magnesio = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'magnesio');
+        const calcio = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'calcio');
 
         // calc fósforo solo
         fosforo.get('avaliacao').setValue(this.avaliaFaixa(
@@ -218,7 +258,6 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             [manganes.value.valor], faixaManganes), { emitEvent: false });
         zinco.get('avaliacao').setValue(this.avaliaFaixa(
             [zinco.value.valor], faixaZinco), { emitEvent: false });
-
     }
 
     private receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl: FormGroup, codigo: string): FormGroup {

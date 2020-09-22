@@ -535,9 +535,19 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="3">
-                            Necessidade de Calcário: {{frm.value.necessidadeCalcarioCorrigido}}
-                            Necessidade de Pó de Rocha: {{frm.value.necessidadePoDeRochaCorrigido}}
+                        <td>
+                            Necessidade de Calcário:
+                        </td>
+                        <td colspan="2">
+                            [{{frm.value.necessidadeCalcarioCorrigido}}]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Necessidade de Pó de Rocha:
+                        </td>
+                        <td colspan="2">
+                            [{{frm.value.necessidadePoDeRochaCorrigido}}]
                         </td>
                     </tr>
                 </tbody>
@@ -570,7 +580,7 @@
             </mat-action-row>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+        <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle formGroupName="receitaAmostragemSolo">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     PASSO 5
@@ -591,8 +601,9 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let gesso of aduboList | callback : filtraAduboTipo : ['gesso_agricola']" [value]="gesso">
+                                <mat-select [compareWith]="idListComparar" formControlName="gesso">
+                                    <mat-option *ngFor="let gesso of aduboList | callback : filtraAduboTipo : ['gesso_agricola']" 
+                                        [value]="gesso">
                                         {{gesso.nome}}</mat-option>
                                 </mat-select>
                                 <mat-error>Campo Obrigatório!</mat-error>
@@ -611,14 +622,15 @@
                 <tbody>
                     <tr>
                         <td>
-                            <mat-checkbox class="example-margin" [(ngModel)]="realizadaAmostragemSolo4060"
-                                [ngModelOptions]="{standalone: true}" name="realizadaAmostragem">Sim</mat-checkbox>
+                            <mat-checkbox class="example-margin" formControlName="realizada">
+                                Sim
+                            </mat-checkbox>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-            <table class="table m-4" *ngIf="realizadaAmostragemSolo4060">
+            <table class="table m-4" *ngIf="frm.value.receitaAmostragemSolo.realizada">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" class="text-center" colspan="3">SE A RESPOSTA ANTERIOR FOI SIM, DIGA OS DADOS
@@ -634,7 +646,7 @@
                         <td>
                             <mat-form-field>
                                 <mat-label>Valor</mat-label>
-                                <input matInput type="number" class="text-right">
+                                <input matInput type="number" class="text-right" formControlName="calcio">
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
                         </td>
@@ -649,7 +661,7 @@
                         <td>
                             <mat-form-field>
                                 <mat-label>Valor</mat-label>
-                                <input matInput type="number" class="text-right">
+                                <input matInput type="number" class="text-right" formControlName="aluminio">
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
                         </td>
@@ -664,12 +676,20 @@
                         <td>
                             <mat-form-field>
                                 <mat-label>Valor</mat-label>
-                                <input matInput type="number" class="text-right">
+                                <input matInput type="number" class="text-right" formControlName="satAluminio">
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
                         </td>
                         <td>
                             %
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Necessidade de gesso:
+                        </td>
+                        <td colspan="2">
+                            [{{frm.value.necessidadeDeGesso}}]
                         </td>
                     </tr>
                 </tbody>

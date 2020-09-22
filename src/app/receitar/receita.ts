@@ -18,6 +18,16 @@ export class Receita {
     calcarioPercentual: number;
     poDeRocha: Adubo;
     poDeRochaPercentual: number;
+    necessidadeCalcario: number;
     necessidadeCalcarioCorrigido: number;
+    necessidadePoDeRocha: number;
     necessidadePoDeRochaCorrigido: number;
+    receitaAmostragemSolo: {
+        gesso: Adubo,
+        realizada: boolean,
+        calcio: number,
+        aluminio: number,
+        satAluminio: number
+    };
+    necessidadeDeGesso: number;
 }

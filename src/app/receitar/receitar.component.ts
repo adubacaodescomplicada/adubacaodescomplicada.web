@@ -29,7 +29,6 @@ export class ReceitarComponent implements OnInit {
   culturaList: [];
   analiseSoloParametroList: [];
   unidadeMedidaList: [];
-  realizadaAmostragemSolo4060 = false;
   fosforoList: {
     id: number,
     nome: string,
