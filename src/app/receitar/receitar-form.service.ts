@@ -85,7 +85,8 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         });
 
         result.get('cultura').valueChanges.subscribe((c: Cultura) => {
-            result.get('espacamento.simples').patchValue(c.espacamentoDuplo === 'S' ? true : false);
+            result.get('espacamento.simples').patchValue(c.espacamentoDuplo === 'S' ? false : true);
+            result.get('espacamento.area').patchValue(this.espacamentoCalcArea(result.get('espacamento.area').value), { emitEvent: false });
         });
 
         result.get('culturaTipo').setValue('F');
@@ -156,25 +157,30 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             pairwise() // gets a pair of old and new value
         ).subscribe(([antes, depois]: Espacamento[]) => {
             // verificar se tem elementos para o cálculo
-            if (depois.a > 0 && depois.b > 0 && (depois.simples || !depois.simples && depois.c > 0)) {
-                if (antes.quantidadePlanta !== depois.quantidadePlanta && depois.quantidadePlanta > 0) {
-                    let vlr = depois.area;
-                    if (depois.simples) {
-                        vlr = depois.quantidadePlanta / (10000 / (depois.a * depois.b));
-                        console.log('simples area', vlr);
-                    } else {
-                        vlr = depois.quantidadePlanta / (10000 / ((depois.a * (depois.b + depois.c) / 2)));
-                        console.log('duplo area', vlr);
-                    }
-                    result.get('area').patchValue(vlr, { emitEvent: false });
-                }
-                if (antes.area !== depois.area) {
-                    console.log('area modificando');
-                }
+            if (antes.quantidadePlanta !== depois.quantidadePlanta && depois.quantidadePlanta > 0) {
+                result.get('area').patchValue(this.espacamentoCalcArea(depois), { emitEvent: false });
+            }
+            if (antes.area !== depois.area) {
+                console.log('area modificando');
             }
             console.log(antes, depois);
         });
 
+        return result;
+    }
+
+    private espacamentoCalcArea(espacamento: Espacamento) {
+        let result = espacamento?.area;
+
+        if (espacamento?.a > 0 && espacamento?.b > 0 && (espacamento?.simples || !espacamento?.simples && espacamento?.c > 0)) {
+            if (espacamento.simples) {
+                result = espacamento.quantidadePlanta / (10000 / (espacamento.a * espacamento.b));
+                console.log('simples area', result);
+            } else {
+                result = espacamento.quantidadePlanta / (10000 / ((espacamento.a * (espacamento.b + espacamento.c) / 2)));
+                console.log('duplo area', result);
+            }
+        }
         return result;
     }
 
