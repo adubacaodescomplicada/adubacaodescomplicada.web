@@ -1,3 +1,4 @@
+import { Cultura } from './../modelo/entidade/cultura';
 import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
 import { Injectable } from '@angular/core';
 import { Validators, FormGroup, FormArray } from '@angular/forms';
@@ -5,6 +6,8 @@ import { Validators, FormGroup, FormArray } from '@angular/forms';
 import { CrudFormService } from '../_crud/crud-form.service';
 import { Receita } from './receita';
 import { ReceitaFiltroDTO } from './receita-filtro-dto';
+import { Espacamento } from '../modelo/entidade/espacamento';
+import { distinctUntilChanged, pairwise } from 'rxjs/operators';
 
 const faixaArgilaFosforo = [
     [null, 16, [[null, 12, 'baixo'], [12, 18, 'medio'], [18, null, 'adequado']]],
@@ -77,7 +80,12 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
                 aluminio: [entidade.receitaAmostragemSolo?.aluminio, []],
                 satAluminio: [entidade.receitaAmostragemSolo?.satAluminio, []]
             }),
+            espacamento: this.criarFormEspacamento(entidade.espacamento),
             necessidadeDeGesso: [entidade.necessidadeDeGesso, []]
+        });
+
+        result.get('cultura').valueChanges.subscribe((c: Cultura) => {
+            result.get('espacamento.simples').patchValue(c.espacamentoDuplo === 'S' ? true : false);
         });
 
         result.get('culturaTipo').setValue('F');
@@ -114,7 +122,8 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             observacaoColeta: 'f',
             producao: 'S',
             recomendacao: 'a',
-            tipoFolha: 'c'
+            tipoFolha: 'c',
+            espacamentoDuplo: 'S',
         });
         result.get('idadePlantio').setValue({
             id: 7,
@@ -127,6 +136,43 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
 
         result.valueChanges.subscribe((receita: Receita) => {
             this.calculaForm(result, receita);
+        });
+
+        return result;
+    }
+
+    public criarFormEspacamento(espacamento: Espacamento) {
+        const result = this.fb.group({
+            simples: [espacamento?.simples],
+            a: [espacamento?.a],
+            b: [espacamento?.b],
+            c: [espacamento?.c],
+            quantidadePlanta: [espacamento?.quantidadePlanta],
+            area: [espacamento?.area],
+        });
+
+        result.valueChanges.pipe(
+            distinctUntilChanged(),
+            pairwise() // gets a pair of old and new value
+        ).subscribe(([antes, depois]: Espacamento[]) => {
+            // verificar se tem elementos para o cálculo
+            if (depois.a > 0 && depois.b > 0 && (depois.simples || !depois.simples && depois.c > 0)) {
+                if (antes.quantidadePlanta !== depois.quantidadePlanta && depois.quantidadePlanta > 0) {
+                    let vlr = depois.area;
+                    if (depois.simples) {
+                        vlr = depois.quantidadePlanta / (10000 / (depois.a * depois.b));
+                        console.log('simples area', vlr);
+                    } else {
+                        vlr = depois.quantidadePlanta / (10000 / ((depois.a * (depois.b + depois.c) / 2)));
+                        console.log('duplo area', vlr);
+                    }
+                    result.get('area').patchValue(vlr, { emitEvent: false });
+                }
+                if (antes.area !== depois.area) {
+                    console.log('area modificando');
+                }
+            }
+            console.log(antes, depois);
         });
 
         return result;

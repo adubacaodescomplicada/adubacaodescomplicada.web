@@ -35,6 +35,53 @@
                     </mat-form-field>
                 </td>
             </tr>
+
+            <tr>
+                <th scope="row" class="align-middle">Tipo</th>
+                <td>
+                    <mat-radio-group formControlName="culturaTipo" (change)="frm?.controls.cultura.setValue(null)">
+                        <mat-radio-button value="F" style="margin-right: 16px">Formação</mat-radio-button>
+                        <mat-radio-button value="P" style="margin-right: 16px">Produção</mat-radio-button>
+                    </mat-radio-group>
+                    <mat-error style="font-size: 75%;"
+                        *ngIf="frm?.controls.culturaTipo.touched && frm?.controls.culturaTipo.hasError('required')">
+                        Campo Obrigatório!
+                    </mat-error>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="align-middle">Cultura</th>
+                <td>
+                    <mat-form-field>
+                        <mat-select formControlName="cultura" [compareWith]="idListComparar">
+                            <mat-option
+                                *ngFor="let cultura of culturaList | callback: filtraCulturaTipo: frm?.value.culturaTipo"
+                                [value]="cultura">{{cultura.nome}}</mat-option>
+                        </mat-select>
+                        <!-- <mat-error *ngIf="frm?.controls.cultura.hasError('required')">
+                                    Campo Obrigatório!
+                                </mat-error> -->
+                    </mat-form-field>
+                    {{frm.value.cultura | json}}
+                </td>
+            </tr>
+            <tr *ngIf="frm.value.cultura">
+                <th scope="row" class="align-middle">Idade Plantio</th>
+                <td>
+                    <mat-form-field>
+                        <mat-select formControlName="idadePlantio" [compareWith]="idListComparar">
+                            <mat-option *ngFor="let idadePlantio of frm.value.cultura.culturaIdadePlantioList"
+                                [value]="idadePlantio">{{idadePlantio.nome}}</mat-option>
+                        </mat-select>
+                        <!-- <mat-error *ngIf="frm?.controls.cultura.hasError('required')">
+                                    Campo Obrigatório!
+                                </mat-error> -->
+                    </mat-form-field>
+                </td>
+            </tr>
+
+
+
         </tbody>
     </table>
 
@@ -133,60 +180,6 @@
                 </mat-panel-description>
             </mat-expansion-panel-header>
 
-            <table class="table table-striped m-4">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col" class="align-middle" colspan="2">ESCOLHA</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row" class="align-middle">Tipo</th>
-                        <td>
-                            <mat-radio-group formControlName="culturaTipo"
-                                (change)="frm?.controls.cultura.setValue(null)">
-                                <mat-radio-button value="F" style="margin-right: 16px">Formação</mat-radio-button>
-                                <mat-radio-button value="P" style="margin-right: 16px">Produção</mat-radio-button>
-                            </mat-radio-group>
-                            <mat-error style="font-size: 75%;"
-                                *ngIf="frm?.controls.culturaTipo.touched && frm?.controls.culturaTipo.hasError('required')">
-                                Campo Obrigatório!
-                            </mat-error>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="align-middle">Cultura</th>
-                        <td>
-                            <mat-form-field>
-                                <mat-select formControlName="cultura" [compareWith]="idListComparar">
-                                    <mat-option
-                                        *ngFor="let cultura of culturaList | callback: filtraCulturaTipo: frm?.value.culturaTipo"
-                                        [value]="cultura">{{cultura.nome}}</mat-option>
-                                </mat-select>
-                                <!-- <mat-error *ngIf="frm?.controls.cultura.hasError('required')">
-                                    Campo Obrigatório!
-                                </mat-error> -->
-                            </mat-form-field>
-                            {{frm.value.cultura | json}}
-                        </td>
-                    </tr>
-                    <tr *ngIf="frm.value.cultura">
-                        <th scope="row" class="align-middle">Idade Plantio</th>
-                        <td>
-                            <mat-form-field>
-                                <mat-select formControlName="idadePlantio" [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let idadePlantio of frm.value.cultura.culturaIdadePlantioList"
-                                        [value]="idadePlantio">{{idadePlantio.nome}}</mat-option>
-                                </mat-select>
-                                <!-- <mat-error *ngIf="frm?.controls.cultura.hasError('required')">
-                                    Campo Obrigatório!
-                                </mat-error> -->
-                            </mat-form-field>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
             <div *ngIf="frm?.value.cultura">
                 <table class="table m-4">
                     <thead class="thead-dark">
@@ -197,9 +190,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <p>
-                                    {{frm?.value.cultura.recomendacao}}
-                                </p>
+                                <pre> {{frm?.value.cultura.recomendacao}}</pre>
                             </td>
                         </tr>
                     </tbody>
@@ -213,9 +204,9 @@
                     <tbody>
                         <tr>
                             <td>
-                                <p>
+                                <pre>
                                     {{frm?.value.cultura.epoca}}
-                                </p>
+                                </pre>
                             </td>
                         </tr>
                     </tbody>
@@ -229,9 +220,9 @@
                     <tbody>
                         <tr>
                             <td>
-                                <p>
+                                <pre>
                                     {{frm?.value.cultura.tipoFolha}}
-                                </p>
+                                </pre>
                             </td>
                         </tr>
                     </tbody>
@@ -245,9 +236,9 @@
                     <tbody>
                         <tr>
                             <td>
-                                <p>
+                                <pre>
                                     {{frm?.value.cultura.numeroFolha}}
-                                </p>
+                                </pre>
                             </td>
                         </tr>
                     </tbody>
@@ -262,9 +253,9 @@
                     <tbody>
                         <tr>
                             <td>
-                                <p>
+                                <pre>
                                     {{frm?.value.cultura.armazanamentoEnvio}}
-                                </p>
+                                </pre>
                             </td>
                         </tr>
                     </tbody>
@@ -278,9 +269,9 @@
                     <tbody>
                         <tr>
                             <td>
-                                <p>
+                                <pre>
                                     {{frm?.value.cultura.observacaoColeta}}
-                                </p>
+                                </pre>
                             </td>
                         </tr>
                     </tbody>
@@ -380,7 +371,7 @@
             </mat-action-row>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+        <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle formGroupName="espacamento">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     PASSO 3
@@ -394,15 +385,15 @@
             <table class="table m-4">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center" colspan="3">DETALHE O ESPAÇAMENTO SE ESTE FOR SIMPLES</th>
+                        <th scope="col" class="text-center" [attr.colspan]="frm.value?.cultura?.espacamentoDuplo === 'S' ? 5: 3">DETALHE O ESPAÇAMENTO</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr *ngIf="frm.value?.cultura?.espacamentoDuplo === 'N'">
                         <td>
                             <mat-form-field>
                                 <mat-label>Valor</mat-label>
-                                <input matInput type="number" class="text-right">
+                                <input matInput type="number" class="text-right" formControlName="a">
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
                         </td>
@@ -410,7 +401,35 @@
                         <td>
                             <mat-form-field>
                                 <mat-label>Valor</mat-label>
-                                <input matInput type="number" class="text-right">
+                                <input matInput type="number" class="text-right" formControlName="b">
+                                <mat-error>Campo Obrigatório!</mat-error>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr *ngIf="frm.value?.cultura?.espacamentoDuplo === 'S'">
+                        <td>
+                            <mat-form-field>
+                                <mat-label>Valor</mat-label>
+                                <input matInput type="number" class="text-right" formControlName="a">
+                                <span matSuffix> metros </span>
+                                <mat-error>Campo Obrigatório!</mat-error>
+                            </mat-form-field>
+                        </td>
+                        <td>X</td>
+                        <td>
+                            <mat-form-field>
+                                <mat-label>Valor</mat-label>
+                                <input matInput type="number" class="text-right" formControlName="b">
+                                <span matSuffix> metros </span>
+                                <mat-error>Campo Obrigatório!</mat-error>
+                            </mat-form-field>
+                        </td>
+                        <td>X</td>
+                        <td>
+                            <mat-form-field>
+                                <mat-label>Valor</mat-label>
+                                <input matInput type="number" class="text-right" formControlName="c">
+                                <span matSuffix> metros </span>
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
                         </td>
@@ -420,23 +439,16 @@
             <table class="table m-4">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center" colspan="3">DETALHE O ESPAÇAMENTO SE ESTE FOR DUPLO</th>
+                        <th scope="col" class="text-center" colspan="1">NÚMERO DE PLANTAS</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-label>Valor</mat-label>
-                                <input matInput type="number" class="text-right">
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td>X</td>
-                        <td>
-                            <mat-form-field>
-                                <mat-label>Valor</mat-label>
-                                <input matInput type="number" class="text-right">
+                                <mat-label>Quantidade de Plantas</mat-label>
+                                <input matInput type="number" class="text-right" formControlName="quantidadePlanta">
+                                <span matSuffix> unidades </span>
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
                         </td>
@@ -446,15 +458,16 @@
             <table class="table m-4">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center" colspan="1">TAMANHO DA ÁREA PLANTADA EM HECTARES</th>
+                        <th scope="col" class="text-center" colspan="1">ÁREA</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-label>Valor</mat-label>
-                                <input matInput type="number" class="text-right">
+                                <mat-label>Tamanho</mat-label>
+                                <input matInput type="number" class="text-right" formControlName="area">
+                                <span matSuffix> hectáres </span>
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
                         </td>
@@ -520,7 +533,9 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar" #poDeRochav formControlName="poDeRocha">
-                                    <mat-option *ngFor="let poDeBrita of aduboList | callback : filtraAduboTipo : ['po_de_rocha']" [value]="poDeBrita">
+                                    <mat-option
+                                        *ngFor="let poDeBrita of aduboList | callback : filtraAduboTipo : ['po_de_rocha']"
+                                        [value]="poDeBrita">
                                         {{poDeBrita.nome}}</mat-option>
                                 </mat-select>
                                 <mat-error>Campo Obrigatório!</mat-error>
@@ -580,7 +595,8 @@
             </mat-action-row>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle formGroupName="receitaAmostragemSolo">
+        <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle
+            formGroupName="receitaAmostragemSolo">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     PASSO 5
@@ -602,7 +618,8 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar" formControlName="gesso">
-                                    <mat-option *ngFor="let gesso of aduboList | callback : filtraAduboTipo : ['gesso_agricola']" 
+                                    <mat-option
+                                        *ngFor="let gesso of aduboList | callback : filtraAduboTipo : ['gesso_agricola']"
                                         [value]="gesso">
                                         {{gesso.nome}}</mat-option>
                                 </mat-select>
@@ -924,7 +941,8 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let microNutriente of aduboList | callback : filtraAduboTipo : ['micronutriente']"
+                                    <mat-option
+                                        *ngFor="let microNutriente of aduboList | callback : filtraAduboTipo : ['micronutriente']"
                                         [value]="microNutriente">
                                         {{microNutriente.nome}}</mat-option>
                                 </mat-select>
@@ -936,7 +954,8 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let microNutriente of aduboList | callback : filtraAduboTipo : ['micronutriente']"
+                                    <mat-option
+                                        *ngFor="let microNutriente of aduboList | callback : filtraAduboTipo : ['micronutriente']"
                                         [value]="microNutriente">
                                         {{microNutriente.nome}}</mat-option>
                                 </mat-select>
@@ -948,7 +967,8 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let microNutriente of aduboList | callback : filtraAduboTipo : ['micronutriente']"
+                                    <mat-option
+                                        *ngFor="let microNutriente of aduboList | callback : filtraAduboTipo : ['micronutriente']"
                                         [value]="microNutriente">
                                         {{microNutriente.nome}}</mat-option>
                                 </mat-select>

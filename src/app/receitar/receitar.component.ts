@@ -109,7 +109,6 @@ export class ReceitarComponent implements OnInit {
   }
 
   protected carregar(valor: any) {
-    console.log('carregar');
     if (this.service) {
       this.service.entidade = valor;
     }

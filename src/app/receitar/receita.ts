@@ -4,6 +4,7 @@ import { Pessoa } from '../modelo/entidade/pessoa';
 import { Cultura } from '../modelo/entidade/cultura';
 import { CulturaTipo } from '../modelo/entidade/cultura.tipo';
 import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
+import { Espacamento } from '../modelo/entidade/espacamento';
 
 export class Receita {
 
@@ -29,5 +30,6 @@ export class Receita {
         aluminio: number,
         satAluminio: number
     };
+    espacamento: Espacamento;
     necessidadeDeGesso: number;
 }
