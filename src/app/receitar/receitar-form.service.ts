@@ -85,8 +85,13 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         });
 
         result.get('cultura').valueChanges.subscribe((c: Cultura) => {
-            result.get('espacamento.simples').patchValue(c.espacamentoDuplo === 'S' ? false : true);
-            result.get('espacamento.area').patchValue(this.espacamentoCalcArea(result.get('espacamento.area').value), { emitEvent: false });
+            result.get('espacamento.simples').setValue(c.espacamentoDuplo === 'S' ? false : true);
+            if (result.value.espacamento?.quantidadePlanta > 0) {
+                result.get('espacamento.area').setValue(this.espacamentoCalcArea(result.value.espacamento), { emitEvent: false });
+            } else if (result.value.espacamento?.area > 0) {
+                result.get('espacamento.quantidadePlanta').setValue(this.espacamentoCalcQuantidadePlanta(
+                    result.value.espacamento), { emitEvent: false });
+            }
         });
 
         result.get('culturaTipo').setValue('F');
@@ -144,26 +149,71 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
 
     public criarFormEspacamento(espacamento: Espacamento) {
         const result = this.fb.group({
-            simples: [espacamento?.simples],
-            a: [espacamento?.a],
-            b: [espacamento?.b],
-            c: [espacamento?.c],
-            quantidadePlanta: [espacamento?.quantidadePlanta],
-            area: [espacamento?.area],
+            simples: [espacamento?.simples, []],
+            a: [espacamento?.a, [Validators.required, Validators.min(0.01)]],
+            b: [espacamento?.b, [Validators.required, Validators.min(0.01)]],
+            c: [espacamento?.c, [Validators.required, Validators.min(0.01)]],
+            quantidadePlanta: [espacamento?.quantidadePlanta, [Validators.required, Validators.min(0.01)]],
+            area: [espacamento?.area, [Validators.required, Validators.min(0.01)]],
         });
 
-        result.valueChanges.pipe(
-            distinctUntilChanged(),
-            pairwise() // gets a pair of old and new value
-        ).subscribe(([antes, depois]: Espacamento[]) => {
+        // atualizar os calculos
+        if (result.value.quantidadePlanta > 0) {
+            result.get('area').setValue(this.espacamentoCalcArea(result.value), { emitEvent: false });
+        } else if (result.value.area > 0) {
+            result.get('quantidadePlanta').setValue(this.espacamentoCalcQuantidadePlanta(result.value), { emitEvent: false });
+        }
+
+        result.get('a').valueChanges.subscribe((v: number) => {
             // verificar se tem elementos para o cálculo
-            if (antes.quantidadePlanta !== depois.quantidadePlanta && depois.quantidadePlanta > 0) {
-                result.get('area').patchValue(this.espacamentoCalcArea(depois), { emitEvent: false });
+            const temp = result.value;
+            temp.a = v;
+            if (temp.quantidadePlanta > 0) {
+                result.get('area').setValue(this.espacamentoCalcArea(temp), { emitEvent: false });
+            } else if (temp.area > 0) {
+                result.get('quantidadePlanta').setValue(this.espacamentoCalcQuantidadePlanta(temp), { emitEvent: false });
             }
-            if (antes.area !== depois.area) {
-                console.log('area modificando');
+            console.log('a modificado');
+        });
+
+        result.get('b').valueChanges.subscribe((v: number) => {
+            // verificar se tem elementos para o cálculo
+            const temp = result.value;
+            temp.b = v;
+            if (temp.quantidadePlanta > 0) {
+                result.get('area').setValue(this.espacamentoCalcArea(temp), { emitEvent: false });
+            } else if (temp.area > 0) {
+                result.get('quantidadePlanta').setValue(this.espacamentoCalcQuantidadePlanta(temp), { emitEvent: false });
             }
-            console.log(antes, depois);
+            console.log('b modificado');
+        });
+
+        result.get('c').valueChanges.subscribe((v: number) => {
+            // verificar se tem elementos para o cálculo
+            const temp = result.value;
+            temp.c = v;
+            if (temp.quantidadePlanta > 0) {
+                result.get('area').setValue(this.espacamentoCalcArea(temp), { emitEvent: false });
+            } else if (temp.area > 0) {
+                result.get('quantidadePlanta').setValue(this.espacamentoCalcQuantidadePlanta(temp), { emitEvent: false });
+            }
+            console.log('c modificado');
+        });
+
+        result.get('quantidadePlanta').valueChanges.subscribe((v: number) => {
+            // verificar se tem elementos para o cálculo
+            const temp = result.value;
+            temp.quantidadePlanta = v;
+            result.get('area').setValue(this.espacamentoCalcArea(temp), { emitEvent: false });
+            console.log('quantidadePlanta modificado');
+        });
+
+        result.get('area').valueChanges.subscribe((v: number) => {
+            // verificar se tem elementos para o cálculo
+            const temp = result.value;
+            temp.area = v;
+            result.get('quantidadePlanta').setValue(this.espacamentoCalcQuantidadePlanta(temp), { emitEvent: false });
+            console.log('area modificado');
         });
 
         return result;
@@ -171,14 +221,33 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
 
     private espacamentoCalcArea(espacamento: Espacamento) {
         let result = espacamento?.area;
-
-        if (espacamento?.a > 0 && espacamento?.b > 0 && (espacamento?.simples || !espacamento?.simples && espacamento?.c > 0)) {
+        if (espacamento?.quantidadePlanta > 0 &&
+            espacamento?.a > 0 &&
+            espacamento?.b > 0 &&
+            (espacamento?.simples || !espacamento?.simples && espacamento?.c > 0)) {
             if (espacamento.simples) {
                 result = espacamento.quantidadePlanta / (10000 / (espacamento.a * espacamento.b));
                 console.log('simples area', result);
             } else {
                 result = espacamento.quantidadePlanta / (10000 / ((espacamento.a * (espacamento.b + espacamento.c) / 2)));
                 console.log('duplo area', result);
+            }
+        }
+        return result;
+    }
+
+    private espacamentoCalcQuantidadePlanta(espacamento: Espacamento) {
+        let result = espacamento?.quantidadePlanta;
+        if (espacamento?.area > 0 &&
+            espacamento?.a > 0 &&
+            espacamento?.b > 0 &&
+            (espacamento?.simples || !espacamento?.simples && espacamento?.c > 0)) {
+            if (espacamento.simples) {
+                result = espacamento.area * (10000 / (espacamento.a * espacamento.b));
+                console.log('simples quantidadePlanta', result);
+            } else {
+                result = espacamento.area * (10000 / ((espacamento.a * (espacamento.b + (espacamento.c / 2)))));
+                console.log('duplo quantidadePlanta', result);
             }
         }
         return result;
