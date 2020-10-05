@@ -8,6 +8,7 @@ import { Receita } from './receita';
 import { ReceitaFiltroDTO } from './receita-filtro-dto';
 import { Espacamento } from '../modelo/entidade/espacamento';
 import { distinctUntilChanged, pairwise } from 'rxjs/operators';
+import { ReceitaAmostragemSolo } from '../modelo/entidade/receita-amostragem-solo';
 
 const faixaArgilaFosforo = [
     [null, 16, [[null, 12, 'baixo'], [12, 18, 'medio'], [18, null, 'adequado']]],
@@ -73,19 +74,13 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             necessidadeCalcarioCorrigido: [entidade.necessidadeCalcarioCorrigido, []],
             necessidadePoDeRocha: [entidade.necessidadePoDeRocha, []],
             necessidadePoDeRochaCorrigido: [entidade.necessidadePoDeRochaCorrigido, []],
-            receitaAmostragemSolo: this.fb.group({
-                gesso: [entidade.receitaAmostragemSolo?.gesso, []],
-                realizada: [entidade.receitaAmostragemSolo?.realizada, []],
-                calcio: [entidade.receitaAmostragemSolo?.calcio, []],
-                aluminio: [entidade.receitaAmostragemSolo?.aluminio, []],
-                satAluminio: [entidade.receitaAmostragemSolo?.satAluminio, []]
-            }),
+            receitaAmostragemSolo: this.criarFormReceitaAmostragemSolo(entidade.receitaAmostragemSolo),
             espacamento: this.criarFormEspacamento(entidade.espacamento),
             necessidadeDeGesso: [entidade.necessidadeDeGesso, []]
         });
 
         result.get('cultura').valueChanges.subscribe((c: Cultura) => {
-            result.get('espacamento.simples').setValue(c.espacamentoDuplo === 'S' ? false : true);
+            result.get('espacamento.duplo').setValue(c.espacamentoDuplo === 'S' ? true : false);
             if (result.value.espacamento?.quantidadePlanta > 0) {
                 result.get('espacamento.area').setValue(this.espacamentoCalcArea(result.value.espacamento), { emitEvent: false });
             } else if (result.value.espacamento?.area > 0) {
@@ -146,10 +141,21 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
 
         return result;
     }
+    public criarFormReceitaAmostragemSolo(receitaAmostragemSolo: ReceitaAmostragemSolo) {
+        const result = this.fb.group({
+            gesso: [receitaAmostragemSolo?.gesso, []],
+            realizada: [receitaAmostragemSolo?.realizada, []],
+            calcio: [receitaAmostragemSolo?.calcio, []],
+            aluminio: [receitaAmostragemSolo?.aluminio, []],
+            satAluminio: [receitaAmostragemSolo?.satAluminio, []]
+        });
+
+        return result;
+    }
 
     public criarFormEspacamento(espacamento: Espacamento) {
         const result = this.fb.group({
-            simples: [espacamento?.simples, []],
+            duplo: [espacamento?.duplo, []],
             a: [espacamento?.a, [Validators.required, Validators.min(0.01)]],
             b: [espacamento?.b, [Validators.required, Validators.min(0.01)]],
             c: [espacamento?.c, [Validators.required, Validators.min(0.01)]],
@@ -173,7 +179,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             } else if (temp.area > 0) {
                 result.get('quantidadePlanta').setValue(this.espacamentoCalcQuantidadePlanta(temp), { emitEvent: false });
             }
-            console.log('a modificado');
+            // console.log('a modificado');
         });
 
         result.get('b').valueChanges.subscribe((v: number) => {
@@ -185,7 +191,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             } else if (temp.area > 0) {
                 result.get('quantidadePlanta').setValue(this.espacamentoCalcQuantidadePlanta(temp), { emitEvent: false });
             }
-            console.log('b modificado');
+            // console.log('b modificado');
         });
 
         result.get('c').valueChanges.subscribe((v: number) => {
@@ -197,7 +203,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             } else if (temp.area > 0) {
                 result.get('quantidadePlanta').setValue(this.espacamentoCalcQuantidadePlanta(temp), { emitEvent: false });
             }
-            console.log('c modificado');
+            // console.log('c modificado');
         });
 
         result.get('quantidadePlanta').valueChanges.subscribe((v: number) => {
@@ -205,7 +211,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             const temp = result.value;
             temp.quantidadePlanta = v;
             result.get('area').setValue(this.espacamentoCalcArea(temp), { emitEvent: false });
-            console.log('quantidadePlanta modificado');
+            // console.log('quantidadePlanta modificado');
         });
 
         result.get('area').valueChanges.subscribe((v: number) => {
@@ -213,7 +219,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             const temp = result.value;
             temp.area = v;
             result.get('quantidadePlanta').setValue(this.espacamentoCalcQuantidadePlanta(temp), { emitEvent: false });
-            console.log('area modificado');
+            // console.log('area modificado');
         });
 
         return result;
@@ -224,13 +230,13 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         if (espacamento?.quantidadePlanta > 0 &&
             espacamento?.a > 0 &&
             espacamento?.b > 0 &&
-            (espacamento?.simples || !espacamento?.simples && espacamento?.c > 0)) {
-            if (espacamento.simples) {
+            (!espacamento?.duplo || espacamento?.duplo && espacamento?.c > 0)) {
+            if (!espacamento.duplo) {
                 result = espacamento.quantidadePlanta / (10000 / (espacamento.a * espacamento.b));
-                console.log('simples area', result);
+                // console.log('simples area', result);
             } else {
                 result = espacamento.quantidadePlanta / (10000 / ((espacamento.a * (espacamento.b + espacamento.c) / 2)));
-                console.log('duplo area', result);
+                // console.log('duplo area', result);
             }
         }
         return result;
@@ -241,13 +247,13 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         if (espacamento?.area > 0 &&
             espacamento?.a > 0 &&
             espacamento?.b > 0 &&
-            (espacamento?.simples || !espacamento?.simples && espacamento?.c > 0)) {
-            if (espacamento.simples) {
+            (!espacamento?.duplo || espacamento?.duplo && espacamento?.c > 0)) {
+            if (!espacamento.duplo) {
                 result = espacamento.area * (10000 / (espacamento.a * espacamento.b));
-                console.log('simples quantidadePlanta', result);
+                // console.log('simples quantidadePlanta', result);
             } else {
                 result = espacamento.area * (10000 / ((espacamento.a * (espacamento.b + (espacamento.c / 2)))));
-                console.log('duplo quantidadePlanta', result);
+                // console.log('duplo quantidadePlanta', result);
             }
         }
         return result;
@@ -311,7 +317,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
                 necessidadeCalcario = ((satBaseCultura - satBase) * ctc) / prnt;
                 necessidadeCalcario = necessidadeCalcario < 0 ? 0 : necessidadeCalcario;
                 necessidadeCalcarioCorrigido = necessidadeCalcario * (receita.calcarioPercentual / 100);
-                console.log('calcario', necessidadeCalcario, necessidadeCalcarioCorrigido);
+                // console.log('calcario', necessidadeCalcario, necessidadeCalcarioCorrigido);
             }
         }
 
@@ -327,7 +333,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             necessidadePoDeRocha = (caoMgO / caoMgOK20) * necessidadeCalcario;
             necessidadePoDeRocha = necessidadePoDeRocha < 0 ? 0 : necessidadePoDeRocha;
             necessidadePoDeRochaCorrigido = necessidadePoDeRocha * receita.poDeRochaPercentual;
-            console.log('poDeRocha', necessidadePoDeRocha, necessidadePoDeRochaCorrigido);
+            // console.log('poDeRocha', necessidadePoDeRocha, necessidadePoDeRochaCorrigido);
         }
 
         ctrl.get('necessidadeCalcario')

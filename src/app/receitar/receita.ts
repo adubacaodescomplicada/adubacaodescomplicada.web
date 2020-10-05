@@ -5,6 +5,7 @@ import { Cultura } from '../modelo/entidade/cultura';
 import { CulturaTipo } from '../modelo/entidade/cultura.tipo';
 import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
 import { Espacamento } from '../modelo/entidade/espacamento';
+import { ReceitaAmostragemSolo } from '../modelo/entidade/receita-amostragem-solo';
 
 export class Receita {
 
@@ -23,13 +24,7 @@ export class Receita {
     necessidadeCalcarioCorrigido: number;
     necessidadePoDeRocha: number;
     necessidadePoDeRochaCorrigido: number;
-    receitaAmostragemSolo: {
-        gesso: Adubo,
-        realizada: boolean,
-        calcio: number,
-        aluminio: number,
-        satAluminio: number
-    };
+    receitaAmostragemSolo: ReceitaAmostragemSolo;
     espacamento: Espacamento;
     necessidadeDeGesso: number;
 }

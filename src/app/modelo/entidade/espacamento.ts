@@ -1,6 +1,6 @@
 export class Espacamento {
 
-    public simples: boolean;
+    public duplo: boolean;
     public a: number;
     public b: number;
     public c: number;
