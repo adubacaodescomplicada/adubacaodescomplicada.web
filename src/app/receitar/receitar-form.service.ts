@@ -1,3 +1,4 @@
+import { ReceitaFonteMateriaOrganica } from './receita.fonte.materia.organica';
 import { Cultura } from './../modelo/entidade/cultura';
 import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
 import { Injectable } from '@angular/core';
@@ -76,17 +77,24 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             necessidadePoDeRochaCorrigido: [entidade.necessidadePoDeRochaCorrigido, []],
             receitaAmostragemSolo: this.criarFormReceitaAmostragemSolo(entidade.receitaAmostragemSolo),
             espacamento: this.criarFormEspacamento(entidade.espacamento),
-            necessidadeDeGesso: [entidade.necessidadeDeGesso, []]
+            necessidadeDeGesso: [entidade.necessidadeDeGesso, []],
+            receitaFonteMateriaOrganicaList: this.criarFormReceitaFonteMateriaOrganicaList(entidade.receitaFonteMateriaOrganicaList),
+            receitaFonteMateriaOrganicaPercTotal: [entidade.receitaFonteMateriaOrganicaPercTotal, []],
+
+            receitaFonteFosforoList: this.criarFormReceitaFonteMateriaOrganicaList(entidade.receitaFonteFosforoList),
+            receitaFonteFosforoPercTotal: [entidade.receitaFonteFosforoPercTotal, []],
+            receitaFontePotassioList: this.criarFormReceitaFonteMateriaOrganicaList(entidade.receitaFontePotassioList),
+            receitaFontePotassioPercTotal: [entidade.receitaFontePotassioPercTotal, []],
+            receitaFonteNitrogenioList: this.criarFormReceitaFonteMateriaOrganicaList(entidade.receitaFonteNitrogenioList),
+            receitaFonteNitrogenioPercTotal: [entidade.receitaFonteNitrogenioPercTotal, []],
+            receitaFonteMicroNutrienteList: this.criarFormReceitaFonteMateriaOrganicaList(entidade.receitaFonteMicroNutrienteList),
+            receitaFonteMicroNutrientePercTotal: [entidade.receitaFonteMicroNutrientePercTotal, []],
+
+            formaAplicacaoAdubo: [entidade.formaAplicacaoAdubo, []],
         });
 
         result.get('cultura').valueChanges.subscribe((c: Cultura) => {
             result.get('espacamento.duplo').setValue(c.espacamentoDuplo === 'S' ? true : false);
-            if (result.value.espacamento?.quantidadePlanta > 0) {
-                result.get('espacamento.area').setValue(this.espacamentoCalcArea(result.value.espacamento), { emitEvent: false });
-            } else if (result.value.espacamento?.area > 0) {
-                result.get('espacamento.quantidadePlanta').setValue(this.espacamentoCalcQuantidadePlanta(
-                    result.value.espacamento), { emitEvent: false });
-            }
         });
 
         result.get('culturaTipo').setValue('F');
@@ -170,6 +178,18 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             result.get('quantidadePlanta').setValue(this.espacamentoCalcQuantidadePlanta(result.value), { emitEvent: false });
         }
 
+        result.get('duplo').valueChanges.subscribe((v: number) => {
+            // verificar se tem elementos para o cálculo
+            const temp = result.value;
+            temp.duplo = v;
+            if (temp.quantidadePlanta > 0) {
+                result.get('area').setValue(this.espacamentoCalcArea(temp), { emitEvent: false });
+            } else if (temp.area > 0) {
+                result.get('quantidadePlanta').setValue(this.espacamentoCalcQuantidadePlanta(temp), { emitEvent: false });
+            }
+            // console.log('duplo modificado');
+        });
+
         result.get('a').valueChanges.subscribe((v: number) => {
             // verificar se tem elementos para o cálculo
             const temp = result.value;
@@ -252,7 +272,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
                 result = espacamento.area * (10000 / (espacamento.a * espacamento.b));
                 // console.log('simples quantidadePlanta', result);
             } else {
-                result = espacamento.area * (10000 / ((espacamento.a * (espacamento.b + (espacamento.c / 2)))));
+                result = espacamento.area * (10000 / ((espacamento.a * ((espacamento.c + espacamento.b) / 2))));
                 // console.log('duplo quantidadePlanta', result);
             }
         }
@@ -261,13 +281,44 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
 
     public criarFormReceitaAnaliseSoloParametroList(lista: ReceitaAnaliseSoloParametro[]): FormArray {
         if (!lista) {
-            return null;
+            lista = [];
         }
         const listaCtrl = [];
         for (const ent of lista) {
             listaCtrl.push(this.criarFormReceitaAnaliseSoloParametro(ent));
         }
         const result = this.fb.array(listaCtrl, [Validators.required]);
+
+        return result;
+    }
+
+    public criarFormReceitaFonteMateriaOrganicaList(lista: ReceitaFonteMateriaOrganica[]): FormArray {
+        if (!lista) {
+            lista = [];
+            lista.push(new ReceitaFonteMateriaOrganica());
+        }
+        const listaCtrl = [];
+        for (const ent of lista) {
+            listaCtrl.push(this.criarFormReceitaFonteMateriaOrganica(ent));
+        }
+        const result = this.fb.array(listaCtrl, [Validators.required]);
+
+        return result;
+    }
+
+    public criarFormReceitaFonteMateriaOrganica(entidade: ReceitaFonteMateriaOrganica): FormGroup {
+        if (!entidade) {
+            return null;
+        }
+        const result = this.fb.group({
+            id: [entidade.id, []],
+            fonteMateriaOrganica: [entidade.fonteMateriaOrganica, [Validators.required]],
+            valor: [entidade.valor ? entidade.valor : 0, [Validators.required, Validators.min(0)]],
+        });
+
+        result.get('valor').valueChanges.subscribe(value => {
+            result.get('valor').setValue(value, { onlySelf: true, emitEvent: false, emitModelToViewChange: true });
+        }, error => { }, () => { });
 
         return result;
     }
@@ -293,6 +344,36 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         this.receitaAnaliseSoloParametroCalcAvaliacao(ctrl, receita);
         this.necessidadeCalagemTHaCalc(ctrl, receita);
         this.necessidadeGessoAgricolaQGCalc(ctrl, receita);
+        this.somaReceitaFonteMateriaOrganicaPercTotal(ctrl, receita);
+        this.somaReceitaFonteFosforoPercTotal(ctrl, receita);
+        this.somaReceitaFontePotassioPercTotal(ctrl, receita);
+        this.somaReceitaFonteNitrogenioPercTotal(ctrl, receita);
+        this.somaReceitaFonteMicroNutrientePercTotal(ctrl, receita);
+    }
+
+    private somaReceitaFonteMateriaOrganicaPercTotal(ctrl: FormGroup, receita: Receita) {
+        const result = receita.receitaFonteMateriaOrganicaList?.map(r => r.valor).reduce((a, b) => a + b);
+        ctrl.get('receitaFonteMateriaOrganicaPercTotal').setValue(result, { emitEvent: false });
+    }
+
+    private somaReceitaFonteFosforoPercTotal(ctrl: FormGroup, receita: Receita) {
+        const result = receita.receitaFonteFosforoList?.map(r => r.valor).reduce((a, b) => a + b);
+        ctrl.get('receitaFonteFosforoPercTotal').setValue(result, { emitEvent: false });
+    }
+
+    private somaReceitaFontePotassioPercTotal(ctrl: FormGroup, receita: Receita) {
+        const result = receita.receitaFontePotassioList?.map(r => r.valor).reduce((a, b) => a + b);
+        ctrl.get('receitaFontePotassioPercTotal').setValue(result, { emitEvent: false });
+    }
+
+    private somaReceitaFonteNitrogenioPercTotal(ctrl: FormGroup, receita: Receita) {
+        const result = receita.receitaFonteNitrogenioList?.map(r => r.valor).reduce((a, b) => a + b);
+        ctrl.get('receitaFonteNitrogenioPercTotal').setValue(result, { emitEvent: false });
+    }
+
+    private somaReceitaFonteMicroNutrientePercTotal(ctrl: FormGroup, receita: Receita) {
+        const result = receita.receitaFonteMicroNutrienteList?.map(r => r.valor).reduce((a, b) => a + b);
+        ctrl.get('receitaFonteMicroNutrientePercTotal').setValue(result, { emitEvent: false });
     }
 
     private necessidadeCalagemTHaCalc(ctrl: FormGroup, receita: Receita) {

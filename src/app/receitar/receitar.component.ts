@@ -1,5 +1,8 @@
+import { AnaliseSoloParametro } from './../modelo/entidade/analise-solo-parametro';
+import { UnidadeMedida } from './../modelo/entidade/unidade-medida';
+import { FonteMateriaOrganica } from './../modelo/entidade/fonte-materia-organica';
 import { Adubo } from './../modelo/entidade/adubo';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -12,6 +15,8 @@ import { idListComparar } from '../comum/ferramenta/ferramenta-comum';
 import { Receita } from './receita';
 import { Pessoa } from '../modelo/entidade/pessoa';
 import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
+import { ReceitaFonteMateriaOrganica } from './receita.fonte.materia.organica';
+import { FormaAplicacaoAdubo } from '../modelo/entidade/forma-aplicacao-adubo';
 
 @Component({
   selector: 'app-receitar',
@@ -25,45 +30,16 @@ export class ReceitarComponent implements OnInit {
   entidade = null;
   frm: FormGroup;
 
-  aduboList: [];
-  culturaList: [];
-  analiseSoloParametroList: [];
-  unidadeMedidaList: [];
-  fosforoList: {
-    id: number,
-    nome: string,
-  }[] = [
-      {
-        id: 1,
-        nome: 'Nitrato de cálcio'
-      },
-      {
-        id: 2,
-        nome: 'Termofosfato YOORIN'
-      },
-      {
-        id: 3,
-        nome: 'Nitrato de cálcio'
-      }
-    ];
-  potacioList: [{
-    id: number,
-    nome: string,
-  }] = [
-      {
-        id: 1,
-        nome: 'Kmag'
-      },
-    ];
-  nitrogenioList: [{
-    id: number,
-    nome: string,
-  }] = [
-      {
-        id: 1,
-        nome: 'Torta de mamona Hortibraz'
-      },
-    ];
+  aduboList: Adubo[];
+  culturaList: Cultura[];
+  analiseSoloParametroList: AnaliseSoloParametro[];
+  unidadeMedidaList: UnidadeMedida[];
+  fonteMateriaOrganicaList: FonteMateriaOrganica[];
+  fonteFosforoList: FonteMateriaOrganica[];
+  fontePotassioList: FonteMateriaOrganica[];
+  fonteNitrogenioList: FonteMateriaOrganica[];
+  fonteMicroNutrienteList: FonteMateriaOrganica[];
+  formaAplicacaoAduboList: FormaAplicacaoAdubo[];
 
   constructor(
     private service: ReceitarService,
@@ -97,6 +73,19 @@ export class ReceitarComponent implements OnInit {
         this.carregar(entidade);
       });
       resolver[0].apoio.unidadeMedidaList.subscribe((lista) => this.unidadeMedidaList = lista);
+      resolver[0].apoio.fonteMateriaOrganicaList.subscribe((lista) => this.fonteMateriaOrganicaList = lista);
+
+      resolver[0].apoio.garantiaList.subscribe((lista) => {
+        this.fonteFosforoList = lista.filter(e => e.codigo === 'P').flatMap(e => e.aduboGarantiaList.flat(a => a.adubo));
+        this.fontePotassioList = lista.filter(e => e.codigo === 'K').flatMap(e => e.aduboGarantiaList.flat(a => a.adubo));
+        this.fonteNitrogenioList = lista.filter(e => e.codigo === 'N').flatMap(e => e.aduboGarantiaList.flat(a => a.adubo));
+        this.fonteMicroNutrienteList = lista.filter(e => e.codigo === '').flatMap(e => e.aduboGarantiaList.flat(a => a.adubo));
+      });
+      this.formaAplicacaoAduboList = [
+        { id: 1, nome: 'Sulco', fatorEficienciaN: 0.5, fatorEficienciaP205: 0.15, fatorEficienciaK20: 0.7 },
+        { id: 2, nome: 'A lanço', fatorEficienciaN: 0.65, fatorEficienciaP205: 0.2, fatorEficienciaK20: 0.75 },
+        { id: 3, nome: 'Gotejamento ou microaspersão', fatorEficienciaN: 0.8, fatorEficienciaP205: 0.3, fatorEficienciaK20: 0.85 }
+      ];
     });
     if (!this.loginService.estaLogado) {
       this.mensagem.erro(`Faça o login primeiro`);
@@ -150,4 +139,130 @@ export class ReceitarComponent implements OnInit {
   filtraAduboTipo(adubo: Adubo, aduboTipo: string) {
     return aduboTipo && aduboTipo.length && aduboTipo[0] === adubo.aduboTipo.codigo;
   }
+
+  filtraFonteMateriaOrganica(fonteMateriaOrganica: FonteMateriaOrganica, frm: FormGroup) {
+    const lista = (frm[0].get('receitaFonteMateriaOrganicaList') as FormArray);
+    if (!lista) {
+      return false;
+    }
+    let achou = false;
+    for (let i = 0; i < lista.value.length - 1; i++) {
+      if (lista.value[i].fonteMateriaOrganica.codigo === fonteMateriaOrganica.codigo) {
+        achou = true;
+        break;
+      }
+    }
+    return !achou;
+  }
+
+  filtraFonteFosforo(fonteFosforo: FonteMateriaOrganica, frm: FormGroup) {
+    const lista = (frm[0].get('receitaFonteFosforoList') as FormArray);
+    if (!lista) {
+      return false;
+    }
+    let achou = false;
+    for (let i = 0; i < lista.value.length - 1; i++) {
+      if (lista.value[i].fonteMateriaOrganica.id === fonteFosforo.id) {
+        achou = true;
+        break;
+      }
+    }
+    return !achou;
+  }
+
+  filtrafontePotassio(fontePotassio: FonteMateriaOrganica, frm: FormGroup) {
+    const lista = (frm[0].get('receitaFontePotassioList') as FormArray);
+    if (!lista) {
+      return false;
+    }
+    let achou = false;
+    for (let i = 0; i < lista.value.length - 1; i++) {
+      if (lista.value[i].fonteMateriaOrganica.id === fontePotassio.id) {
+        achou = true;
+        break;
+      }
+    }
+    return !achou;
+  }
+
+  filtrafonteNitrogenio(fonteNitrogenio: FonteMateriaOrganica, frm: FormGroup) {
+    const lista = (frm[0].get('receitaFonteNitrogenioList') as FormArray);
+    if (!lista) {
+      return false;
+    }
+    let achou = false;
+    for (let i = 0; i < lista.value.length - 1; i++) {
+      if (lista.value[i].fonteMateriaOrganica.id === fonteNitrogenio.id) {
+        achou = true;
+        break;
+      }
+    }
+    return !achou;
+  }
+
+  filtrafonteMicroNutriente(fonteMicroNutriente: FonteMateriaOrganica, frm: FormGroup) {
+    const lista = (frm[0].get('receitaFonteMicroNutrienteList') as FormArray);
+    if (!lista) {
+      return false;
+    }
+    let achou = false;
+    for (let i = 0; i < lista.value.length - 1; i++) {
+      if (lista.value[i].fonteMateriaOrganica.codigo === fonteMicroNutriente.codigo) {
+        achou = true;
+        break;
+      }
+    }
+    return !achou;
+  }
+
+  inserirFonteMateriaOrganica() {
+    const lista = (this.frm.get('receitaFonteMateriaOrganicaList') as FormArray);
+    lista.push(this.serviceForm.criarFormReceitaFonteMateriaOrganica(new ReceitaFonteMateriaOrganica()));
+  }
+
+  excluirFonteMateriaOrganica(idx: number) {
+    const lista = (this.frm.get('receitaFonteMateriaOrganicaList') as FormArray);
+    lista.removeAt(idx);
+  }
+
+  inserirFonteFosforo() {
+    const lista = (this.frm.get('receitaFonteFosforoList') as FormArray);
+    lista.push(this.serviceForm.criarFormReceitaFonteMateriaOrganica(new ReceitaFonteMateriaOrganica()));
+  }
+
+  excluirFonteFosforo(idx: number) {
+    const lista = (this.frm.get('receitaFonteFosforoList') as FormArray);
+    lista.removeAt(idx);
+  }
+
+  inserirFontePotassio() {
+    const lista = (this.frm.get('receitaFontePotassioList') as FormArray);
+    lista.push(this.serviceForm.criarFormReceitaFonteMateriaOrganica(new ReceitaFonteMateriaOrganica()));
+  }
+
+  excluirFontePotassio(idx: number) {
+    const lista = (this.frm.get('receitaFontePotassioList') as FormArray);
+    lista.removeAt(idx);
+  }
+
+  inserirFonteNitrogenio() {
+    const lista = (this.frm.get('receitaFonteNitrogenioList') as FormArray);
+    lista.push(this.serviceForm.criarFormReceitaFonteMateriaOrganica(new ReceitaFonteMateriaOrganica()));
+  }
+
+  excluirFonteNitrogenio(idx: number) {
+    const lista = (this.frm.get('receitaFonteNitrogenioList') as FormArray);
+    lista.removeAt(idx);
+  }
+
+  inserirFonteMicroNutriente() {
+    const lista = (this.frm.get('receitaFonteMicroNutrienteList') as FormArray);
+    lista.push(this.serviceForm.criarFormReceitaFonteMateriaOrganica(new ReceitaFonteMateriaOrganica()));
+  }
+
+  excluirFonteMicroNutriente(idx: number) {
+    const lista = (this.frm.get('receitaFonteMicroNutrienteList') as FormArray);
+    lista.removeAt(idx);
+  }
+
 }

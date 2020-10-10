@@ -6,6 +6,7 @@ import { CulturaTipo } from '../modelo/entidade/cultura.tipo';
 import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
 import { Espacamento } from '../modelo/entidade/espacamento';
 import { ReceitaAmostragemSolo } from '../modelo/entidade/receita-amostragem-solo';
+import { ReceitaFonteMateriaOrganica } from './receita.fonte.materia.organica';
 
 export class Receita {
 
@@ -27,4 +28,17 @@ export class Receita {
     receitaAmostragemSolo: ReceitaAmostragemSolo;
     espacamento: Espacamento;
     necessidadeDeGesso: number;
+    receitaFonteMateriaOrganicaList: ReceitaFonteMateriaOrganica[];
+    receitaFonteMateriaOrganicaPercTotal: number;
+
+    receitaFonteFosforoList: ReceitaFonteMateriaOrganica[];
+    receitaFonteFosforoPercTotal: number;
+    receitaFontePotassioList: ReceitaFonteMateriaOrganica[];
+    receitaFontePotassioPercTotal: number;
+    receitaFonteNitrogenioList: ReceitaFonteMateriaOrganica[];
+    receitaFonteNitrogenioPercTotal: number;
+    receitaFonteMicroNutrienteList: ReceitaFonteMateriaOrganica[];
+    receitaFonteMicroNutrientePercTotal: number;
+
+    formaAplicacaoAdubo: {id: number, nome: string};
 }

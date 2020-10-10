@@ -20,6 +20,8 @@ export class ReceitarResolver implements Resolve<any> {
         culturaList: this.service.culturaList(),
         analiseSoloParametroList: this.service.analiseSoloParametroList(),
         unidadeMedidaList: this.service.unidadeMedidaList(),
+        fonteMateriaOrganicaList: this.service.fonteMateriaOrganicaList(),
+        garantiaList: this.service.garantiaList(),
       }
     };
   }

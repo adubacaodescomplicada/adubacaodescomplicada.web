@@ -1,3 +1,4 @@
+import { Garantia } from './../modelo/entidade/garantia';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -11,6 +12,7 @@ import { AnaliseSoloParametro } from './../modelo/entidade/analise-solo-parametr
 import { Adubo } from './../modelo/entidade/adubo';
 import { Cultura } from '../modelo/entidade/cultura';
 import { UnidadeMedida } from './../modelo/entidade/unidade-medida';
+import { FonteMateriaOrganica } from '../modelo/entidade/fonte-materia-organica';
 
 @Injectable({ providedIn: 'root' })
 export class ReceitarService extends CrudService<ReceitaFiltroDTO, Receita, Receita> {
@@ -39,6 +41,16 @@ export class ReceitarService extends CrudService<ReceitaFiltroDTO, Receita, Rece
 
     public unidadeMedidaList(): Observable<UnidadeMedida[]> {
         return this._http.get<UnidadeMedida[]>(`${environment.REST_API_URL}/unidade-medida`,
+            { headers: this.loginService.apiRequestHttpHeader });
+    }
+
+    public fonteMateriaOrganicaList(): Observable<FonteMateriaOrganica[]> {
+        return this._http.get<FonteMateriaOrganica[]>(`${environment.REST_API_URL}/fonte-materia-organica`,
+            { headers: this.loginService.apiRequestHttpHeader });
+    }
+
+    public garantiaList(): Observable<Garantia[]> {
+        return this._http.get<Garantia[]>(`${environment.REST_API_URL}/garantia`,
             { headers: this.loginService.apiRequestHttpHeader });
     }
 

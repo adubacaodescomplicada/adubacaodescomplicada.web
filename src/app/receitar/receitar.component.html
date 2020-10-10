@@ -307,6 +307,7 @@
                             <th scope="col" class="text-center">UNIDADE</th>
                         </tr>
                     </thead>
+                    <!-- FRZ -->
 
                     <tbody formArrayName="receitaAnaliseSoloParametroList">
                         <ng-template ngFor let-receitaAnaliseSoloParametro
@@ -401,13 +402,14 @@
                     <tr *ngIf="!frm.value?.espacamento?.duplo">
                         <td>
                             <mat-form-field>
-                                <mat-label>Valor B</mat-label>
-                                <input matInput type="number" class="text-right" formControlName="a" [attr.min]="frm?.get('espacamento.a').errors?.min?.min" step="0.5">
+                                <mat-label>Entre Plantas</mat-label>
+                                <input matInput type="number" class="text-right" formControlName="a"
+                                    [attr.min]="frm?.get('espacamento.a').errors?.min?.min" step="0.5">
                                 <span matSuffix> metros </span>
                                 <mat-error *ngIf="frm?.get('espacamento.a').errors?.required">Campo
                                     Obrigatório!
                                 </mat-error>
-                                <mat-error  *ngIf="frm?.get('espacamento.a').errors?.min">
+                                <mat-error *ngIf="frm?.get('espacamento.a').errors?.min">
                                     Valor mínimo ({{frm?.get('espacamento.a').errors?.min.min}}) ultrapassado!
                                 </mat-error>
                             </mat-form-field>
@@ -415,13 +417,14 @@
                         <td>X</td>
                         <td>
                             <mat-form-field>
-                                <mat-label>Valor C</mat-label>
-                                <input matInput type="number" class="text-right" formControlName="b" [attr.min]="frm?.get('espacamento.b').errors?.min?.min" step="0.5">
+                                <mat-label>Entre Ruas</mat-label>
+                                <input matInput type="number" class="text-right" formControlName="b"
+                                    [attr.min]="frm?.get('espacamento.b').errors?.min?.min" step="0.5">
                                 <span matSuffix> metros </span>
                                 <mat-error *ngIf="frm?.get('espacamento.b').errors?.required">Campo
                                     Obrigatório!
                                 </mat-error>
-                                <mat-error  *ngIf="frm?.get('espacamento.b').errors?.min">
+                                <mat-error *ngIf="frm?.get('espacamento.b').errors?.min">
                                     Valor mínimo ({{frm?.get('espacamento.b').errors?.min.min}}) ultrapassado!
                                 </mat-error>
                             </mat-form-field>
@@ -430,13 +433,14 @@
                     <tr *ngIf="frm.value?.espacamento?.duplo">
                         <td>
                             <mat-form-field>
-                                <mat-label>Valor B</mat-label>
-                                <input matInput type="number" class="text-right" formControlName="a" [attr.min]="frm?.get('espacamento.a').errors?.min?.min" step="0.5">
+                                <mat-label>Entre Plantas</mat-label>
+                                <input matInput type="number" class="text-right" formControlName="a"
+                                    [attr.min]="frm?.get('espacamento.a').errors?.min?.min" step="0.5">
                                 <span matSuffix> metros </span>
                                 <mat-error *ngIf="frm?.get('espacamento.a').errors?.required">Campo
                                     Obrigatório!
                                 </mat-error>
-                                <mat-error  *ngIf="frm?.get('espacamento.a').errors?.min">
+                                <mat-error *ngIf="frm?.get('espacamento.a').errors?.min">
                                     Valor mínimo ({{frm?.get('espacamento.a').errors?.min.min}}) ultrapassado!
                                 </mat-error>
                             </mat-form-field>
@@ -444,13 +448,14 @@
                         <td>X</td>
                         <td>
                             <mat-form-field>
-                                <mat-label>Valor C</mat-label>
-                                <input matInput type="number" class="text-right" formControlName="b" [attr.min]="frm?.get('espacamento.b').errors?.min?.min" step="0.5">
+                                <mat-label>Entre Ruas</mat-label>
+                                <input matInput type="number" class="text-right" formControlName="b"
+                                    [attr.min]="frm?.get('espacamento.b').errors?.min?.min" step="0.5">
                                 <span matSuffix> metros </span>
                                 <mat-error *ngIf="frm?.get('espacamento.b').errors?.required">Campo
                                     Obrigatório!
                                 </mat-error>
-                                <mat-error  *ngIf="frm?.get('espacamento.b').errors?.min">
+                                <mat-error *ngIf="frm?.get('espacamento.b').errors?.min">
                                     Valor mínimo ({{frm?.get('espacamento.b').errors?.min.min}}) ultrapassado!
                                 </mat-error>
                             </mat-form-field>
@@ -458,13 +463,14 @@
                         <td>X</td>
                         <td>
                             <mat-form-field>
-                                <mat-label>Valor Z</mat-label>
-                                <input matInput type="number" class="text-right" formControlName="c" [attr.min]="frm?.get('espacamento.c').errors?.min?.min" step="0.5">
+                                <mat-label>Entre Plantas</mat-label>
+                                <input matInput type="number" class="text-right" formControlName="c"
+                                    [attr.min]="frm?.get('espacamento.c').errors?.min?.min" step="0.5">
                                 <span matSuffix> metros </span>
                                 <mat-error *ngIf="frm?.get('espacamento.c').errors?.required">Campo
                                     Obrigatório!
                                 </mat-error>
-                                <mat-error  *ngIf="frm?.get('espacamento.c').errors?.min">
+                                <mat-error *ngIf="frm?.get('espacamento.c').errors?.min">
                                     Valor mínimo ({{frm?.get('espacamento.c').errors?.min.min}}) ultrapassado!
                                 </mat-error>
                             </mat-form-field>
@@ -472,7 +478,8 @@
                     </tr>
                 </tbody>
             </table>
-            <table class="table m-4" *ngIf="frm.value.espacamento?.a > 0 && frm.value.espacamento?.b > 0 && (!frm.value.espacamento?.duplo || frm.value.espacamento?.duplo && frm.value.espacamento?.c > 0)">
+            <table class="table m-4"
+                *ngIf="frm.value.espacamento?.a > 0 && frm.value.espacamento?.b > 0 && (!frm.value.espacamento?.duplo || frm.value.espacamento?.duplo && frm.value.espacamento?.c > 0)">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" class="text-center" colspan="1">NÚMERO DE PLANTAS</th>
@@ -483,20 +490,23 @@
                         <td>
                             <mat-form-field>
                                 <mat-label>Quantidade de Plantas</mat-label>
-                                <input matInput type="number" class="text-right" formControlName="quantidadePlanta" [attr.min]="frm?.get('espacamento.quantidadePlanta').errors?.min?.min" step="1">
+                                <input matInput type="number" class="text-right" formControlName="quantidadePlanta"
+                                    [attr.min]="frm?.get('espacamento.quantidadePlanta').errors?.min?.min" step="1">
                                 <span matSuffix> unidades </span>
                                 <mat-error *ngIf="frm?.get('espacamento.quantidadePlanta').errors?.required">Campo
                                     Obrigatório!
                                 </mat-error>
-                                <mat-error  *ngIf="frm?.get('espacamento.quantidadePlanta').errors?.min">
-                                    Valor mínimo ({{frm?.get('espacamento.quantidadePlanta').errors?.min.min}}) ultrapassado!
+                                <mat-error *ngIf="frm?.get('espacamento.quantidadePlanta').errors?.min">
+                                    Valor mínimo ({{frm?.get('espacamento.quantidadePlanta').errors?.min.min}})
+                                    ultrapassado!
                                 </mat-error>
                             </mat-form-field>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <table class="table m-4" *ngIf="frm.value.espacamento?.a > 0 && frm.value.espacamento?.b > 0 && (!frm.value.espacamento?.duplo || frm.value.espacamento?.duplo && frm.value.espacamento?.c > 0)">
+            <table class="table m-4"
+                *ngIf="frm.value.espacamento?.a > 0 && frm.value.espacamento?.b > 0 && (!frm.value.espacamento?.duplo || frm.value.espacamento?.duplo && frm.value.espacamento?.c > 0)">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" class="text-center" colspan="1">ÁREA</th>
@@ -507,12 +517,13 @@
                         <td>
                             <mat-form-field>
                                 <mat-label>Tamanho</mat-label>
-                                <input matInput type="number" class="text-right" formControlName="area" [attr.min]="frm?.get('espacamento.area').errors?.min?.min" step="1">
+                                <input matInput type="number" class="text-right" formControlName="area"
+                                    [attr.min]="frm?.get('espacamento.area').errors?.min?.min" step="1">
                                 <span matSuffix> hectáres </span>
                                 <mat-error *ngIf="frm?.get('espacamento.area').errors?.required">Campo
                                     Obrigatório!
                                 </mat-error>
-                                <mat-error  *ngIf="frm?.get('espacamento.area').errors?.min">
+                                <mat-error *ngIf="frm?.get('espacamento.area').errors?.min">
                                     Valor mínimo ({{frm?.get('espacamento.area').errors?.min.min}}) ultrapassado!
                                 </mat-error>
                             </mat-form-field>
@@ -778,185 +789,339 @@
             <table class="table m-4">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center" colspan="2">
+                        <th scope="col" class="text-center" colspan="4">
+                            ESCOLHA A FONTE DE MATÉRIA ORGÂNICA E DIGA O PERCENTUAL QUE CABERÁ A CADA FONTE
+                            <!-- FRZ -->
+                        </th>
+                    </tr>
+                </thead>
+                <tbody formArrayName="receitaFonteMateriaOrganicaList">
+                    <ng-template ngFor let-receitaFonteMateriaOrganica
+                        [ngForOf]="frm?.get('receitaFonteMateriaOrganicaList')['controls']" let-i="index" let-f="first"
+                        let-l="last">
+                        <tr [formGroupName]="i">
+                            <td *ngIf="!l">
+                                {{receitaFonteMateriaOrganica.value.fonteMateriaOrganica.nome}}
+                            </td>
+                            <td *ngIf="l">
+                                <mat-form-field>
+                                    <mat-select [compareWith]="idListComparar" formControlName="fonteMateriaOrganica">
+                                        <mat-option
+                                            *ngFor="let fonteMateriaOrganica of fonteMateriaOrganicaList | callback : filtraFonteMateriaOrganica : [frm] "
+                                            [value]="fonteMateriaOrganica">
+                                            {{fonteMateriaOrganica.nome}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-label
+                                    *ngIf="receitaFonteMateriaOrganica?.value.fonteMateriaOrganica?.quantidadeQuiloCova">
+                                    Quantidade na Cova:
+                                    {{receitaFonteMateriaOrganica?.value.fonteMateriaOrganica?.quantidadeQuiloCova}} kls
+                                </mat-label>
+                            </td>
+                            <td>
+                                <!-- <mat-form-field>
+                                    <mat-label>Valor</mat-label>
+                                    <input matInput type="number" class="text-right" formControlName="valor" step="1"
+                                        min="0" max="100">
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                                <mat-slider formControlName="valor"></mat-slider>
+                                % -->
+                            </td>
+                            <td>
+                                <button mat-button color="warn" (click)="excluirFonteMateriaOrganica(i)"
+                                    *ngIf="!f && l">
+                                    Excluir
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <tr *ngIf="(fonteMateriaOrganicaList | callback : filtraFonteMateriaOrganica : [frm])?.length > 1">
+                        <td colspan="4">
+                            <button mat-button color="warn" (click)="inserirFonteMateriaOrganica()"
+                                [disabled]="frm?.get('receitaFonteMateriaOrganicaList').invalid">
+                                Incluir
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <!-- <tfoot>
+                    <tr
+                        [ngClass]="frm.value.receitaFonteMateriaOrganicaPercTotal < 100 ? 'table-danger' : frm.value.receitaFonteMateriaOrganicaPercTotal > 100 ? 'table-warning' : frm.value.receitaFonteMateriaOrganicaPercTotal === 100 ? 'table-success' : ''">
+                        <td colspan="2">Total Geral Percentual</td>
+                        <td>
+                            {{frm.value.receitaFonteMateriaOrganicaPercTotal}}%
+                        </td>
+                    </tr>
+                </tfoot> -->
+            </table>
+            <!-- <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p> -->
+
+            <table class="table m-4">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" class="text-center" colspan="4">
                             ESCOLHA O ADUBO FONTE DE FÓSFORO E DIGA O PERCENTUAL QUE CABERÁ A CADA ADUBO
+                            <!-- FRZ -->
                         </th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <mat-form-field>
-                                <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let adubo of aduboList" [value]="adubo">
-                                        {{adubo.nome}}</mat-option>
-                                </mat-select>
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td>
-                            <mat-slider></mat-slider>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <mat-form-field>
-                                <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let adubo of aduboList" [value]="adubo">
-                                        {{adubo.nome}}</mat-option>
-                                </mat-select>
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td>
-                            <mat-slider></mat-slider>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <mat-form-field>
-                                <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let adubo of aduboList" [value]="adubo">
-                                        {{adubo.nome}}</mat-option>
-                                </mat-select>
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td>
-                            <mat-slider></mat-slider>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <mat-form-field>
-                                <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let adubo of aduboList" [value]="adubo">
-                                        {{adubo.nome}}</mat-option>
-                                </mat-select>
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td>
-                            <mat-slider></mat-slider>
+                <tbody formArrayName="receitaFonteFosforoList">
+                    <ng-template ngFor let-receitaFonteFosforo
+                        [ngForOf]="frm?.get('receitaFonteFosforoList')['controls']" let-i="index" let-f="first"
+                        let-l="last">
+                        <tr [formGroupName]="i">
+                            <td *ngIf="!l">
+                                {{receitaFonteFosforo.value.fonteMateriaOrganica.descricao}}
+                            </td>
+                            <td *ngIf="l">
+                                <mat-form-field>
+                                    <mat-select [compareWith]="idListComparar" formControlName="fonteMateriaOrganica">
+                                        <mat-option
+                                            *ngFor="let fonteFosforo of fonteFosforoList | callback : filtraFonteFosforo : [frm] "
+                                            [value]="fonteFosforo">
+                                            {{fonteFosforo.descricao}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-label *ngIf="receitaFonteFosforo?.value.fonteFosforo?.quantidadeQuiloCova">
+                                    Quantidade na Cova:
+                                    {{receitaFonteFosforo?.value.fonteFosforo?.quantidadeQuiloCova}} kls
+                                </mat-label>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <mat-label>Valor</mat-label>
+                                    <input matInput type="number" class="text-right" formControlName="valor" step="1"
+                                        min="0" max="100">
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                                <mat-slider formControlName="valor"></mat-slider>
+                                %
+                            </td>
+                            <td>
+                                <button mat-button color="warn" (click)="excluirFonteFosforo(i)" *ngIf="!f && l">
+                                    Excluir
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <tr *ngIf="(fonteFosforoList | callback : filtraFonteFosforo : [frm])?.length > 1">
+                        <td colspan="4">
+                            <button mat-button color="warn" (click)="inserirFonteFosforo()"
+                                [disabled]="frm?.get('receitaFonteFosforoList').invalid">
+                                Incluir
+                            </button>
                         </td>
                     </tr>
                 </tbody>
-            </table>
-            <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p>
-            <table class="table m-4">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col" class="text-center" colspan="2">
-                            ESCOLHA O ADUBO FONTE DE POTÁSSIO E DIGA O PERCENTUAL QUE CABERÁ A CADA ADUBO
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
+                <tfoot>
+                    <tr
+                        [ngClass]="frm.value.receitaFonteFosforoPercTotal < 100 ? 'table-danger' : frm.value.receitaFonteFosforoPercTotal > 100 ? 'table-warning' : frm.value.receitaFonteFosforoPercTotal === 100 ? 'table-success' : ''">
+                        <td colspan="2">Total Geral Percentual</td>
                         <td>
-                            <mat-form-field>
-                                <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let adubo of aduboList" [value]="adubo">
-                                        {{adubo.nome}}</mat-option>
-                                </mat-select>
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td>
-                            <mat-slider></mat-slider>
+                            {{frm.value.receitaFonteFosforoPercTotal}}%
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <mat-form-field>
-                                <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let adubo of aduboList" [value]="adubo">
-                                        {{adubo.nome}}</mat-option>
-                                </mat-select>
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td>
-                            <mat-slider></mat-slider>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <mat-form-field>
-                                <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let adubo of aduboList" [value]="adubo">
-                                        {{adubo.nome}}</mat-option>
-                                </mat-select>
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td>
-                            <mat-slider></mat-slider>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p>
-            <table class="table m-4">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col" class="text-center" colspan="2">
-                            ESCOLHA O ADUBO FONTE DE NITROGÊNIO E DIGA O PERCENTUAL QUE CABERÁ A CADA ADUBO
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <mat-form-field>
-                                <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let nitrogenio of nitrogenioList" [value]="nitrogenio">
-                                        {{nitrogenio.nome}}</mat-option>
-                                </mat-select>
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td>
-                            <mat-slider></mat-slider>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <mat-form-field>
-                                <mat-select [compareWith]="idListComparar">
-                                    <mat-option *ngFor="let nitrogenio of nitrogenioList" [value]="nitrogenio">
-                                        {{nitrogenio.nome}}</mat-option>
-                                </mat-select>
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td>
-                            <mat-slider></mat-slider>
-                        </td>
-                    </tr>
-                </tbody>
+                </tfoot>
             </table>
             <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p>
 
-            <table>
-                <tr>
-                    <td>Nutrientes</td>
-                    <td>N</td>
-                    <td>P2O5</td>
-                    <td>K2O</td>
-                </tr>
-                <tr>
-                    <td>Demanda (g/planta)</td>
-                    <td>300,00</td>
-                    <td>300,00</td>
-                    <td>70,00</td>
-                </tr>
-                <tr>
-                    <td>Excesso ou déficit (g/planta)</td>
-                    <td>0,00</td>
-                    <td>0,00</td>
-                    <td>0,00</td>
-                </tr>
+            <table class="table m-4">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" class="text-center" colspan="4">
+                            ESCOLHA O ADUBO FONTE DE POTÁSSIO E DIGA O PERCENTUAL QUE CABERÁ A CADA ADUBO
+                            <!-- FRZ -->
+                        </th>
+                    </tr>
+                </thead>
+                <tbody formArrayName="receitaFontePotassioList">
+                    <ng-template ngFor let-receitaFontePotassio
+                        [ngForOf]="frm?.get('receitaFontePotassioList')['controls']" let-i="index" let-f="first"
+                        let-l="last">
+                        <tr [formGroupName]="i">
+                            <td *ngIf="!l">
+                                {{receitaFontePotassio.value.fonteMateriaOrganica.descricao}}
+                            </td>
+                            <td *ngIf="l">
+                                <mat-form-field>
+                                    <mat-select [compareWith]="idListComparar" formControlName="fonteMateriaOrganica">
+                                        <mat-option
+                                            *ngFor="let fontePotassio of fontePotassioList | callback : filtrafontePotassio : [frm] "
+                                            [value]="fontePotassio">
+                                            {{fontePotassio.descricao}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-label *ngIf="receitaFontePotassio?.value.fontePotassio?.quantidadeQuiloCova">
+                                    Quantidade na Cova:
+                                    {{receitaFontePotassio?.value.fontePotassio?.quantidadeQuiloCova}} kls
+                                </mat-label>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <mat-label>Valor</mat-label>
+                                    <input matInput type="number" class="text-right" formControlName="valor" step="1"
+                                        min="0" max="100">
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                                <mat-slider formControlName="valor"></mat-slider>
+                                %
+                            </td>
+                            <td>
+                                <button mat-button color="warn" (click)="excluirFontePotassio(i)" *ngIf="!f && l">
+                                    Excluir
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <tr *ngIf="(fontePotassioList | callback : filtrafontePotassio : [frm])?.length > 1">
+                        <td colspan="4">
+                            <button mat-button color="warn" (click)="inserirFontePotassio()"
+                                [disabled]="frm?.get('receitaFontePotassioList').invalid">
+                                Incluir
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr
+                        [ngClass]="frm.value.receitaFontePotassioPercTotal < 100 ? 'table-danger' : frm.value.receitaFontePotassioPercTotal > 100 ? 'table-warning' : frm.value.receitaFontePotassioPercTotal === 100 ? 'table-success' : ''">
+                        <td colspan="2">Total Geral Percentual</td>
+                        <td>
+                            {{frm.value.receitaFontePotassioPercTotal}}%
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p>
+
+            <table class="table m-4">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" class="text-center" colspan="4">
+                            ESCOLHA O ADUBO FONTE DE NITROGÊNIO E DIGA O PERCENTUAL QUE CABERÁ A CADA ADUBO
+                            <!-- FRZ -->
+                        </th>
+                    </tr>
+                </thead>
+                <tbody formArrayName="receitaFonteNitrogenioList">
+                    <ng-template ngFor let-receitaFonteNitrogenio
+                        [ngForOf]="frm?.get('receitaFonteNitrogenioList')['controls']" let-i="index" let-f="first"
+                        let-l="last">
+                        <tr [formGroupName]="i">
+                            <td *ngIf="!l">
+                                {{receitaFonteNitrogenio.value.fonteMateriaOrganica.descricao}}
+                            </td>
+                            <td *ngIf="l">
+                                <mat-form-field>
+                                    <mat-select [compareWith]="idListComparar" formControlName="fonteMateriaOrganica">
+                                        <mat-option
+                                            *ngFor="let fonteNitrogenio of fonteNitrogenioList | callback : filtrafonteNitrogenio : [frm] "
+                                            [value]="fonteNitrogenio">
+                                            {{fonteNitrogenio.descricao}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-label *ngIf="receitaFonteNitrogenio?.value.fonteNitrogenio?.quantidadeQuiloCova">
+                                    Quantidade na Cova:
+                                    {{receitaFonteNitrogenio?.value.fonteNitrogenio?.quantidadeQuiloCova}} kls
+                                </mat-label>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <mat-label>Valor</mat-label>
+                                    <input matInput type="number" class="text-right" formControlName="valor" step="1"
+                                        min="0" max="100">
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                                <mat-slider formControlName="valor"></mat-slider>
+                                %
+                            </td>
+                            <td>
+                                <button mat-button color="warn" (click)="excluirFonteNitrogenio(i)" *ngIf="!f && l">
+                                    Excluir
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <tr *ngIf="(fonteNitrogenioList | callback : filtrafonteNitrogenio : [frm])?.length > 1">
+                        <td colspan="4">
+                            <button mat-button color="warn" (click)="inserirFonteNitrogenio()"
+                                [disabled]="frm?.get('receitaFonteNitrogenioList').invalid">
+                                Incluir
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr
+                        [ngClass]="frm.value.receitaFonteNitrogenioPercTotal < 100 ? 'table-danger' : frm.value.receitaFonteNitrogenioPercTotal > 100 ? 'table-warning' : frm.value.receitaFonteNitrogenioPercTotal === 100 ? 'table-success' : ''">
+                        <td colspan="2">Total Geral Percentual</td>
+                        <td>
+                            {{frm.value.receitaFonteNitrogenioPercTotal}}%
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p>
+
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th><label>ESCOLHA A FORMA DE APLICAÇÃO DOS ADUBOS</label></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <mat-radio-group style="display: flex; flex-direction: column; margin: 15px 0; "
+                                formControlName="formaAplicacaoAdubo">
+                                <mat-radio-button style="margin: 5px;"
+                                    *ngFor="let item of formaAplicacaoAduboList"
+                                    [value]="item">
+                                    {{item.nome}}
+                                </mat-radio-button>
+                            </mat-radio-group>
+                            {{frm.value.formaAplicacaoAdubo | json}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Nutrientes</th>
+                        <th>N</th>
+                        <th>P2O5</th>
+                        <th>K2O</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Demanda (g/planta)</td>
+                        <td>300,00</td>
+                        <td>300,00</td>
+                        <td>70,00</td>
+                    </tr>
+                    <tr>
+                        <td>Excesso ou déficit (g/planta)</td>
+                        <td>0,00</td>
+                        <td>0,00</td>
+                        <td>0,00</td>
+                    </tr>
+                </tbody>
             </table>
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>
@@ -974,55 +1139,77 @@
                     <mat-icon>date_range</mat-icon>
                 </mat-panel-description>
             </mat-expansion-panel-header>
+
             <table class="table m-4">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center" colspan="2">
+                        <th scope="col" class="text-center" colspan="4">
                             ESCOLHA O ADUBO FONTE DE MICRONUTRIENTE
+                            <!-- FRZ -->
                         </th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <mat-form-field>
-                                <mat-select [compareWith]="idListComparar">
-                                    <mat-option
-                                        *ngFor="let microNutriente of aduboList | callback : filtraAduboTipo : ['micronutriente']"
-                                        [value]="microNutriente">
-                                        {{microNutriente.nome}}</mat-option>
-                                </mat-select>
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <mat-form-field>
-                                <mat-select [compareWith]="idListComparar">
-                                    <mat-option
-                                        *ngFor="let microNutriente of aduboList | callback : filtraAduboTipo : ['micronutriente']"
-                                        [value]="microNutriente">
-                                        {{microNutriente.nome}}</mat-option>
-                                </mat-select>
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <mat-form-field>
-                                <mat-select [compareWith]="idListComparar">
-                                    <mat-option
-                                        *ngFor="let microNutriente of aduboList | callback : filtraAduboTipo : ['micronutriente']"
-                                        [value]="microNutriente">
-                                        {{microNutriente.nome}}</mat-option>
-                                </mat-select>
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
+                <tbody formArrayName="receitaFonteMicroNutrienteList">
+                    <ng-template ngFor let-receitaFonteMicroNutriente
+                        [ngForOf]="frm?.get('receitaFonteMicroNutrienteList')['controls']" let-i="index" let-f="first"
+                        let-l="last">
+                        <tr [formGroupName]="i">
+                            <td *ngIf="!l">
+                                {{receitaFonteMicroNutriente.value.fonteMateriaOrganica.nome}}
+                            </td>
+                            <td *ngIf="l">
+                                <mat-form-field>
+                                    <mat-select [compareWith]="idListComparar" formControlName="fonteMateriaOrganica">
+                                        <mat-option
+                                            *ngFor="let fonteMicroNutriente of fonteMicroNutrienteList | callback : filtrafonteMicroNutriente : [frm] "
+                                            [value]="fonteMicroNutriente">
+                                            {{fonteMicroNutriente.nome}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-label
+                                    *ngIf="receitaFonteMicroNutriente?.value.fonteMicroNutriente?.quantidadeQuiloCova">
+                                    Quantidade na Cova:
+                                    {{receitaFonteMicroNutriente?.value.fonteMicroNutriente?.quantidadeQuiloCova}} kls
+                                </mat-label>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <mat-label>Valor</mat-label>
+                                    <input matInput type="number" class="text-right" formControlName="valor" step="1"
+                                        min="0" max="100">
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                                <mat-slider formControlName="valor"></mat-slider>
+                                %
+                            </td>
+                            <td>
+                                <button mat-button color="warn" (click)="excluirFonteMicroNutriente(i)" *ngIf="!f && l">
+                                    Excluir
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <tr *ngIf="(fonteMicroNutrienteList | callback : filtrafonteMicroNutriente : [frm])?.length > 1">
+                        <td colspan="4">
+                            <button mat-button color="warn" (click)="inserirFonteMicroNutriente()"
+                                [disabled]="frm?.get('receitaFonteMicroNutrienteList').invalid">
+                                Incluir
+                            </button>
                         </td>
                     </tr>
                 </tbody>
+                <tfoot>
+                    <tr
+                        [ngClass]="frm.value.receitaFonteMicroNutrientePercTotal < 100 ? 'table-danger' : frm.value.receitaFonteMicroNutrientePercTotal > 100 ? 'table-warning' : frm.value.receitaFonteMicroNutrientePercTotal === 100 ? 'table-success' : ''">
+                        <td colspan="2">Total Geral Percentual</td>
+                        <td>
+                            {{frm.value.receitaFonteMicroNutrientePercTotal}}%
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
             <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p>
 
