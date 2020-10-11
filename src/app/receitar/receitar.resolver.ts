@@ -12,7 +12,6 @@ export class ReceitarResolver implements Resolve<any> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    // const culturaList = this.service.culturaList();
     return {
       principal: null,
       apoio: {

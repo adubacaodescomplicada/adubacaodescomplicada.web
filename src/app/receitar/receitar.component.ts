@@ -82,9 +82,9 @@ export class ReceitarComponent implements OnInit {
         this.fonteMicroNutrienteList = lista.filter(e => e.codigo === '').flatMap(e => e.aduboGarantiaList.flat(a => a.adubo));
       });
       this.formaAplicacaoAduboList = [
-        { id: 1, nome: 'Sulco', fatorEficienciaN: 0.5, fatorEficienciaP205: 0.15, fatorEficienciaK20: 0.7 },
-        { id: 2, nome: 'A lanço', fatorEficienciaN: 0.65, fatorEficienciaP205: 0.2, fatorEficienciaK20: 0.75 },
-        { id: 3, nome: 'Gotejamento ou microaspersão', fatorEficienciaN: 0.8, fatorEficienciaP205: 0.3, fatorEficienciaK20: 0.85 }
+        { id: 1, nome: 'Sulco', eficienciaNitrogenio: 0.5, eficienciaFosforo: 0.15, eficienciaPotassio: 0.7 },
+        { id: 2, nome: 'A lanço', eficienciaNitrogenio: 0.65, eficienciaFosforo: 0.2, eficienciaPotassio: 0.75 },
+        { id: 3, nome: 'Gotejamento ou microaspersão', eficienciaNitrogenio: 0.8, eficienciaFosforo: 0.3, eficienciaPotassio: 0.85 }
       ];
     });
     if (!this.loginService.estaLogado) {

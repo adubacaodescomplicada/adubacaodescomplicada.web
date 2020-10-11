@@ -1,3 +1,4 @@
+import { CulturaTipo } from './../modelo/entidade/cultura.tipo';
 import { ReceitaFonteMateriaOrganica } from './receita.fonte.materia.organica';
 import { Cultura } from './../modelo/entidade/cultura';
 import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
@@ -47,6 +48,104 @@ const faixaZinco = [
     [1.6, null, 'adequado']
 ];
 
+class NecessidadeAduboFormacao {
+    idade: number;
+    classificacao: string;
+    necessidadeNitrogenio: number;
+    necessidadeFosforo: number;
+    necessidadePotassio: number;
+}
+
+class NecessidadeAduboProducao {
+    minimo: number;
+    maximo: number;
+    classificacao: string;
+    necessidadeNitrogenio: number;
+    necessidadeFosforo: number;
+    necessidadePotassio: number;
+}
+
+const necessidadeAduboFormacaoList: NecessidadeAduboFormacao[] = [
+    { idade: 0, classificacao: 'baixo', necessidadeNitrogenio: 50, necessidadeFosforo: 10, necessidadePotassio: 10 },
+    { idade: 0, classificacao: 'medio', necessidadeNitrogenio: 50, necessidadeFosforo: 10, necessidadePotassio: 10 },
+    { idade: 0, classificacao: 'adequado', necessidadeNitrogenio: 50, necessidadeFosforo: 10, necessidadePotassio: 10 },
+    { idade: 1, classificacao: 'baixo', necessidadeNitrogenio: 60, necessidadeFosforo: 120, necessidadePotassio: 80 },
+    { idade: 1, classificacao: 'medio', necessidadeNitrogenio: 60, necessidadeFosforo: 80, necessidadePotassio: 50 },
+    { idade: 1, classificacao: 'adequado', necessidadeNitrogenio: 60, necessidadeFosforo: 40, necessidadePotassio: 30 },
+    { idade: 2, classificacao: 'baixo', necessidadeNitrogenio: 120, necessidadeFosforo: 180, necessidadePotassio: 120 },
+    { idade: 2, classificacao: 'medio', necessidadeNitrogenio: 120, necessidadeFosforo: 120, necessidadePotassio: 80 },
+    { idade: 2, classificacao: 'adequado', necessidadeNitrogenio: 120, necessidadeFosforo: 60, necessidadePotassio: 40 },
+    { idade: 3, classificacao: 'baixo', necessidadeNitrogenio: 200, necessidadeFosforo: 240, necessidadePotassio: 160 },
+    { idade: 3, classificacao: 'medio', necessidadeNitrogenio: 200, necessidadeFosforo: 160, necessidadePotassio: 110 },
+    { idade: 3, classificacao: 'adequado', necessidadeNitrogenio: 200, necessidadeFosforo: 80, necessidadePotassio: 50 },
+    { idade: 4, classificacao: 'baixo', necessidadeNitrogenio: 300, necessidadeFosforo: 300, necessidadePotassio: 200 },
+    { idade: 4, classificacao: 'medio', necessidadeNitrogenio: 300, necessidadeFosforo: 200, necessidadePotassio: 130 },
+    { idade: 4, classificacao: 'adequado', necessidadeNitrogenio: 300, necessidadeFosforo: 100, necessidadePotassio: 70 }
+];
+
+const necessidadeAduboProducaoList: NecessidadeAduboProducao[] = [
+    {
+        minimo: null, maximo: 6, classificacao: 'baixo',
+        necessidadeNitrogenio: 35000, necessidadeFosforo: 30000, necessidadePotassio: 60000
+    },
+    {
+        minimo: null, maximo: 6, classificacao: 'medio',
+        necessidadeNitrogenio: 35000, necessidadeFosforo: 20000, necessidadePotassio: 40000
+    },
+    {
+        minimo: null, maximo: 6, classificacao: 'adequado',
+        necessidadeNitrogenio: 35000, necessidadeFosforo: 0, necessidadePotassio: 30000
+    },
+    {
+        minimo: 6, maximo: 12, classificacao: 'baixo',
+        necessidadeNitrogenio: 55000, necessidadeFosforo: 50000, necessidadePotassio: 95000
+    },
+    {
+        minimo: 6, maximo: 12, classificacao: 'medio',
+        necessidadeNitrogenio: 55000, necessidadeFosforo: 30000, necessidadePotassio: 60000
+    },
+    {
+        minimo: 6, maximo: 12, classificacao: 'adequado',
+        necessidadeNitrogenio: 55000, necessidadeFosforo: 0, necessidadePotassio: 40000
+    },
+    {
+        minimo: 12, maximo: 20, classificacao: 'baixo',
+        necessidadeNitrogenio: 100000, necessidadeFosforo: 90000, necessidadePotassio: 150000
+    },
+    {
+        minimo: 12, maximo: 20, classificacao: 'medio',
+        necessidadeNitrogenio: 100000, necessidadeFosforo: 60000, necessidadePotassio: 100000
+    },
+    {
+        minimo: 12, maximo: 20, classificacao: 'adequado',
+        necessidadeNitrogenio: 100000, necessidadeFosforo: 15000, necessidadePotassio: 70000
+    },
+    {
+        minimo: 20, maximo: 30, classificacao: 'baixo',
+        necessidadeNitrogenio: 150000, necessidadeFosforo: 130000, necessidadePotassio: 210000
+    },
+    {
+        minimo: 20, maximo: 30, classificacao: 'medio',
+        necessidadeNitrogenio: 150000, necessidadeFosforo: 90000, necessidadePotassio: 140000
+    },
+    {
+        minimo: 20, maximo: 30, classificacao: 'adequado',
+        necessidadeNitrogenio: 150000, necessidadeFosforo: 20000, necessidadePotassio: 100000
+    },
+    {
+        minimo: 30, maximo: null, classificacao: 'baixo',
+        necessidadeNitrogenio: 200000, necessidadeFosforo: 170000, necessidadePotassio: 270000
+    },
+    {
+        minimo: 30, maximo: null, classificacao: 'medio',
+        necessidadeNitrogenio: 200000, necessidadeFosforo: 120000, necessidadePotassio: 180000
+    },
+    {
+        minimo: 30, maximo: null, classificacao: 'adequado',
+        necessidadeNitrogenio: 200000, necessidadeFosforo: 25000, necessidadePotassio: 130000
+    },
+];
+
 @Injectable({ providedIn: 'root' })
 export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Receita, Receita> {
 
@@ -66,6 +165,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             culturaTipo: [entidade.culturaTipo, [Validators.required]],
             cultura: [entidade.cultura, [Validators.required]],
             idadePlantio: [entidade.idadePlantio, []],
+            produtividadeEsperada: [entidade.produtividadeEsperada, []],
             receitaAnaliseSoloParametroList: this.criarFormReceitaAnaliseSoloParametroList(entidade.receitaAnaliseSoloParametroList),
             calcario: [entidade.calcario, []],
             calcarioPercentual: [entidade.calcarioPercentual, []],
@@ -91,10 +191,18 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             receitaFonteMicroNutrientePercTotal: [entidade.receitaFonteMicroNutrientePercTotal, []],
 
             formaAplicacaoAdubo: [entidade.formaAplicacaoAdubo, []],
+
+            necessidadeDeNitrogenio: [, []],
+            necessidadeDeFosforo: [, []],
+            necessidadeDePotassio: [, []],
+
+            eficienciaDeNitrogenio: [, []],
+            eficienciaDeFosforo: [, []],
+            eficienciaDePotassio: [, []],
         });
 
         result.get('cultura').valueChanges.subscribe((c: Cultura) => {
-            result.get('espacamento.duplo').setValue(c.espacamentoDuplo === 'S' ? true : false);
+            result.get('espacamento.duplo')?.setValue(c?.espacamentoDuplo === 'S' ? true : false);
         });
 
         result.get('culturaTipo').setValue('F');
@@ -349,6 +457,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         this.somaReceitaFontePotassioPercTotal(ctrl, receita);
         this.somaReceitaFonteNitrogenioPercTotal(ctrl, receita);
         this.somaReceitaFonteMicroNutrientePercTotal(ctrl, receita);
+        this.necessidadeAdubo(ctrl, receita);
     }
 
     private somaReceitaFonteMateriaOrganicaPercTotal(ctrl: FormGroup, receita: Receita) {
@@ -374,6 +483,71 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
     private somaReceitaFonteMicroNutrientePercTotal(ctrl: FormGroup, receita: Receita) {
         const result = receita.receitaFonteMicroNutrienteList?.map(r => r.valor).reduce((a, b) => a + b);
         ctrl.get('receitaFonteMicroNutrientePercTotal').setValue(result, { emitEvent: false });
+    }
+
+    private necessidadeAdubo(ctrl: FormGroup, receita: Receita) {
+        let necessidadeDeNitrogenioTemp = null;
+        let necessidadeDeFosforoTemp = null;
+        let necessidadeDePotassioTemp = null;
+        if (receita.culturaTipo === 'F') {
+            if (receita.idadePlantio) {
+                const fosforo = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'fosforo');
+                const potassio = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'potassio');
+                for (const necessidade of necessidadeAduboFormacaoList) {
+                    if (necessidade.idade === receita.idadePlantio.quantidade) {
+                        necessidadeDeNitrogenioTemp = necessidade.necessidadeNitrogenio;
+                        if (necessidade.classificacao === fosforo?.get('avaliacao').value) {
+                            necessidadeDeFosforoTemp = necessidade.necessidadeFosforo;
+                        }
+                        if (necessidade.classificacao === potassio?.get('avaliacao').value) {
+                            necessidadeDePotassioTemp = necessidade.necessidadePotassio;
+                        }
+                    }
+                }
+            }
+        } else if (receita.culturaTipo === 'P') {
+            if (receita.produtividadeEsperada > 0) {
+                const fosforo = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'fosforo');
+                const potassio = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'potassio');
+                for (const necessidade of necessidadeAduboProducaoList) {
+                    if ((necessidade.minimo ? receita.produtividadeEsperada >= necessidade.minimo : true) &&
+                        (necessidade.maximo ? receita.produtividadeEsperada < necessidade.maximo : true)) {
+                        necessidadeDeNitrogenioTemp = necessidade.necessidadeNitrogenio;
+                        if (necessidade.classificacao === fosforo?.get('avaliacao').value) {
+                            necessidadeDeFosforoTemp = necessidade.necessidadeFosforo;
+                        }
+                        if (necessidade.classificacao === potassio?.get('avaliacao').value) {
+                            necessidadeDePotassioTemp = necessidade.necessidadePotassio;
+                        }
+                    }
+                }
+            }
+        }
+        ctrl.get('necessidadeDeNitrogenio').setValue(necessidadeDeNitrogenioTemp, { emitEvent: false });
+        ctrl.get('necessidadeDeFosforo').setValue(necessidadeDeFosforoTemp, { emitEvent: false });
+        ctrl.get('necessidadeDePotassio').setValue(necessidadeDePotassioTemp, { emitEvent: false });
+
+        let eficienciaDeNitrogenioTemp = null;
+        let eficienciaDeFosforoTemp = null;
+        let eficienciaDePotassioTemp = null;
+        const numeroPlantasHectare = receita.culturaTipo === CulturaTipo.Formacao ? 1 : receita.espacamento.quantidadePlanta;
+        if (receita.formaAplicacaoAdubo && numeroPlantasHectare) {
+            if (necessidadeDeNitrogenioTemp) {
+                eficienciaDeNitrogenioTemp = (necessidadeDeNitrogenioTemp / numeroPlantasHectare) /
+                    receita.formaAplicacaoAdubo.eficienciaNitrogenio;
+            }
+            if (necessidadeDeFosforoTemp) {
+                eficienciaDeFosforoTemp = (necessidadeDeFosforoTemp / numeroPlantasHectare) /
+                    receita.formaAplicacaoAdubo.eficienciaFosforo;
+            }
+            if (necessidadeDePotassioTemp) {
+                eficienciaDePotassioTemp = (necessidadeDePotassioTemp / numeroPlantasHectare) /
+                    receita.formaAplicacaoAdubo.eficienciaPotassio;
+            }
+        }
+        ctrl.get('eficienciaDeNitrogenio').setValue(eficienciaDeNitrogenioTemp, { emitEvent: false });
+        ctrl.get('eficienciaDeFosforo').setValue(eficienciaDeFosforoTemp, { emitEvent: false });
+        ctrl.get('eficienciaDePotassio').setValue(eficienciaDePotassioTemp, { emitEvent: false });
     }
 
     private necessidadeCalagemTHaCalc(ctrl: FormGroup, receita: Receita) {

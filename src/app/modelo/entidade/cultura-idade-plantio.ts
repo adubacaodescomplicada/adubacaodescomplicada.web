@@ -4,7 +4,7 @@ export class CulturaIdadePlantio implements EntidadeId {
 
     public id: number;
     public nome: string;
-    public quantidade: string;
+    public quantidade: number;
     public unidade: string;
 
 }
