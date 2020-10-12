@@ -1131,26 +1131,7 @@
                     </tr>
                 </tbody>
             </table>
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Nutrientes</th>
-                        <th>Boro</th>
-                        <th>Cobre</th>
-                        <th>Manganês</th>
-                        <th>Zinco</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Demanda (g/planta)</td>
-                        <td>{{frm.value.necessidadeDeBoro}}</td>
-                        <td>{{frm.value.necessidadeDeCobre}}</td>
-                        <td>{{frm.value.necessidadeDeManganes}}</td>
-                        <td>{{frm.value.necessidadeDeZinco}}</td>
-                    </tr>
-                </tbody>
-            </table>
+
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>
                 <button mat-button color="primary" (click)="nextStep()">Próximo</button>
@@ -1241,29 +1222,34 @@
             </table>
             <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p>
 
-            <table>
-                <tr>
-                    <td>Nutrientes</td>
-                    <td>B</td>
-                    <td>Cu</td>
-                    <td>Mn</td>
-                    <td>Zn</td>
-                </tr>
-                <tr>
-                    <td>Demanda (g/planta)</td>
-                    <td>16,00</td>
-                    <td>0,00</td>
-                    <td>0,00</td>
-                    <td>0,00</td>
-                </tr>
-                <tr>
-                    <td>Excesso ou déficit (g/planta)</td>
-                    <td>0,00</td>
-                    <td>0,00</td>
-                    <td>0,00</td>
-                    <td>0,00</td>
-                </tr>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Nutrientes</th>
+                        <th>Boro</th>
+                        <th>Cobre</th>
+                        <th>Manganês</th>
+                        <th>Zinco</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Demanda (g/planta)</td>
+                        <td>{{frm.value.necessidadeDeBoro}}</td>
+                        <td>{{frm.value.necessidadeDeCobre}}</td>
+                        <td>{{frm.value.necessidadeDeManganes}}</td>
+                        <td>{{frm.value.necessidadeDeZinco}}</td>
+                    </tr>
+                    <tr>
+                        <td>Excesso ou déficit (g/planta)</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </tbody>
             </table>
+
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>
                 <button mat-button color="primary" (click)="nextStep()">Próximo</button>
