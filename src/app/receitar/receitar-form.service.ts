@@ -199,6 +199,11 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             eficienciaDeNitrogenio: [, []],
             eficienciaDeFosforo: [, []],
             eficienciaDePotassio: [, []],
+
+            necessidadeDeBoro: [entidade.necessidadeDeBoro, []],
+            necessidadeDeCobre: [entidade.necessidadeDeCobre, []],
+            necessidadeDeManganes: [entidade.necessidadeDeManganes, []],
+            necessidadeDeZinco: [entidade.necessidadeDeZinco, []],
         });
 
         result.get('cultura').valueChanges.subscribe((c: Cultura) => {
@@ -548,6 +553,28 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         ctrl.get('eficienciaDeNitrogenio').setValue(eficienciaDeNitrogenioTemp, { emitEvent: false });
         ctrl.get('eficienciaDeFosforo').setValue(eficienciaDeFosforoTemp, { emitEvent: false });
         ctrl.get('eficienciaDePotassio').setValue(eficienciaDePotassioTemp, { emitEvent: false });
+
+        let necessidadeDeBoroTemp = null;
+        let necessidadeDeCobreTemp = null;
+        let necessidadeDeManganesTemp = null;
+        let necessidadeDeZincoTemp = null;
+        if (this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'boro').get('avaliacao')?.value === 'baixo') {
+            necessidadeDeBoroTemp = 2;
+        }
+        if (this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'cobre').get('avaliacao')?.value === 'baixo') {
+            necessidadeDeCobreTemp = 2;
+        }
+        if (this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'manganes').get('avaliacao')?.value === 'baixo') {
+            necessidadeDeManganesTemp = 6;
+        }
+        if (this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'zinco').get('avaliacao')?.value === 'baixo') {
+            necessidadeDeZincoTemp = 6;
+        }
+
+        ctrl.get('necessidadeDeBoro').setValue(necessidadeDeBoroTemp, { emitEvent: false });
+        ctrl.get('necessidadeDeCobre').setValue(necessidadeDeCobreTemp, { emitEvent: false });
+        ctrl.get('necessidadeDeManganes').setValue(necessidadeDeManganesTemp, { emitEvent: false });
+        ctrl.get('necessidadeDeZinco').setValue(necessidadeDeZincoTemp, { emitEvent: false });
     }
 
     private necessidadeCalagemTHaCalc(ctrl: FormGroup, receita: Receita) {

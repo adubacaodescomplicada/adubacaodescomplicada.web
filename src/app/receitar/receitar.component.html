@@ -1131,6 +1131,26 @@
                     </tr>
                 </tbody>
             </table>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Nutrientes</th>
+                        <th>Boro</th>
+                        <th>Cobre</th>
+                        <th>Manganês</th>
+                        <th>Zinco</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Demanda (g/planta)</td>
+                        <td>{{frm.value.necessidadeDeBoro}}</td>
+                        <td>{{frm.value.necessidadeDeCobre}}</td>
+                        <td>{{frm.value.necessidadeDeManganes}}</td>
+                        <td>{{frm.value.necessidadeDeZinco}}</td>
+                    </tr>
+                </tbody>
+            </table>
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>
                 <button mat-button color="primary" (click)="nextStep()">Próximo</button>

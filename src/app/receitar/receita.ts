@@ -28,9 +28,10 @@ export class Receita {
     necessidadeCalcarioCorrigido: number;
     necessidadePoDeRocha: number;
     necessidadePoDeRochaCorrigido: number;
+    necessidadeDeGesso: number;
+
     receitaAmostragemSolo: ReceitaAmostragemSolo;
     espacamento: Espacamento;
-    necessidadeDeGesso: number;
 
     receitaFonteMateriaOrganicaList: ReceitaFonteMateriaOrganica[];
     receitaFonteMateriaOrganicaPercTotal: number;
@@ -45,5 +46,11 @@ export class Receita {
     receitaFonteMicroNutrienteList: ReceitaFonteMateriaOrganica[];
     receitaFonteMicroNutrientePercTotal: number;
 
-     formaAplicacaoAdubo: FormaAplicacaoAdubo;
+    formaAplicacaoAdubo: FormaAplicacaoAdubo;
+
+    necessidadeDeBoro: number;
+    necessidadeDeCobre: number;
+    necessidadeDeManganes: number;
+    necessidadeDeZinco: number;
+
 }
