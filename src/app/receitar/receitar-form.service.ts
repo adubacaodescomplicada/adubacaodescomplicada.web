@@ -496,7 +496,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         let necessidadeDePotassioTemp = null;
         if (receita.culturaTipo === 'F') {
             if (receita.idadePlantio) {
-                const fosforo = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'fosforo');
+                const fosforo = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'fosforo_melich');
                 const potassio = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'potassio');
                 for (const necessidade of necessidadeAduboFormacaoList) {
                     if (necessidade.idade === receita.idadePlantio.quantidade) {
@@ -512,7 +512,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             }
         } else if (receita.culturaTipo === 'P') {
             if (receita.produtividadeEsperada > 0) {
-                const fosforo = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'fosforo');
+                const fosforo = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'fosforo_melich');
                 const potassio = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'potassio');
                 for (const necessidade of necessidadeAduboProducaoList) {
                     if ((necessidade.minimo ? receita.produtividadeEsperada >= necessidade.minimo : true) &&
@@ -645,7 +645,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
     private receitaAnaliseSoloParametroCalcAvaliacao(ctrl: FormGroup, receita: Receita) {
 
         const argila = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'argila');
-        const fosforo = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'fosforo');
+        const fosforo = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'fosforo_melich');
         const potassio = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'potassio');
         const boro = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'boro');
         const cobre = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'cobre');
