@@ -1,4 +1,3 @@
-import { CulturaTipo } from './../modelo/entidade/cultura.tipo';
 import { ReceitaFonteMateriaOrganica } from './receita.fonte.materia.organica';
 import { Cultura } from './../modelo/entidade/cultura';
 import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
@@ -11,6 +10,7 @@ import { ReceitaFiltroDTO } from './receita-filtro-dto';
 import { Espacamento } from '../modelo/entidade/espacamento';
 import { distinctUntilChanged, pairwise } from 'rxjs/operators';
 import { ReceitaAmostragemSolo } from '../modelo/entidade/receita-amostragem-solo';
+import { ReceitaFonteAdubo } from './receita.fonte.adubo';
 
 const faixaArgilaFosforo = [
     [null, 16, [[null, 12, 'baixo'], [12, 18, 'medio'], [18, null, 'adequado']]],
@@ -181,12 +181,13 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             receitaFonteMateriaOrganicaList: this.criarFormReceitaFonteMateriaOrganicaList(entidade.receitaFonteMateriaOrganicaList),
             receitaFonteMateriaOrganicaPercTotal: [entidade.receitaFonteMateriaOrganicaPercTotal, []],
 
-            receitaFonteFosforoList: this.criarFormReceitaFonteMateriaOrganicaList(entidade.receitaFonteFosforoList),
+            receitaFonteFosforoList: this.criarFormReceitaFonteAduboList(entidade.receitaFonteFosforoList),
             receitaFonteFosforoPercTotal: [entidade.receitaFonteFosforoPercTotal, []],
-            receitaFontePotassioList: this.criarFormReceitaFonteMateriaOrganicaList(entidade.receitaFontePotassioList),
+            receitaFontePotassioList: this.criarFormReceitaFonteAduboList(entidade.receitaFontePotassioList),
             receitaFontePotassioPercTotal: [entidade.receitaFontePotassioPercTotal, []],
-            receitaFonteNitrogenioList: this.criarFormReceitaFonteMateriaOrganicaList(entidade.receitaFonteNitrogenioList),
+            receitaFonteNitrogenioList: this.criarFormReceitaFonteAduboList(entidade.receitaFonteNitrogenioList),
             receitaFonteNitrogenioPercTotal: [entidade.receitaFonteNitrogenioPercTotal, []],
+
             receitaFonteMicroNutrienteList: this.criarFormReceitaFonteMateriaOrganicaList(entidade.receitaFonteMicroNutrienteList),
             receitaFonteMicroNutrientePercTotal: [entidade.receitaFonteMicroNutrientePercTotal, []],
 
@@ -199,6 +200,10 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             eficienciaDeNitrogenio: [, []],
             eficienciaDeFosforo: [, []],
             eficienciaDePotassio: [, []],
+
+            totalExcessoDeficitFosforo: [, []],
+            totalExcessoDeficitPotassio: [, []],
+            totalExcessoDeficitNitrogenio: [, []],
 
             necessidadeDeBoro: [entidade.necessidadeDeBoro, []],
             necessidadeDeCobre: [entidade.necessidadeDeCobre, []],
@@ -435,6 +440,58 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
 
         return result;
     }
+    public criarFormReceitaFonteAduboList(lista: ReceitaFonteAdubo[]): FormArray {
+        if (!lista) {
+            lista = [];
+            lista.push(new ReceitaFonteAdubo());
+        }
+        const listaCtrl = [];
+        for (const ent of lista) {
+            listaCtrl.push(this.criarFormReceitaFonteAdubo(ent));
+        }
+        const result = this.fb.array(listaCtrl, [Validators.required]);
+
+        return result;
+    }
+
+    public criarFormReceitaFonteAdubo(entidade: ReceitaFonteAdubo): FormGroup {
+        if (!entidade) {
+            return null;
+        }
+        const result = this.fb.group({
+            id: [entidade.id, []],
+            adubo: [entidade.adubo, [Validators.required]],
+            valor: [entidade.valor ? entidade.valor : 0, [Validators.required, Validators.min(0)]],
+            totalFosforo: [, []],
+            totalPotassio: [, []],
+            totalNitrogenio: [, []],
+        });
+
+        result.get('valor').valueChanges.subscribe(value => {
+            result.get('valor').setValue(value, { onlySelf: true, emitEvent: false, emitModelToViewChange: true });
+        }, error => { }, () => { });
+
+        result.valueChanges.subscribe(value => {
+            let totalFosforo = null;
+            let totalPotassio = null;
+            let totalNitrogenio = null;
+            if (value.adubo?.aduboGarantiaList?.length) {
+                totalFosforo = 0;
+                totalPotassio = 0;
+                totalNitrogenio = 0;
+                for (const aduboGarantia of value.adubo?.aduboGarantiaList) {
+                    totalFosforo += aduboGarantia.garantia.codigo === 'P' ? aduboGarantia.valor : 0;
+                    totalPotassio +=  aduboGarantia.garantia.codigo === 'K' ? aduboGarantia.valor : 0;
+                    totalNitrogenio +=  aduboGarantia.garantia.codigo === 'N' ? aduboGarantia.valor : 0;
+                }
+            }
+            result.get('totalFosforo').setValue(totalFosforo, { emitEvent: false });
+            result.get('totalPotassio').setValue(totalPotassio, { emitEvent: false });
+            result.get('totalNitrogenio').setValue(totalNitrogenio, { emitEvent: false });
+        });
+
+        return result;
+    }
 
     public criarFormReceitaAnaliseSoloParametro(entidade: ReceitaAnaliseSoloParametro): FormGroup {
         if (!entidade) {
@@ -535,7 +592,10 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         let eficienciaDeNitrogenioTemp = null;
         let eficienciaDeFosforoTemp = null;
         let eficienciaDePotassioTemp = null;
-        const numeroPlantasHectare = receita.culturaTipo === CulturaTipo.Formacao ? 1 : receita.espacamento.quantidadePlanta;
+        const numeroPlantasHectare = receita.culturaTipo === 'F' ?
+            1 :
+            receita.espacamento.quantidadePlanta / receita.espacamento.area;
+
         if (receita.formaAplicacaoAdubo && numeroPlantasHectare) {
             if (necessidadeDeNitrogenioTemp) {
                 eficienciaDeNitrogenioTemp = (necessidadeDeNitrogenioTemp / numeroPlantasHectare) /
@@ -554,6 +614,42 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         ctrl.get('eficienciaDeFosforo').setValue(eficienciaDeFosforoTemp, { emitEvent: false });
         ctrl.get('eficienciaDePotassio').setValue(eficienciaDePotassioTemp, { emitEvent: false });
 
+
+        // identificar os nutrientes dos adubos informados
+        let totalExcessoDeficitFosforo = 0;
+        let totalExcessoDeficitPotassio = 0;
+        let totalExcessoDeficitNitrogenio = 0;
+        for (const item of receita.receitaFonteFosforoList) {
+            if (item.adubo?.aduboGarantiaList.length) {
+                for (const aduboGarantia of item.adubo?.aduboGarantiaList) {
+                    totalExcessoDeficitFosforo += (aduboGarantia.garantia.codigo === 'P' ? aduboGarantia.valor : 0) * (item.valor / 100);
+                    totalExcessoDeficitPotassio += (aduboGarantia.garantia.codigo === 'K' ? aduboGarantia.valor : 0) * (item.valor / 100);
+                    totalExcessoDeficitNitrogenio += (aduboGarantia.garantia.codigo === 'N' ? aduboGarantia.valor : 0) * (item.valor / 100);
+                }
+            }
+        }
+        for (const item of receita.receitaFontePotassioList) {
+            if (item.adubo?.aduboGarantiaList.length) {
+                for (const aduboGarantia of item.adubo?.aduboGarantiaList) {
+                    totalExcessoDeficitFosforo += (aduboGarantia.garantia.codigo === 'P' ? aduboGarantia.valor : 0) * (item.valor / 100);
+                    totalExcessoDeficitPotassio += (aduboGarantia.garantia.codigo === 'K' ? aduboGarantia.valor : 0) * (item.valor / 100);
+                    totalExcessoDeficitNitrogenio += (aduboGarantia.garantia.codigo === 'N' ? aduboGarantia.valor : 0) * (item.valor / 100);
+                }
+            }
+        }
+        for (const item of receita.receitaFonteNitrogenioList) {
+            if (item.adubo?.aduboGarantiaList.length) {
+                for (const aduboGarantia of item.adubo?.aduboGarantiaList) {
+                    totalExcessoDeficitFosforo += (aduboGarantia.garantia.codigo === 'P' ? aduboGarantia.valor : 0) * (item.valor / 100);
+                    totalExcessoDeficitPotassio += (aduboGarantia.garantia.codigo === 'K' ? aduboGarantia.valor : 0) * (item.valor / 100);
+                    totalExcessoDeficitNitrogenio += (aduboGarantia.garantia.codigo === 'N' ? aduboGarantia.valor : 0) * (item.valor / 100);
+                }
+            }
+        }
+        ctrl.get('totalExcessoDeficitFosforo').setValue(totalExcessoDeficitFosforo, { emitEvent: false });
+        ctrl.get('totalExcessoDeficitPotassio').setValue(totalExcessoDeficitPotassio, { emitEvent: false });
+        ctrl.get('totalExcessoDeficitNitrogenio').setValue(totalExcessoDeficitNitrogenio, { emitEvent: false });
+
         let necessidadeDeBoroTemp = null;
         let necessidadeDeCobreTemp = null;
         let necessidadeDeManganesTemp = null;
@@ -570,7 +666,6 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         if (this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'zinco').get('avaliacao')?.value === 'baixo') {
             necessidadeDeZincoTemp = 6;
         }
-
         ctrl.get('necessidadeDeBoro').setValue(necessidadeDeBoroTemp, { emitEvent: false });
         ctrl.get('necessidadeDeCobre').setValue(necessidadeDeCobreTemp, { emitEvent: false });
         ctrl.get('necessidadeDeManganes').setValue(necessidadeDeManganesTemp, { emitEvent: false });
@@ -682,8 +777,8 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             return null;
         }
         for (const faixa of faixaList) {
-            if ((faixa[0] ? valor[0] >= faixa[0] : true) &&
-                (faixa[1] ? valor[0] < faixa[1] : true)) {
+            if ((faixa[0] ? valor[0] > faixa[0] : true) &&
+                (faixa[1] ? valor[0] <= faixa[1] : true)) {
                 if (typeof faixa[2] === 'string') {
                     return faixa[2];
                 } else {

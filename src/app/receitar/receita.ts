@@ -1,3 +1,4 @@
+import { ReceitaFonteAdubo } from './receita.fonte.adubo';
 import { FormaAplicacaoAdubo } from './../modelo/entidade/forma-aplicacao-adubo';
 import { Adubo } from './../modelo/entidade/adubo';
 import { CulturaIdadePlantio } from './../modelo/entidade/cultura-idade-plantio';
@@ -36,11 +37,11 @@ export class Receita {
     receitaFonteMateriaOrganicaList: ReceitaFonteMateriaOrganica[];
     receitaFonteMateriaOrganicaPercTotal: number;
 
-    receitaFonteFosforoList: ReceitaFonteMateriaOrganica[];
+    receitaFonteFosforoList: ReceitaFonteAdubo[];
     receitaFonteFosforoPercTotal: number;
-    receitaFontePotassioList: ReceitaFonteMateriaOrganica[];
+    receitaFontePotassioList: ReceitaFonteAdubo[];
     receitaFontePotassioPercTotal: number;
-    receitaFonteNitrogenioList: ReceitaFonteMateriaOrganica[];
+    receitaFonteNitrogenioList: ReceitaFonteAdubo[];
     receitaFonteNitrogenioPercTotal: number;
 
     receitaFonteMicroNutrienteList: ReceitaFonteMateriaOrganica[];

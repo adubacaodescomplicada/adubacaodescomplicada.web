@@ -15,11 +15,11 @@ export class ReceitarResolver implements Resolve<any> {
     return {
       principal: null,
       apoio: {
-        aduboList: this.service.aduboList(),
         culturaList: this.service.culturaList(),
         analiseSoloParametroList: this.service.analiseSoloParametroList(),
         unidadeMedidaList: this.service.unidadeMedidaList(),
         fonteMateriaOrganicaList: this.service.fonteMateriaOrganicaList(),
+        aduboList: this.service.aduboList(),
         garantiaList: this.service.garantiaList(),
       }
     };

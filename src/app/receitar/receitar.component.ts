@@ -17,6 +17,7 @@ import { Pessoa } from '../modelo/entidade/pessoa';
 import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
 import { ReceitaFonteMateriaOrganica } from './receita.fonte.materia.organica';
 import { FormaAplicacaoAdubo } from '../modelo/entidade/forma-aplicacao-adubo';
+import { ReceitaFonteAdubo } from './receita.fonte.adubo';
 
 @Component({
   selector: 'app-receitar',
@@ -35,9 +36,9 @@ export class ReceitarComponent implements OnInit {
   analiseSoloParametroList: AnaliseSoloParametro[];
   unidadeMedidaList: UnidadeMedida[];
   fonteMateriaOrganicaList: FonteMateriaOrganica[];
-  fonteFosforoList: FonteMateriaOrganica[];
-  fontePotassioList: FonteMateriaOrganica[];
-  fonteNitrogenioList: FonteMateriaOrganica[];
+  fonteFosforoList: Adubo[];
+  fontePotassioList: Adubo[];
+  fonteNitrogenioList: Adubo[];
   fonteMicroNutrienteList: FonteMateriaOrganica[];
   formaAplicacaoAduboList: FormaAplicacaoAdubo[];
 
@@ -75,12 +76,25 @@ export class ReceitarComponent implements OnInit {
       resolver[0].apoio.unidadeMedidaList.subscribe((lista) => this.unidadeMedidaList = lista);
       resolver[0].apoio.fonteMateriaOrganicaList.subscribe((lista) => this.fonteMateriaOrganicaList = lista);
 
-      resolver[0].apoio.garantiaList.subscribe((lista) => {
-        this.fonteFosforoList = lista.filter(e => e.codigo === 'P').flatMap(e => e.aduboGarantiaList.flat(a => a.adubo));
-        this.fontePotassioList = lista.filter(e => e.codigo === 'K').flatMap(e => e.aduboGarantiaList.flat(a => a.adubo));
-        this.fonteNitrogenioList = lista.filter(e => e.codigo === 'N').flatMap(e => e.aduboGarantiaList.flat(a => a.adubo));
-        this.fonteMicroNutrienteList = lista.filter(e => e.codigo === '').flatMap(e => e.aduboGarantiaList.flat(a => a.adubo));
+      resolver[0].apoio.aduboList.subscribe((aduboLista) => {
+        this.aduboList = aduboLista;
+
+        resolver[0].apoio.garantiaList.subscribe((garantiaLista) => {
+          let idList: string[] = [];
+
+          idList = garantiaLista.filter(e => e.codigo === 'P')[0].aduboGarantiaList.flatMap(i => i.adubo.id);
+          this.fonteFosforoList = aduboLista.filter(e => idList.indexOf(e.id) > -1);
+
+          idList = garantiaLista.filter(e => e.codigo === 'K')[0].aduboGarantiaList.flatMap(i => i.adubo.id);
+          this.fontePotassioList = aduboLista.filter(e => idList.indexOf(e.id) > -1);
+
+          idList = garantiaLista.filter(e => e.codigo === 'N')[0].aduboGarantiaList.flatMap(i => i.adubo.id);
+          this.fonteNitrogenioList = aduboLista.filter(e => idList.indexOf(e.id) > -1);
+
+          this.fonteMicroNutrienteList = garantiaLista.filter(e => e.codigo === '').flatMap(e => e.aduboGarantiaList.flat(a => a.adubo));
+        });
       });
+
       this.formaAplicacaoAduboList = [
         { id: 1, nome: 'Sulco', eficienciaNitrogenio: 0.5, eficienciaFosforo: 0.15, eficienciaPotassio: 0.7 },
         { id: 2, nome: 'A lanço', eficienciaNitrogenio: 0.65, eficienciaFosforo: 0.2, eficienciaPotassio: 0.75 },
@@ -155,14 +169,29 @@ export class ReceitarComponent implements OnInit {
     return !achou;
   }
 
-  filtraFonteFosforo(fonteFosforo: FonteMateriaOrganica, frm: FormGroup) {
+
+  filtraFonteAdubo(receitaFonteAdubo: ReceitaFonteAdubo, params: any[]) {
+    for (const nomeLista of ['receitaFonteFosforoList', 'receitaFontePotassioList', 'receitaFonteNitrogenioList']) {
+      const lista = (params[0].get(nomeLista) as FormArray);
+      if (lista && lista.value.length) {
+        for (let i = 0; i < lista.value.length - (params[1] === nomeLista ? 1 : 0); i++) {
+          if (lista.value[i]?.adubo?.id === receitaFonteAdubo.id) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+
+  filtraFonteFosforo(fonteFosforo: ReceitaFonteAdubo, frm: FormGroup) {
     const lista = (frm[0].get('receitaFonteFosforoList') as FormArray);
     if (!lista) {
       return false;
     }
     let achou = false;
     for (let i = 0; i < lista.value.length - 1; i++) {
-      if (lista.value[i].fonteMateriaOrganica.id === fonteFosforo.id) {
+      if (lista.value[i].adubo.id === fonteFosforo.id) {
         achou = true;
         break;
       }
@@ -170,14 +199,14 @@ export class ReceitarComponent implements OnInit {
     return !achou;
   }
 
-  filtrafontePotassio(fontePotassio: FonteMateriaOrganica, frm: FormGroup) {
+  filtraFontePotassio(fontePotassio: ReceitaFonteAdubo, frm: FormGroup) {
     const lista = (frm[0].get('receitaFontePotassioList') as FormArray);
     if (!lista) {
       return false;
     }
     let achou = false;
     for (let i = 0; i < lista.value.length - 1; i++) {
-      if (lista.value[i].fonteMateriaOrganica.id === fontePotassio.id) {
+      if (lista.value[i].adubo.id === fontePotassio.id) {
         achou = true;
         break;
       }
@@ -185,14 +214,14 @@ export class ReceitarComponent implements OnInit {
     return !achou;
   }
 
-  filtrafonteNitrogenio(fonteNitrogenio: FonteMateriaOrganica, frm: FormGroup) {
+  filtraFonteNitrogenio(fonteNitrogenio: ReceitaFonteAdubo, frm: FormGroup) {
     const lista = (frm[0].get('receitaFonteNitrogenioList') as FormArray);
     if (!lista) {
       return false;
     }
     let achou = false;
     for (let i = 0; i < lista.value.length - 1; i++) {
-      if (lista.value[i].fonteMateriaOrganica.id === fonteNitrogenio.id) {
+      if (lista.value[i].adubo.id === fonteNitrogenio.id) {
         achou = true;
         break;
       }
@@ -200,7 +229,7 @@ export class ReceitarComponent implements OnInit {
     return !achou;
   }
 
-  filtrafonteMicroNutriente(fonteMicroNutriente: FonteMateriaOrganica, frm: FormGroup) {
+  filtraFonteMicroNutriente(fonteMicroNutriente: FonteMateriaOrganica, frm: FormGroup) {
     const lista = (frm[0].get('receitaFonteMicroNutrienteList') as FormArray);
     if (!lista) {
       return false;
@@ -227,7 +256,7 @@ export class ReceitarComponent implements OnInit {
 
   inserirFonteFosforo() {
     const lista = (this.frm.get('receitaFonteFosforoList') as FormArray);
-    lista.push(this.serviceForm.criarFormReceitaFonteMateriaOrganica(new ReceitaFonteMateriaOrganica()));
+    lista.push(this.serviceForm.criarFormReceitaFonteAdubo(new ReceitaFonteAdubo()));
   }
 
   excluirFonteFosforo(idx: number) {
@@ -237,7 +266,7 @@ export class ReceitarComponent implements OnInit {
 
   inserirFontePotassio() {
     const lista = (this.frm.get('receitaFontePotassioList') as FormArray);
-    lista.push(this.serviceForm.criarFormReceitaFonteMateriaOrganica(new ReceitaFonteMateriaOrganica()));
+    lista.push(this.serviceForm.criarFormReceitaFonteAdubo(new ReceitaFonteAdubo()));
   }
 
   excluirFontePotassio(idx: number) {
@@ -247,7 +276,7 @@ export class ReceitarComponent implements OnInit {
 
   inserirFonteNitrogenio() {
     const lista = (this.frm.get('receitaFonteNitrogenioList') as FormArray);
-    lista.push(this.serviceForm.criarFormReceitaFonteMateriaOrganica(new ReceitaFonteMateriaOrganica()));
+    lista.push(this.serviceForm.criarFormReceitaFonteAdubo(new ReceitaFonteAdubo()));
   }
 
   excluirFonteNitrogenio(idx: number) {
