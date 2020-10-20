@@ -188,7 +188,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             receitaFonteNitrogenioList: this.criarFormReceitaFonteAduboList(entidade.receitaFonteNitrogenioList),
             receitaFonteNitrogenioPercTotal: [entidade.receitaFonteNitrogenioPercTotal, []],
 
-            receitaFonteMicroNutrienteList: this.criarFormReceitaFonteMateriaOrganicaList(entidade.receitaFonteMicroNutrienteList),
+            receitaFonteMicroNutrienteList: this.criarFormReceitaFonteAduboList(entidade.receitaFonteMicroNutrienteList),
             receitaFonteMicroNutrientePercTotal: [entidade.receitaFonteMicroNutrientePercTotal, []],
 
             formaAplicacaoAdubo: [entidade.formaAplicacaoAdubo, []],
@@ -201,9 +201,14 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             eficienciaDeFosforo: [, []],
             eficienciaDePotassio: [, []],
 
+            totalExcessoDeficitNitrogenio: [, []],
             totalExcessoDeficitFosforo: [, []],
             totalExcessoDeficitPotassio: [, []],
-            totalExcessoDeficitNitrogenio: [, []],
+
+            totalExcessoDeficitBoro: [, []],
+            totalExcessoDeficitCobre: [, []],
+            totalExcessoDeficitManganes: [, []],
+            totalExcessoDeficitZinco: [, []],
 
             necessidadeDeBoro: [entidade.necessidadeDeBoro, []],
             necessidadeDeCobre: [entidade.necessidadeDeCobre, []],
@@ -465,6 +470,12 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             totalFosforo: [, []],
             totalPotassio: [, []],
             totalNitrogenio: [, []],
+
+            totalBoro: [, []],
+            totalCobre: [, []],
+            totalManganes: [, []],
+            totalZinco: [, []],
+
         });
 
         result.get('valor').valueChanges.subscribe(value => {
@@ -475,19 +486,39 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             let totalFosforo = null;
             let totalPotassio = null;
             let totalNitrogenio = null;
+
+            let totalBoro = null;
+            let totalCobre = null;
+            let totalManganes = null;
+            let totalZinco = null;
             if (value.adubo?.aduboGarantiaList?.length) {
                 totalFosforo = 0;
                 totalPotassio = 0;
                 totalNitrogenio = 0;
+
+                totalBoro = 0;
+                totalCobre = 0;
+                totalManganes = 0;
+                totalZinco = 0;
                 for (const aduboGarantia of value.adubo?.aduboGarantiaList) {
-                    totalFosforo += aduboGarantia.garantia.codigo === 'P' ? aduboGarantia.valor : 0;
-                    totalPotassio +=  aduboGarantia.garantia.codigo === 'K' ? aduboGarantia.valor : 0;
+                    totalFosforo += aduboGarantia.garantia.codigo === 'P2O5' ? aduboGarantia.valor : 0;
+                    totalPotassio +=  aduboGarantia.garantia.codigo === 'K2O' ? aduboGarantia.valor : 0;
                     totalNitrogenio +=  aduboGarantia.garantia.codigo === 'N' ? aduboGarantia.valor : 0;
+
+                    totalBoro +=  aduboGarantia.garantia.codigo === 'B' ? aduboGarantia.valor : 0;
+                    totalCobre +=  aduboGarantia.garantia.codigo === 'Cu' ? aduboGarantia.valor : 0;
+                    totalManganes +=  aduboGarantia.garantia.codigo === 'Mn' ? aduboGarantia.valor : 0;
+                    totalZinco +=  aduboGarantia.garantia.codigo === 'Zn' ? aduboGarantia.valor : 0;
                 }
             }
             result.get('totalFosforo').setValue(totalFosforo, { emitEvent: false });
             result.get('totalPotassio').setValue(totalPotassio, { emitEvent: false });
             result.get('totalNitrogenio').setValue(totalNitrogenio, { emitEvent: false });
+
+            result.get('totalBoro').setValue(totalBoro, { emitEvent: false });
+            result.get('totalCobre').setValue(totalCobre, { emitEvent: false });
+            result.get('totalManganes').setValue(totalManganes, { emitEvent: false });
+            result.get('totalZinco').setValue(totalZinco, { emitEvent: false });
         });
 
         return result;
@@ -616,44 +647,67 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
 
 
         // identificar os nutrientes dos adubos informados
+        let totalExcessoDeficitNitrogenio = 0;
         let totalExcessoDeficitFosforo = 0;
         let totalExcessoDeficitPotassio = 0;
-        let totalExcessoDeficitNitrogenio = 0;
+
+        let totalExcessoDeficitBoro = 0;
+        let totalExcessoDeficitCobre = 0;
+        let totalExcessoDeficitManganes = 0;
+        let totalExcessoDeficitZinco = 0;
+        for (const item of receita.receitaFonteNitrogenioList) {
+            totalExcessoDeficitNitrogenio += item['totalNitrogenio'] * (item.valor / 100);
+            totalExcessoDeficitFosforo += item['totalFosforo'] * (item.valor / 100);
+            totalExcessoDeficitPotassio += item['totalPotassio'] * (item.valor / 100);
+
+            totalExcessoDeficitBoro += item['totalBoro'] * (item.valor / 100);
+            totalExcessoDeficitCobre += item['totalCobre'] * (item.valor / 100);
+            totalExcessoDeficitManganes += item['totalManganes'] * (item.valor / 100);
+            totalExcessoDeficitZinco += item['totalZinco'] * (item.valor / 100);
+        }
         for (const item of receita.receitaFonteFosforoList) {
-            if (item.adubo?.aduboGarantiaList.length) {
-                for (const aduboGarantia of item.adubo?.aduboGarantiaList) {
-                    totalExcessoDeficitFosforo += (aduboGarantia.garantia.codigo === 'P' ? aduboGarantia.valor : 0) * (item.valor / 100);
-                    totalExcessoDeficitPotassio += (aduboGarantia.garantia.codigo === 'K' ? aduboGarantia.valor : 0) * (item.valor / 100);
-                    totalExcessoDeficitNitrogenio += (aduboGarantia.garantia.codigo === 'N' ? aduboGarantia.valor : 0) * (item.valor / 100);
-                }
-            }
+            totalExcessoDeficitNitrogenio += item['totalNitrogenio'] * (item.valor / 100);
+            totalExcessoDeficitFosforo += item['totalFosforo'] * (item.valor / 100);
+            totalExcessoDeficitPotassio += item['totalPotassio'] * (item.valor / 100);
+
+            totalExcessoDeficitBoro += item['totalBoro'] * (item.valor / 100);
+            totalExcessoDeficitCobre += item['totalCobre'] * (item.valor / 100);
+            totalExcessoDeficitManganes += item['totalManganes'] * (item.valor / 100);
+            totalExcessoDeficitZinco += item['totalZinco'] * (item.valor / 100);
         }
         for (const item of receita.receitaFontePotassioList) {
-            if (item.adubo?.aduboGarantiaList.length) {
-                for (const aduboGarantia of item.adubo?.aduboGarantiaList) {
-                    totalExcessoDeficitFosforo += (aduboGarantia.garantia.codigo === 'P' ? aduboGarantia.valor : 0) * (item.valor / 100);
-                    totalExcessoDeficitPotassio += (aduboGarantia.garantia.codigo === 'K' ? aduboGarantia.valor : 0) * (item.valor / 100);
-                    totalExcessoDeficitNitrogenio += (aduboGarantia.garantia.codigo === 'N' ? aduboGarantia.valor : 0) * (item.valor / 100);
-                }
-            }
+            totalExcessoDeficitNitrogenio += item['totalNitrogenio'] * (item.valor / 100);
+            totalExcessoDeficitFosforo += item['totalFosforo'] * (item.valor / 100);
+            totalExcessoDeficitPotassio += item['totalPotassio'] * (item.valor / 100);
+
+            totalExcessoDeficitBoro += item['totalBoro'] * (item.valor / 100);
+            totalExcessoDeficitCobre += item['totalCobre'] * (item.valor / 100);
+            totalExcessoDeficitManganes += item['totalManganes'] * (item.valor / 100);
+            totalExcessoDeficitZinco += item['totalZinco'] * (item.valor / 100);
         }
-        for (const item of receita.receitaFonteNitrogenioList) {
-            if (item.adubo?.aduboGarantiaList.length) {
-                for (const aduboGarantia of item.adubo?.aduboGarantiaList) {
-                    totalExcessoDeficitFosforo += (aduboGarantia.garantia.codigo === 'P' ? aduboGarantia.valor : 0) * (item.valor / 100);
-                    totalExcessoDeficitPotassio += (aduboGarantia.garantia.codigo === 'K' ? aduboGarantia.valor : 0) * (item.valor / 100);
-                    totalExcessoDeficitNitrogenio += (aduboGarantia.garantia.codigo === 'N' ? aduboGarantia.valor : 0) * (item.valor / 100);
-                }
-            }
+        for (const item of receita.receitaFonteMicroNutrienteList) {
+            totalExcessoDeficitNitrogenio += item['totalNitrogenio'] * (item.valor / 100);
+            totalExcessoDeficitFosforo += item['totalFosforo'] * (item.valor / 100);
+            totalExcessoDeficitPotassio += item['totalPotassio'] * (item.valor / 100);
+
+            totalExcessoDeficitBoro += item['totalBoro'] * (item.valor / 100);
+            totalExcessoDeficitCobre += item['totalCobre'] * (item.valor / 100);
+            totalExcessoDeficitManganes += item['totalManganes'] * (item.valor / 100);
+            totalExcessoDeficitZinco += item['totalZinco'] * (item.valor / 100);
         }
+        ctrl.get('totalExcessoDeficitNitrogenio').setValue(totalExcessoDeficitNitrogenio, { emitEvent: false });
         ctrl.get('totalExcessoDeficitFosforo').setValue(totalExcessoDeficitFosforo, { emitEvent: false });
         ctrl.get('totalExcessoDeficitPotassio').setValue(totalExcessoDeficitPotassio, { emitEvent: false });
-        ctrl.get('totalExcessoDeficitNitrogenio').setValue(totalExcessoDeficitNitrogenio, { emitEvent: false });
 
-        let necessidadeDeBoroTemp = null;
-        let necessidadeDeCobreTemp = null;
-        let necessidadeDeManganesTemp = null;
-        let necessidadeDeZincoTemp = null;
+        ctrl.get('totalExcessoDeficitBoro').setValue(totalExcessoDeficitBoro, { emitEvent: false });
+        ctrl.get('totalExcessoDeficitCobre').setValue(totalExcessoDeficitCobre, { emitEvent: false });
+        ctrl.get('totalExcessoDeficitManganes').setValue(totalExcessoDeficitManganes, { emitEvent: false });
+        ctrl.get('totalExcessoDeficitZinco').setValue(totalExcessoDeficitZinco, { emitEvent: false });
+
+        let necessidadeDeBoroTemp = 0;
+        let necessidadeDeCobreTemp = 0;
+        let necessidadeDeManganesTemp = 0;
+        let necessidadeDeZincoTemp = 0;
         if (this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'boro').get('avaliacao')?.value === 'baixo') {
             necessidadeDeBoroTemp = 2;
         }

@@ -44,7 +44,7 @@ export class Receita {
     receitaFonteNitrogenioList: ReceitaFonteAdubo[];
     receitaFonteNitrogenioPercTotal: number;
 
-    receitaFonteMicroNutrienteList: ReceitaFonteMateriaOrganica[];
+    receitaFonteMicroNutrienteList: ReceitaFonteAdubo[];
     receitaFonteMicroNutrientePercTotal: number;
 
     formaAplicacaoAdubo: FormaAplicacaoAdubo;

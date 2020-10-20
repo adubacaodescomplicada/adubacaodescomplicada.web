@@ -874,6 +874,95 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" class="text-center" colspan="4">
+                            ESCOLHA O ADUBO FONTE DE NITROGÊNIO E DIGA O PERCENTUAL QUE CABERÁ A CADA ADUBO
+                            <!-- FRZ -->
+                        </th>
+                    </tr>
+                </thead>
+                <tbody formArrayName="receitaFonteNitrogenioList">
+                    <ng-template ngFor let-receitaFonteNitrogenio
+                        [ngForOf]="frm?.get('receitaFonteNitrogenioList')['controls']" let-i="index" let-f="first"
+                        let-l="last">
+                        <tr [formGroupName]="i">
+                            <td *ngIf="!l">
+                                {{receitaFonteNitrogenio.value.adubo.nome}}
+                            </td>
+                            <td *ngIf="l">
+                                <mat-form-field>
+                                    <mat-select [compareWith]="idListComparar" formControlName="adubo">
+                                        <mat-option
+                                            *ngFor="let fonteNitrogenio of fonteNitrogenioList | callback : filtraFonteAdubo : [frm, 'receitaFonteNitrogenioList']"
+                                            [value]="fonteNitrogenio">
+                                            {{fonteNitrogenio.nome}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <mat-label>Valor</mat-label>
+                                    <input matInput type="number" class="text-right" formControlName="valor" step="1"
+                                        min="0" max="100">
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                                <mat-slider formControlName="valor"></mat-slider>
+                                %
+                            </td>
+                            <td>
+                                <div *ngIf="receitaFonteNitrogenio.value.adubo?.id" style="font-size: 70%;">
+                                    <p>
+                                        Nitrogênio:
+                                        {{receitaFonteNitrogenio.value.totalNitrogenio * (receitaFonteNitrogenio.value.valor / 100)}}
+                                        de {{receitaFonteNitrogenio.value.totalNitrogenio}}
+                                        (g/planta)
+                                    </p>
+                                    <p>
+                                        Fósforo:
+                                        {{receitaFonteNitrogenio.value.totalFosforo * (receitaFonteNitrogenio.value.valor / 100)}}
+                                        de {{receitaFonteNitrogenio.value.totalFosforo}}
+                                        (g/planta)
+                                    </p>
+                                    <p>
+                                        Potássio:
+                                        {{receitaFonteNitrogenio.value.totalPotassio * (receitaFonteNitrogenio.value.valor / 100)}}
+                                        de {{receitaFonteNitrogenio.value.totalPotassio}}
+                                        (g/planta)
+                                    </p>
+                                </div>
+                            </td>
+                            <td>
+                                <button mat-button color="warn" (click)="excluirFonteNitrogenio(i)" *ngIf="!f && l">
+                                    Excluir
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <tr
+                        *ngIf="(fonteNitrogenioList | callback : filtraFonteAdubo : [frm, 'receitaFonteNitrogenioList'])?.length > 1">
+                        <td colspan="4">
+                            <button mat-button color="warn" (click)="inserirFonteNitrogenio()"
+                                [disabled]="frm?.get('receitaFonteNitrogenioList').invalid">
+                                Incluir
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr
+                        [ngClass]="frm.value.receitaFonteNitrogenioPercTotal < 100 ? 'table-danger' : frm.value.receitaFonteNitrogenioPercTotal > 100 ? 'table-warning' : frm.value.receitaFonteNitrogenioPercTotal === 100 ? 'table-success' : ''">
+                        <td colspan="2">Total Geral Percentual</td>
+                        <td colspan="2">
+                            {{frm.value.receitaFonteNitrogenioPercTotal}}%
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p>
+
+            <table class="table m-4">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" class="text-center" colspan="4">
                             ESCOLHA O ADUBO FONTE DE FÓSFORO E DIGA O PERCENTUAL QUE CABERÁ A CADA ADUBO
                             <!-- FRZ -->
                         </th>
@@ -911,6 +1000,12 @@
                             <td>
                                 <div *ngIf="receitaFonteFosforo.value.adubo?.id" style="font-size: 70%;">
                                     <p>
+                                        Nitrogênio:
+                                        {{receitaFonteFosforo.value.totalNitrogenio * (receitaFonteFosforo.value.valor / 100)}}
+                                        de {{receitaFonteFosforo.value.totalNitrogenio}}
+                                        (g/planta)
+                                    </p>
+                                    <p>
                                         Fósforo:
                                         {{receitaFonteFosforo.value.totalFosforo * (receitaFonteFosforo.value.valor / 100)}}
                                         de {{receitaFonteFosforo.value.totalFosforo}}
@@ -920,12 +1015,6 @@
                                         Potássio:
                                         {{receitaFonteFosforo.value.totalPotassio * (receitaFonteFosforo.value.valor / 100)}}
                                         de {{receitaFonteFosforo.value.totalPotassio}}
-                                        (g/planta)
-                                    </p>
-                                    <p>
-                                        Nitrogênio:
-                                        {{receitaFonteFosforo.value.totalNitrogenio * (receitaFonteFosforo.value.valor / 100)}}
-                                        de {{receitaFonteFosforo.value.totalNitrogenio}}
                                         (g/planta)
                                     </p>
                                 </div>
@@ -1000,6 +1089,12 @@
                             <td>
                                 <div *ngIf="receitaFontePotassio.value.adubo?.id" style="font-size: 70%;">
                                     <p>
+                                        Nitrogênio:
+                                        {{receitaFontePotassio.value.totalNitrogenio * (receitaFontePotassio.value.valor / 100)}}
+                                        de {{receitaFontePotassio.value.totalNitrogenio}}
+                                        (g/planta)
+                                    </p>
+                                    <p>
                                         Fósforo:
                                         {{receitaFontePotassio.value.totalFosforo * (receitaFontePotassio.value.valor / 100)}}
                                         de {{receitaFontePotassio.value.totalFosforo}}
@@ -1009,12 +1104,6 @@
                                         Potássio:
                                         {{receitaFontePotassio.value.totalPotassio * (receitaFontePotassio.value.valor / 100)}}
                                         de {{receitaFontePotassio.value.totalPotassio}}
-                                        (g/planta)
-                                    </p>
-                                    <p>
-                                        Nitrogênio:
-                                        {{receitaFontePotassio.value.totalNitrogenio * (receitaFontePotassio.value.valor / 100)}}
-                                        de {{receitaFontePotassio.value.totalNitrogenio}}
                                         (g/planta)
                                     </p>
                                 </div>
@@ -1042,95 +1131,6 @@
                         <td colspan="2">Total Geral Percentual</td>
                         <td colspan="2">
                             {{frm.value.receitaFontePotassioPercTotal}}%
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-            <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p>
-
-            <table class="table m-4">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col" class="text-center" colspan="4">
-                            ESCOLHA O ADUBO FONTE DE NITROGÊNIO E DIGA O PERCENTUAL QUE CABERÁ A CADA ADUBO
-                            <!-- FRZ -->
-                        </th>
-                    </tr>
-                </thead>
-                <tbody formArrayName="receitaFonteNitrogenioList">
-                    <ng-template ngFor let-receitaFonteNitrogenio
-                        [ngForOf]="frm?.get('receitaFonteNitrogenioList')['controls']" let-i="index" let-f="first"
-                        let-l="last">
-                        <tr [formGroupName]="i">
-                            <td *ngIf="!l">
-                                {{receitaFonteNitrogenio.value.adubo.nome}}
-                            </td>
-                            <td *ngIf="l">
-                                <mat-form-field>
-                                    <mat-select [compareWith]="idListComparar" formControlName="adubo">
-                                        <mat-option
-                                            *ngFor="let fonteNitrogenio of fonteNitrogenioList | callback : filtraFonteAdubo : [frm, 'receitaFonteNitrogenioList']"
-                                            [value]="fonteNitrogenio">
-                                            {{fonteNitrogenio.nome}}</mat-option>
-                                    </mat-select>
-                                    <mat-error>Campo Obrigatório!</mat-error>
-                                </mat-form-field>
-                            </td>
-                            <td>
-                                <mat-form-field>
-                                    <mat-label>Valor</mat-label>
-                                    <input matInput type="number" class="text-right" formControlName="valor" step="1"
-                                        min="0" max="100">
-                                    <mat-error>Campo Obrigatório!</mat-error>
-                                </mat-form-field>
-                                <mat-slider formControlName="valor"></mat-slider>
-                                %
-                            </td>
-                            <td>
-                                <div *ngIf="receitaFonteNitrogenio.value.adubo?.id" style="font-size: 70%;">
-                                    <p>
-                                        Fósforo:
-                                        {{receitaFonteNitrogenio.value.totalFosforo * (receitaFonteNitrogenio.value.valor / 100)}}
-                                        de {{receitaFonteNitrogenio.value.totalFosforo}}
-                                        (g/planta)
-                                    </p>
-                                    <p>
-                                        Potássio:
-                                        {{receitaFonteNitrogenio.value.totalPotassio * (receitaFonteNitrogenio.value.valor / 100)}}
-                                        de {{receitaFonteNitrogenio.value.totalPotassio}}
-                                        (g/planta)
-                                    </p>
-                                    <p>
-                                        Nitrogênio:
-                                        {{receitaFonteNitrogenio.value.totalNitrogenio * (receitaFonteNitrogenio.value.valor / 100)}}
-                                        de {{receitaFonteNitrogenio.value.totalNitrogenio}}
-                                        (g/planta)
-                                    </p>
-                                </div>
-                            </td>
-                            <td>
-                                <button mat-button color="warn" (click)="excluirFonteNitrogenio(i)" *ngIf="!f && l">
-                                    Excluir
-                                </button>
-                            </td>
-                        </tr>
-                    </ng-template>
-                    <tr
-                        *ngIf="(fonteNitrogenioList | callback : filtraFonteAdubo : [frm, 'receitaFonteNitrogenioList'])?.length > 1">
-                        <td colspan="4">
-                            <button mat-button color="warn" (click)="inserirFonteNitrogenio()"
-                                [disabled]="frm?.get('receitaFonteNitrogenioList').invalid">
-                                Incluir
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr
-                        [ngClass]="frm.value.receitaFonteNitrogenioPercTotal < 100 ? 'table-danger' : frm.value.receitaFonteNitrogenioPercTotal > 100 ? 'table-warning' : frm.value.receitaFonteNitrogenioPercTotal === 100 ? 'table-success' : ''">
-                        <td colspan="2">Total Geral Percentual</td>
-                        <td colspan="2">
-                            {{frm.value.receitaFonteNitrogenioPercTotal}}%
                         </td>
                     </tr>
                 </tfoot>
@@ -1171,21 +1171,15 @@
                 <tbody>
                     <tr>
                         <td>Demanda (g/planta)</td>
-                        <td>{{frm.value.necessidadeDeNitrogenio}}</td>
-                        <td>{{frm.value.necessidadeDeFosforo}}</td>
-                        <td>{{frm.value.necessidadeDePotassio}}</td>
-                    </tr>
-                    <tr>
-                        <td>Excesso ou déficit (g/planta)</td>
                         <td>{{frm.value.eficienciaDeNitrogenio}}</td>
                         <td>{{frm.value.eficienciaDeFosforo}}</td>
                         <td>{{frm.value.eficienciaDePotassio}}</td>
                     </tr>
                     <tr>
-                        <td>Totais (g/planta)</td>
-                        <td>{{frm.value.totalExcessoDeficitFosforo}}</td>
-                        <td>{{frm.value.totalExcessoDeficitPotassio}}</td>
-                        <td>{{frm.value.totalExcessoDeficitNitrogenio}}</td>
+                        <td>Excesso/déficit (g/planta)</td>
+                        <td>{{frm.value.eficienciaDeNitrogenio / (frm.value.totalExcessoDeficitNitrogenio / 100)}}</td>
+                        <td>{{frm.value.eficienciaDeFosforo / (frm.value.totalExcessoDeficitFosforo / 100)}}</td>
+                        <td>{{frm.value.eficienciaDePotassio / (frm.value.totalExcessoDeficitPotassio / 100)}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -1222,11 +1216,11 @@
                         let-l="last">
                         <tr [formGroupName]="i">
                             <td *ngIf="!l">
-                                {{receitaFonteMicroNutriente.value.fonteMateriaOrganica.nome}}
+                                {{receitaFonteMicroNutriente.value.adubo.nome}}
                             </td>
                             <td *ngIf="l">
                                 <mat-form-field>
-                                    <mat-select [compareWith]="idListComparar" formControlName="fonteMateriaOrganica">
+                                    <mat-select [compareWith]="idListComparar" formControlName="adubo">
                                         <mat-option
                                             *ngFor="let fonteMicroNutriente of fonteMicroNutrienteList | callback : filtraFonteMicroNutriente : [frm] "
                                             [value]="fonteMicroNutriente">
@@ -1234,13 +1228,6 @@
                                     </mat-select>
                                     <mat-error>Campo Obrigatório!</mat-error>
                                 </mat-form-field>
-                            </td>
-                            <td>
-                                <mat-label
-                                    *ngIf="receitaFonteMicroNutriente?.value.fonteMicroNutriente?.quantidadeQuiloCova">
-                                    Quantidade na Cova:
-                                    {{receitaFonteMicroNutriente?.value.fonteMicroNutriente?.quantidadeQuiloCova}} kls
-                                </mat-label>
                             </td>
                             <td>
                                 <mat-form-field>
@@ -1251,6 +1238,34 @@
                                 </mat-form-field>
                                 <mat-slider formControlName="valor"></mat-slider>
                                 %
+                            </td>
+                            <td>
+                                <div *ngIf="receitaFonteMicroNutriente.value.adubo?.id" style="font-size: 70%;">
+                                    <p>
+                                        Boro:
+                                        {{receitaFonteMicroNutriente.value.totalBoro * (receitaFonteMicroNutriente.value.valor / 100)}}
+                                        de {{receitaFonteMicroNutriente.value.totalBoro}}
+                                        (g/planta)
+                                    </p>
+                                    <p>
+                                        Cobre:
+                                        {{receitaFonteMicroNutriente.value.totalCobre * (receitaFonteMicroNutriente.value.valor / 100)}}
+                                        de {{receitaFonteMicroNutriente.value.totalCobre}}
+                                        (g/planta)
+                                    </p>
+                                    <p>
+                                        Manganês:
+                                        {{receitaFonteMicroNutriente.value.totalManganes * (receitaFonteMicroNutriente.value.valor / 100)}}
+                                        de {{receitaFonteMicroNutriente.value.totalManganes}}
+                                        (g/planta)
+                                    </p>
+                                    <p>
+                                        Zinco:
+                                        {{receitaFonteMicroNutriente.value.totalZinco * (receitaFonteMicroNutriente.value.valor / 100)}}
+                                        de {{receitaFonteMicroNutriente.value.totalZinco}}
+                                        (g/planta)
+                                    </p>
+                                </div>
                             </td>
                             <td>
                                 <button mat-button color="warn" (click)="excluirFonteMicroNutriente(i)" *ngIf="!f && l">
@@ -1300,10 +1315,10 @@
                     </tr>
                     <tr>
                         <td>Excesso ou déficit (g/planta)</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
+                        <td>{{frm.value.totalExcessoDeficitBoro}}</td>
+                        <td>{{frm.value.totalExcessoDeficitCobre}}</td>
+                        <td>{{frm.value.totalExcessoDeficitManganes}}</td>
+                        <td>{{frm.value.totalExcessoDeficitZinco}}</td>
                     </tr>
                 </tbody>
             </table>
