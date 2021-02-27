@@ -1,5 +1,7 @@
 import { EntidadeId } from '../entidade-id';
 import { CulturaIdadePlantio } from './cultura-idade-plantio';
+import { CulturaNecessidadeAduboFormacao } from './cultura-necessidade-adubo-formacao';
+import { CulturaNecessidadeAduboProducao } from './cultura-necessidade-adubo-producao';
 
 export class Cultura implements EntidadeId {
 
@@ -18,4 +20,6 @@ export class Cultura implements EntidadeId {
     public culturaIdadePlantioList: CulturaIdadePlantio[];
     public espacamentoDuplo: string;
     public unidadeProdutividade: string;
+    public culturaNecessidadeAduboFormacaoList: CulturaNecessidadeAduboFormacao[];
+    public culturaNecessidadeAduboProducaoList: CulturaNecessidadeAduboProducao[];
 }

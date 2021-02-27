@@ -28,7 +28,7 @@ export class ReceitarComponent implements OnInit {
 
   step = 0;
   modelo = { cultura: '' };
-  entidade = null;
+  entidade: Receita = null;
   frm: FormGroup;
 
   aduboList: Adubo[];
@@ -294,6 +294,61 @@ export class ReceitarComponent implements OnInit {
   excluirFonteMicroNutriente(idx: number) {
     const lista = (this.frm.get('receitaFonteMicroNutrienteList') as FormArray);
     lista.removeAt(idx);
+  }
+
+  getReceitaAnaliseSoloParametro(codigo: string) {
+    let result = null;
+    if (this.frm.value.receitaAnaliseSoloParametroList) {
+      for (const r of this.frm.value.receitaAnaliseSoloParametroList) {
+        if (r.analiseSoloParametro?.codigo === codigo) {
+          result = r;
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
+  private addLista(
+    result: { adubo: Adubo | FonteMateriaOrganica, perc: number }[],
+    lista: ReceitaFonteAdubo[] | ReceitaFonteMateriaOrganica[]
+  ) {
+    if (lista && lista.length) {
+      for (const linha of lista) {
+        if (linha) {
+          if (linha['adubo'] && linha['adubo']['id']) {
+            result.push({
+              adubo: linha['adubo'],
+              perc: linha.valor
+            });
+          } else if (linha['fonteMateriaOrganica'] && linha['fonteMateriaOrganica']['id']) {
+            result.push({
+              adubo: linha['fonteMateriaOrganica'],
+              perc: linha.valor
+            });
+          }
+        }
+      }
+    }
+  }
+
+  getAdubosInformados() {
+    const results: { adubo: Adubo, perc: number }[] = [];
+
+    this.addLista(results, this.frm.value.receitaFonteMateriaOrganicaList);
+    this.addLista(results, this.frm.value.receitaFonteFosforoList);
+    this.addLista(results, this.frm.value.receitaFontePotassioList);
+    this.addLista(results, this.frm.value.receitaFonteNitrogenioList);
+
+    return results;
+  }
+
+  getMicroNutrientesInformados() {
+    const results: { adubo: Adubo, perc: number }[] = [];
+
+    this.addLista(results, this.frm.value.receitaFonteMicroNutrienteList);
+
+    return results;
   }
 
 }

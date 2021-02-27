@@ -1,0 +1,40 @@
+.res-cabec {
+  width: 100%;
+  background-color: lightgray;
+  font-weight: bold;
+  text-align: center;
+  border: 2px solid black;
+  padding-bottom: 5px;
+  margin-bottom: 1cm;
+}
+
+.res {
+  width: 100%;
+  background-color: white;
+  font-weight: normal;
+  margin-bottom: 1cm;
+}
+
+.res td {
+  border: 1px solid black;
+  text-align: justify;
+  padding: 0px 10px;
+}
+
+.res td:nth-child(odd):not(.limpo) {
+  text-align: right;
+  width: 120px;
+  min-width: 50%;
+  max-width: 70%;
+}
+
+ol {
+  counter-reset: list;
+}
+ol > li {
+  list-style: none;
+}
+ol > li:before {
+  content: counter(list, lower-alpha) ") ";
+  counter-increment: list;
+}

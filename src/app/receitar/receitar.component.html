@@ -1169,7 +1169,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr *ngIf="false">
                         <td>Demanda (g/planta)</td>
                         <td>{{frm.value.eficienciaDeNitrogenio}}</td>
                         <td>{{frm.value.eficienciaDeFosforo}}</td>
@@ -1177,9 +1177,40 @@
                     </tr>
                     <tr>
                         <td>Excesso/déficit (g/planta)</td>
-                        <td>{{frm.value.eficienciaDeNitrogenio / (frm.value.totalExcessoDeficitNitrogenio / 100)}}</td>
-                        <td>{{frm.value.eficienciaDeFosforo / (frm.value.totalExcessoDeficitFosforo / 100)}}</td>
-                        <td>{{frm.value.eficienciaDePotassio / (frm.value.totalExcessoDeficitPotassio / 100)}}</td>
+                        <td
+                            [ngClass]="frm.value.eficienciaDeNitrogenio / (frm.value.totalExcessoDeficitNitrogenio / 100) < 0 ? 'table-danger' : frm.value.eficienciaDeNitrogenio / (frm.value.totalExcessoDeficitNitrogenio / 100) > 0 ? 'table-warning' : frm.value.eficienciaDeNitrogenio / (frm.value.totalExcessoDeficitNitrogenio / 100) === 0 ? 'table-success' : ''">
+                            {{(frm.value.eficienciaDeNitrogenio / (frm.value.totalExcessoDeficitNitrogenio / 100) | number:'1.2-2':'pt-BR')}}
+                        </td>
+                        <td
+                            [ngClass]="frm.value.eficienciaDeFosforo / (frm.value.totalExcessoDeficitFosforo / 100) < 0 ? 'table-danger' : frm.value.eficienciaDeFosforo / (frm.value.totalExcessoDeficitFosforo / 100) > 0 ? 'table-warning' : frm.value.eficienciaDeFosforo / (frm.value.totalExcessoDeficitFosforo / 100) === 0 ? 'table-success' : ''">
+                            {{(frm.value.eficienciaDeFosforo / (frm.value.totalExcessoDeficitFosforo / 100) | number:'1.2-2':'pt-BR')}}
+                        </td>
+                        <td
+                            [ngClass]="frm.value.eficienciaDePotassio / (frm.value.totalExcessoDeficitPotassio / 100) < 0 ? 'table-danger' : frm.value.eficienciaDePotassio / (frm.value.totalExcessoDeficitPotassio / 100) > 0 ? 'table-warning' : frm.value.eficienciaDePotassio / (frm.value.totalExcessoDeficitPotassio / 100) === 0 ? 'table-success' : ''">
+                            {{(frm.value.eficienciaDePotassio / (frm.value.totalExcessoDeficitPotassio / 100) | number:'1.2-2':'pt-BR')}}
+                        </td>
+                    </tr>
+                    <tr style="font-family: 'Courier New', Courier, monospace;">
+                        <td colspan="1" style="text-align: right;">Legenda</td>
+                        <td colspan="3">
+                            <table>
+                                <tr>
+                                    <td class="table-danger" style="margin: 0px; padding: 0px;">
+                                        Em falta
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-warning" style="margin: 0px; padding: 0px;">
+                                        Em excesso
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-success" style="margin: 0px; padding: 0px;">
+                                        Ok
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -1306,7 +1337,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr *ngIf="false">
                         <td>Demanda (g/planta)</td>
                         <td>{{frm.value.necessidadeDeBoro}}</td>
                         <td>{{frm.value.necessidadeDeCobre}}</td>
@@ -1315,10 +1346,44 @@
                     </tr>
                     <tr>
                         <td>Excesso ou déficit (g/planta)</td>
-                        <td>{{frm.value.totalExcessoDeficitBoro}}</td>
-                        <td>{{frm.value.totalExcessoDeficitCobre}}</td>
-                        <td>{{frm.value.totalExcessoDeficitManganes}}</td>
-                        <td>{{frm.value.totalExcessoDeficitZinco}}</td>
+                        <td
+                            [ngClass]="(frm.value.necessidadeDeBoro - frm.value.totalExcessoDeficitBoro) * -1 < 0 ? 'table-danger' : (frm.value.necessidadeDeBoro - frm.value.totalExcessoDeficitBoro) * -1 >= 0 ? 'table-success' : ''">
+                            {{(frm.value.necessidadeDeBoro - frm.value.totalExcessoDeficitBoro) * -1}}
+                        </td>
+                        <td
+                            [ngClass]="(frm.value.necessidadeDeCobre - frm.value.totalExcessoDeficitCobre) * -1 < 0 ? 'table-danger' : (frm.value.necessidadeDeCobre - frm.value.totalExcessoDeficitCobre) * -1 > 0 ? 'table-warning' : (frm.value.necessidadeDeCobre - frm.value.totalExcessoDeficitCobre) * -1 === 0 ? 'table-success' : ''">
+                            {{(frm.value.necessidadeDeCobre - frm.value.totalExcessoDeficitCobre) * -1}}
+                        </td>
+                        <td
+                            [ngClass]="(frm.value.necessidadeDeManganes - frm.value.totalExcessoDeficitManganes) * -1 < 0 ? 'table-danger' : (frm.value.necessidadeDeManganes - frm.value.totalExcessoDeficitManganes) * -1 > 0 ? 'table-warning' : (frm.value.necessidadeDeManganes - frm.value.totalExcessoDeficitManganes) * -1 === 0 ? 'table-success' : ''">
+                            {{(frm.value.necessidadeDeManganes - frm.value.totalExcessoDeficitManganes) * -1}}
+                        </td>
+                        <td
+                            [ngClass]="(frm.value.necessidadeDeZinco - frm.value.totalExcessoDeficitZinco) * -1 < 0 ? 'table-danger' : (frm.value.necessidadeDeZinco - frm.value.totalExcessoDeficitZinco) * -1 > 0 ? 'table-warning' : (frm.value.necessidadeDeZinco - frm.value.totalExcessoDeficitZinco) * -1 === 0 ? 'table-success' : ''">
+                            {{(frm.value.necessidadeDeZinco - frm.value.totalExcessoDeficitZinco) * -1}}
+                        </td>
+                    </tr>
+                    <tr style="font-family: 'Courier New', Courier, monospace;">
+                        <td colspan="1" style="text-align: right;">Legenda</td>
+                        <td colspan="4">
+                            <table>
+                                <tr>
+                                    <td class="table-danger" style="margin: 0px; padding: 0px;">
+                                        Em falta
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-warning" style="margin: 0px; padding: 0px;">
+                                        Em excesso
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-success" style="margin: 0px; padding: 0px;">
+                                        Ok
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -1329,157 +1394,323 @@
             </mat-action-row>
         </mat-expansion-panel>
 
+
         <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     PASSO 8
                 </mat-panel-title>
                 <mat-panel-description>
+                    Prazos
+                    <mat-icon>date_range</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <table class="res-cabec">
+                <tr>
+                    <td>
+                        FOLHA DE RECOMENDAÇÃO TÉCNICA
+                    </td>
+                </tr>
+            </table>
+
+            <table class="res">
+                <tr>
+                    <td>
+                        NOME DO PROPRIETÁRIO
+                    </td>
+                    <td>
+                        {{frm.value.pessoa?.nome}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        DATA
+                    </td>
+                    <td>
+                        {{frm.value.data}}
+                    </td>
+                </tr>
+            </table>
+
+            <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Anterior</button>
+                <button mat-button color="primary" (click)="nextStep()">Final</button>
+            </mat-action-row>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="step === 9" (opened)="setStep(9)" hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    PASSO 9
+                </mat-panel-title>
+                <mat-panel-description>
                     Resultado
                     <mat-icon>date_range</mat-icon>
                 </mat-panel-description>
             </mat-expansion-panel-header>
-            <table class="table m-4">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col" class="text-center" colspan="2">
-                            RECOMENDAÇÃO TÉCNICA
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <select>
-                                <option>Esterco de galinha</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input value="0,0">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select>
-                                <option>Esterco de gado</option>
-                            </select></td>
-                        <td><input value="0,0"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select>
-                                <option>Minhofertil (61 3361-6634)</option>
-                            </select></td>
-                        <td><input value="0,0"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select>
-                                <option>Composto ORGANICS (062 3247-3100)</option>
-                            </select></td>
-                        <td><input value="3,7"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select>
-                                <option>Composto Bioforte BONASA (061 9 9967-0863)</option>
-                            </select></td>
-                        <td><input value="0,0"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select>
-                                <option>Composto Bioensima BONASA (061 9 9967-0863)</option>
-                            </select></td>
-                        <td><input value="35416,7"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select>
-                                <option>Bokashi Carlos (061 9 9681-3730)</option>
-                            </select></td>
-                        <td><input value="4547,0"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select>
-                                <option>Bokashi Valdemar (9 9811-2414)</option>
-                            </select></td>
-                        <td><input value="5109,0"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select>
-                                <option>Biobokashi Farelado FERTIBIO (61 9827-4439)</option>
-                            </select></td>
-                        <td><input value="0,0"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select>
-                                <option>Torta de mamona Super thorg (061 9 9827-4439)</option>
-                            </select></td>
-                        <td><input value="-0,0"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select>
-                                <option>Torta de mamona Nutrisafra (062 3310-8133)</option>
-                            </select></td>
-                        <td><input value="0,0"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select>
-                                <option>Torta de mamona Vitaplan (061 3234-8485)</option>
-                            </select></td>
-                        <td><input value="0,0"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select>
-                                <option>Farinha de osso</option>
-                            </select></td>
-                        <td><input value="0,0"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select>
-                                <option>Termofosfato YOORIN</option>
-                            </select></td>
-                        <td><input value="0,0"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select>
-                                <option>Kmag</option>
-                            </select></td>
-                        <td><input value="963,6"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select>
-                                <option>Algas marinhas Algen</option>
-                            </select></td>
-                        <td><input value="0,0"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select>
-                                <option>Torta de mamona Hortibraz</option>
-                            </select></td>
-                        <td><input value="0,0"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select>
-                                <option></option>
-                            </select></td>
-                        <td><input value="0,0"></td>
-                    </tr>
-                </tbody>
+
+            <table class="res-cabec">
+                <tr>
+                    <td>
+                        FOLHA DE RECOMENDAÇÃO TÉCNICA
+                    </td>
+                </tr>
             </table>
-            <table>
+
+            <table class="res">
+                <tr>
+                    <td>
+                        NOME DO PROPRIETÁRIO
+                    </td>
+                    <td>
+                        {{frm.value.pessoa?.nome}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        DATA
+                    </td>
+                    <td>
+                        {{frm.value.data}}
+                    </td>
+                </tr>
+            </table>
+
+            <table class="res-cabec">
+                <tr>
+                    <td>
+                        Recomendação de Adubação
+                    </td>
+                </tr>
+            </table>
+
+            <table class="res">
+                <tr class="limpo">
+                    <td>Número de plantas por hectare (100m x 100m):</td>
+                    <td>{{frm.value.espacamento?.quantidadePlanta}}</td>
+                    <td>Área (ha):</td>
+                    <td>{{frm.value.espacamento?.area}}</td>
+                </tr>
+            </table>
+
+            <table class="res">
+                <tr>
+                    <td colspan="4" style="text-align: center;">Dados de análise de solos</td>
+                    <td>Sat. Bases</td>
+                    <td>{{getReceitaAnaliseSoloParametro('sat_base')?.valor}}</td>
+                    <td>Argila</td>
+                    <td>{{getReceitaAnaliseSoloParametro('argila')?.valor}}</td>
+                </tr>
+                <tr>
+                    <td>pH</td>
+                    <td>{{getReceitaAnaliseSoloParametro('ph_h2o')?.valor}}</td>
+                    <td>Na</td>
+                    <td>{{getReceitaAnaliseSoloParametro('sodio')?.valor}}</td>
+                    <td>M.O.</td>
+                    <td>{{getReceitaAnaliseSoloParametro('mat_organica')?.valor}}</td>
+                    <td>Mn</td>
+                    <td>{{getReceitaAnaliseSoloParametro('magnesio')?.valor}}</td>
+                </tr>
+                <tr>
+                    <td>Ca</td>
+                    <td>{{getReceitaAnaliseSoloParametro('calcio')?.valor}}</td>
+                    <td>P</td>
+                    <td>{{getReceitaAnaliseSoloParametro('potassio')?.valor}}</td>
+                    <td>B</td>
+                    <td>{{getReceitaAnaliseSoloParametro('boro')?.valor}}</td>
+                    <td>Zn</td>
+                    <td>{{getReceitaAnaliseSoloParametro('zinco')?.valor}}</td>
+                </tr>
+                <tr>
+                    <td>Mg</td>
+                    <td>{{getReceitaAnaliseSoloParametro('manganes')?.valor}}</td>
+                    <td>H+Al</td>
+                    <td>{{getReceitaAnaliseSoloParametro('h_ai')?.valor}}</td>
+                    <td>Cu</td>
+                    <td>{{getReceitaAnaliseSoloParametro('cobre')?.valor}}</td>
+                    <td>S</td>
+                    <td>{{getReceitaAnaliseSoloParametro('sodio')?.valor}}</td>
+                </tr>
+                <tr>
+                    <td>K</td>
+                    <td>{{getReceitaAnaliseSoloParametro('calcio')?.valor}}</td>
+                    <td>Al</td>
+                    <td>{{getReceitaAnaliseSoloParametro('aluminio')?.valor}}</td>
+                    <td>Fe</td>
+                    <td>{{getReceitaAnaliseSoloParametro('ferro')?.valor}}</td>
+                    <td>CTC</td>
+                    <td>{{getReceitaAnaliseSoloParametro('ctc')?.valor}}</td>
+                </tr>
+            </table>
+
+            <div *ngIf="frm?.value.calcarioPercentual || frm?.value.poDeRochaPercentual">
+                <table class="res-cabec">
+                    <tr>
+                        <td>
+                            CALAGEM E ROCHAGEM
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="res">
+                    <ng-template ngFor let-reg [ngForOf]="[
+                    {adubo: frm?.value.calcario, perc: frm?.value.necessidadeCalcarioCorrigido}, 
+                    {adubo: frm?.value.poDeRocha, perc: frm?.value.necessidadePoDeRochaCorrigido}]" let-i="index">
+                        <tr *ngIf="reg.adubo">
+                            <td rowspan="2" class="limpo">{{reg.adubo.nome}}</td>
+                            <td class="limpo">{{reg.perc}}</td>
+                            <td class="limpo">toneladas por hectare ou,</td>
+                            <td class="limpo">Custo/área total</td>
+                            <td class="limpo">{{reg.perc / 10}}</td>
+                        </tr>
+                        <tr *ngIf="reg.adubo">
+                            <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td> <!-- Pegar dados do preco do adubo -->
+                            <td class="limpo">gramas por metro quadrado</td>
+                            <td class="limpo">Custo/nº plantas</td>
+                            <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
+                        </tr>
+                    </ng-template>
+                </table>
+                <p>
+                    <strong>Aplicar da seguinte forma:</strong> a calagem/rochagem deve ser aplicada no final do período
+                    chuvoso anterior ao plantio, ou ainda, no início da estação chuvosa pouco antes do plantio. Se a
+                    dose de
+                    calcario for elevada (maior que 5 a outra deverá ser de no mínimo 12 meses.
+                </p>
+            </div>
+
+            <div *ngIf="frm?.value.receitaAmostragemSolo?.gesso">
+                <table class="res-cabec">
+                    <tr>
+                        <td>
+                            GESSAGEM
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="res">
+                    <ng-template ngFor let-reg [ngForOf]="[
+                    {adubo: frm?.value.receitaAmostragemSolo?.gesso, perc: 0}]" let-i="index">
+                        <tr *ngIf="reg.adubo">
+                            <td rowspan="2" class="limpo">{{reg.adubo.nome}}</td>
+                            <td class="limpo">{{reg.perc}}</td>
+                            <td class="limpo">toneladas por hectare ou,</td>
+                            <td class="limpo">Custo/área total</td>
+                            <td class="limpo">--</td>
+                        </tr>
+                        <tr *ngIf="reg.adubo">
+                            <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td> <!-- Pegar dados do preco do adubo -->
+                            <td class="limpo">gramas por metro quadrado</td>
+                            <td class="limpo">Custo/nº plantas</td>
+                            <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
+                        </tr>
+                    </ng-template>
+                </table>
+
+                <p>
+                    <strong>Aplicar da seguinte forma:</strong> o gesso agrícola deve ser aplicado a lanço depois da
+                    calagem.
+                </p>
+            </div>
+
+            <div *ngIf="getAdubosInformados().length">
+                <table class="res-cabec">
+                    <tr>
+                        <td>
+                            ADUBOS
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="res">
+                    <ng-template ngFor let-reg [ngForOf]="getAdubosInformados()" let-i="index">
+                        <tr *ngIf="reg.adubo">
+                            <td rowspan="2" class="limpo">{{reg.adubo.nome}}</td>
+                            <td class="limpo">{{reg.perc}}</td>
+                            <td class="limpo">toneladas por hectare ou,</td>
+                            <td class="limpo">Custo/área total</td>
+                            <td class="limpo">--</td>
+                        </tr>
+                        <tr *ngIf="reg.adubo">
+                            <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td> <!-- Pegar dados do preco do adubo -->
+                            <td class="limpo">gramas por metro quadrado</td>
+                            <td class="limpo">Custo/nº plantas</td>
+                            <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
+                        </tr>
+                    </ng-template>
+                </table>
+
+                <p>
+                    <strong>Aplicar da seguinte forma:</strong>
+                </p>
+                <ul>
+                    <li>O adubo fosfatado e adubos orgânicos podem ser aplicado de uma única vez no início da estação
+                        chuvosa.</li>
+                    <li>Parcelar em três vezes, durante o período chuvoso, os adubos contendo nitrogênio e potássio.
+                    </li>
+                    <li>Fazer nova amostragem de solo a cada dois ou três anos.</li>
+                </ul>
+            </div>
+
+            <div *ngIf="getMicroNutrientesInformados().length">
+                <table class="res-cabec">
+                    <tr>
+                        <td>
+                            USO DE ADUBOS COM MICRONUTRIENTES
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="res">
+                    <ng-template ngFor let-reg [ngForOf]="getMicroNutrientesInformados()" let-i="index">
+                        <tr *ngIf="reg.adubo">
+                            <td rowspan="2" class="limpo">{{reg.adubo.nome}}</td>
+                            <td class="limpo">{{reg.perc}}</td>
+                            <td class="limpo">toneladas por hectare ou,</td>
+                            <td class="limpo">Custo/área total</td>
+                            <td class="limpo">--</td>
+                        </tr>
+                        <tr *ngIf="reg.adubo">
+                            <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td> <!-- Pegar dados do preco do adubo -->
+                            <td class="limpo">gramas por metro quadrado</td>
+                            <td class="limpo">Custo/nº plantas</td>
+                            <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
+                        </tr>
+                    </ng-template>
+                </table>
+
+                <p>
+                    <strong>Aplicar da seguinte forma:</strong>
+                </p>
+                <ol type="a">
+                    <li>
+                        Os micronutrientes podem ser misturados e aplicados juntos aos outros adubos fontes de
+                        nitrogênio, fósforo e potássio</li>
+                    <li>
+                        A reaplicação de micronutrientes pode ser necessária após 4 anos, de acordo com análise do solo
+                    </li>
+                </ol>
+            </div>
+
+            <table class="res-cabec">
+                <tr>
+                    <td>
+                        CUSTOS
+                    </td>
+                </tr>
+            </table>
+
+            <table class="res">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+
+            <!-- <table>
                 <tr>
                     <td rowspan="2">
                         PARA OBTER O MENOR CUSTO
@@ -1492,6 +1723,7 @@
                     <td><input value="22,3560846278554"></td>
                 </tr>
             </table>
+             -->
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>
                 <button mat-button color="primary" (click)="nextStep()">Final</button>
@@ -1500,4 +1732,4 @@
 
     </mat-accordion>
 </form>
-[{{frm?.value | json}}]
+<!-- [{{frm?.value | json}}] -->

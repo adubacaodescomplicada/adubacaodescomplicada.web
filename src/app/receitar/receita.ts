@@ -25,13 +25,16 @@ export class Receita {
     calcarioPercentual: number;
     poDeRocha: Adubo;
     poDeRochaPercentual: number;
+
     necessidadeCalcario: number;
     necessidadeCalcarioCorrigido: number;
     necessidadePoDeRocha: number;
     necessidadePoDeRochaCorrigido: number;
+
     necessidadeDeGesso: number;
 
     receitaAmostragemSolo: ReceitaAmostragemSolo;
+
     espacamento: Espacamento;
 
     receitaFonteMateriaOrganicaList: ReceitaFonteMateriaOrganica[];
@@ -39,8 +42,10 @@ export class Receita {
 
     receitaFonteFosforoList: ReceitaFonteAdubo[];
     receitaFonteFosforoPercTotal: number;
+
     receitaFontePotassioList: ReceitaFonteAdubo[];
     receitaFontePotassioPercTotal: number;
+
     receitaFonteNitrogenioList: ReceitaFonteAdubo[];
     receitaFonteNitrogenioPercTotal: number;
 
