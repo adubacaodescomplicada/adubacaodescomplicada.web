@@ -600,7 +600,7 @@
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar" #poDeRochav formControlName="poDeRocha">
                                     <mat-option
-                                        *ngFor="let poDeBrita of aduboList | callback : filtraAduboTipo : ['po_de_rocha']"
+                                        *ngFor="let poDeBrita of aduboList | callback : filtraAduboTipo : ['remineralizador']"
                                         [value]="poDeBrita">
                                         {{poDeBrita.nome}}</mat-option>
                                 </mat-select>
@@ -912,19 +912,22 @@
                                 <div *ngIf="receitaFonteNitrogenio.value.adubo?.id" style="font-size: 70%;">
                                     <p>
                                         Nitrogênio:
-                                        {{receitaFonteNitrogenio.value.totalNitrogenio * (receitaFonteNitrogenio.value.valor / 100)}}
+                                        {{receitaFonteNitrogenio.value.totalNitrogenio *
+                                        (receitaFonteNitrogenio.value.valor / 100)}}
                                         de {{receitaFonteNitrogenio.value.totalNitrogenio}}
                                         (g/planta)
                                     </p>
                                     <p>
                                         Fósforo:
-                                        {{receitaFonteNitrogenio.value.totalFosforo * (receitaFonteNitrogenio.value.valor / 100)}}
+                                        {{receitaFonteNitrogenio.value.totalFosforo *
+                                        (receitaFonteNitrogenio.value.valor / 100)}}
                                         de {{receitaFonteNitrogenio.value.totalFosforo}}
                                         (g/planta)
                                     </p>
                                     <p>
                                         Potássio:
-                                        {{receitaFonteNitrogenio.value.totalPotassio * (receitaFonteNitrogenio.value.valor / 100)}}
+                                        {{receitaFonteNitrogenio.value.totalPotassio *
+                                        (receitaFonteNitrogenio.value.valor / 100)}}
                                         de {{receitaFonteNitrogenio.value.totalPotassio}}
                                         (g/planta)
                                     </p>
@@ -1001,19 +1004,22 @@
                                 <div *ngIf="receitaFonteFosforo.value.adubo?.id" style="font-size: 70%;">
                                     <p>
                                         Nitrogênio:
-                                        {{receitaFonteFosforo.value.totalNitrogenio * (receitaFonteFosforo.value.valor / 100)}}
+                                        {{receitaFonteFosforo.value.totalNitrogenio * (receitaFonteFosforo.value.valor /
+                                        100)}}
                                         de {{receitaFonteFosforo.value.totalNitrogenio}}
                                         (g/planta)
                                     </p>
                                     <p>
                                         Fósforo:
-                                        {{receitaFonteFosforo.value.totalFosforo * (receitaFonteFosforo.value.valor / 100)}}
+                                        {{receitaFonteFosforo.value.totalFosforo * (receitaFonteFosforo.value.valor /
+                                        100)}}
                                         de {{receitaFonteFosforo.value.totalFosforo}}
                                         (g/planta)
                                     </p>
                                     <p>
                                         Potássio:
-                                        {{receitaFonteFosforo.value.totalPotassio * (receitaFonteFosforo.value.valor / 100)}}
+                                        {{receitaFonteFosforo.value.totalPotassio * (receitaFonteFosforo.value.valor /
+                                        100)}}
                                         de {{receitaFonteFosforo.value.totalPotassio}}
                                         (g/planta)
                                     </p>
@@ -1090,19 +1096,22 @@
                                 <div *ngIf="receitaFontePotassio.value.adubo?.id" style="font-size: 70%;">
                                     <p>
                                         Nitrogênio:
-                                        {{receitaFontePotassio.value.totalNitrogenio * (receitaFontePotassio.value.valor / 100)}}
+                                        {{receitaFontePotassio.value.totalNitrogenio * (receitaFontePotassio.value.valor
+                                        / 100)}}
                                         de {{receitaFontePotassio.value.totalNitrogenio}}
                                         (g/planta)
                                     </p>
                                     <p>
                                         Fósforo:
-                                        {{receitaFontePotassio.value.totalFosforo * (receitaFontePotassio.value.valor / 100)}}
+                                        {{receitaFontePotassio.value.totalFosforo * (receitaFontePotassio.value.valor /
+                                        100)}}
                                         de {{receitaFontePotassio.value.totalFosforo}}
                                         (g/planta)
                                     </p>
                                     <p>
                                         Potássio:
-                                        {{receitaFontePotassio.value.totalPotassio * (receitaFontePotassio.value.valor / 100)}}
+                                        {{receitaFontePotassio.value.totalPotassio * (receitaFontePotassio.value.valor /
+                                        100)}}
                                         de {{receitaFontePotassio.value.totalPotassio}}
                                         (g/planta)
                                     </p>
@@ -1179,15 +1188,18 @@
                         <td>Excesso/déficit (g/planta)</td>
                         <td
                             [ngClass]="frm.value.eficienciaDeNitrogenio / (frm.value.totalExcessoDeficitNitrogenio / 100) < 0 ? 'table-danger' : frm.value.eficienciaDeNitrogenio / (frm.value.totalExcessoDeficitNitrogenio / 100) > 0 ? 'table-warning' : frm.value.eficienciaDeNitrogenio / (frm.value.totalExcessoDeficitNitrogenio / 100) === 0 ? 'table-success' : ''">
-                            {{(frm.value.eficienciaDeNitrogenio / (frm.value.totalExcessoDeficitNitrogenio / 100) | number:'1.2-2':'pt-BR')}}
+                            {{(frm.value.eficienciaDeNitrogenio / (frm.value.totalExcessoDeficitNitrogenio / 100) |
+                            number:'1.2-2':'pt-BR')}}
                         </td>
                         <td
                             [ngClass]="frm.value.eficienciaDeFosforo / (frm.value.totalExcessoDeficitFosforo / 100) < 0 ? 'table-danger' : frm.value.eficienciaDeFosforo / (frm.value.totalExcessoDeficitFosforo / 100) > 0 ? 'table-warning' : frm.value.eficienciaDeFosforo / (frm.value.totalExcessoDeficitFosforo / 100) === 0 ? 'table-success' : ''">
-                            {{(frm.value.eficienciaDeFosforo / (frm.value.totalExcessoDeficitFosforo / 100) | number:'1.2-2':'pt-BR')}}
+                            {{(frm.value.eficienciaDeFosforo / (frm.value.totalExcessoDeficitFosforo / 100) |
+                            number:'1.2-2':'pt-BR')}}
                         </td>
                         <td
                             [ngClass]="frm.value.eficienciaDePotassio / (frm.value.totalExcessoDeficitPotassio / 100) < 0 ? 'table-danger' : frm.value.eficienciaDePotassio / (frm.value.totalExcessoDeficitPotassio / 100) > 0 ? 'table-warning' : frm.value.eficienciaDePotassio / (frm.value.totalExcessoDeficitPotassio / 100) === 0 ? 'table-success' : ''">
-                            {{(frm.value.eficienciaDePotassio / (frm.value.totalExcessoDeficitPotassio / 100) | number:'1.2-2':'pt-BR')}}
+                            {{(frm.value.eficienciaDePotassio / (frm.value.totalExcessoDeficitPotassio / 100) |
+                            number:'1.2-2':'pt-BR')}}
                         </td>
                     </tr>
                     <tr style="font-family: 'Courier New', Courier, monospace;">
@@ -1274,25 +1286,29 @@
                                 <div *ngIf="receitaFonteMicroNutriente.value.adubo?.id" style="font-size: 70%;">
                                     <p>
                                         Boro:
-                                        {{receitaFonteMicroNutriente.value.totalBoro * (receitaFonteMicroNutriente.value.valor / 100)}}
+                                        {{receitaFonteMicroNutriente.value.totalBoro *
+                                        (receitaFonteMicroNutriente.value.valor / 100)}}
                                         de {{receitaFonteMicroNutriente.value.totalBoro}}
                                         (g/planta)
                                     </p>
                                     <p>
                                         Cobre:
-                                        {{receitaFonteMicroNutriente.value.totalCobre * (receitaFonteMicroNutriente.value.valor / 100)}}
+                                        {{receitaFonteMicroNutriente.value.totalCobre *
+                                        (receitaFonteMicroNutriente.value.valor / 100)}}
                                         de {{receitaFonteMicroNutriente.value.totalCobre}}
                                         (g/planta)
                                     </p>
                                     <p>
                                         Manganês:
-                                        {{receitaFonteMicroNutriente.value.totalManganes * (receitaFonteMicroNutriente.value.valor / 100)}}
+                                        {{receitaFonteMicroNutriente.value.totalManganes *
+                                        (receitaFonteMicroNutriente.value.valor / 100)}}
                                         de {{receitaFonteMicroNutriente.value.totalManganes}}
                                         (g/planta)
                                     </p>
                                     <p>
                                         Zinco:
-                                        {{receitaFonteMicroNutriente.value.totalZinco * (receitaFonteMicroNutriente.value.valor / 100)}}
+                                        {{receitaFonteMicroNutriente.value.totalZinco *
+                                        (receitaFonteMicroNutriente.value.valor / 100)}}
                                         de {{receitaFonteMicroNutriente.value.totalZinco}}
                                         (g/planta)
                                     </p>
@@ -1401,7 +1417,7 @@
                     PASSO 8
                 </mat-panel-title>
                 <mat-panel-description>
-                    Prazos
+                    Modo de Aplicação
                     <mat-icon>date_range</mat-icon>
                 </mat-panel-description>
             </mat-expansion-panel-header>
@@ -1409,29 +1425,76 @@
             <table class="res-cabec">
                 <tr>
                     <td>
-                        FOLHA DE RECOMENDAÇÃO TÉCNICA
+                        MODO DE APLICAÇÃO
                     </td>
                 </tr>
             </table>
 
-            <table class="res">
+            <table class="res" formGroupName="modoAplicacao">
                 <tr>
-                    <td>
-                        NOME DO PROPRIETÁRIO
+                    <td width="80%">
+                        SE FOR FEITA ADUBAÇÃO PARCELADA A LANÇO OU FERTIRRIGAÇÃO, DIGA QUANTAS VEZES POR MÊS OS ADUBOS
+                        SERÃO APLICADOS
                     </td>
-                    <td>
-                        {{frm.value.pessoa?.nome}}
+                    <td width="20%">
+                        <mat-form-field>
+                            <mat-label>Valor</mat-label>
+                            <input matInput type="number" class="text-right" formControlName="quantidadePorMes" min="0" step="1">
+                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.quantidadePorMes?.errors?.required">
+                                Campo Obrigatório!
+                            </mat-error>
+                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.quantidadePorMes?.errors?.min">
+                                Valor mínimo ({{frm.get('modoAplicacao')?.controls?.quantidadePorMes?.errors?.min.min}}) ultrapassado!
+                            </mat-error>
+                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.quantidadePorMes?.errors?.max">
+                                Valor máximo ({{frm.get('modoAplicacao')?.controls?.quantidadePorMes?.errors?.max.max}})  ultrapassado!
+                            </mat-error>
+                        </mat-form-field>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        DATA
+                        DURANTE QUANTOS MESES OS ADUBOS SERÃO APLICADOS
                     </td>
                     <td>
-                        {{frm.value.data}}
+                        <mat-form-field>
+                            <mat-label>Valor</mat-label>
+                            <input matInput type="number" class="text-right" formControlName="totalMeses" min="0" step="1">
+                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.totalMeses?.errors?.required">
+                                Campo Obrigatório!
+                            </mat-error>
+                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.totalMeses?.errors?.min">
+                                Valor mínimo ({{frm.get('modoAplicacao')?.controls?.totalMeses?.errors?.min.min}}) ultrapassado!
+                            </mat-error>
+                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.totalMeses?.errors?.max">
+                                Valor máximo ({{frm.get('modoAplicacao')?.controls?.totalMeses?.errors?.max.max}})  ultrapassado!
+                            </mat-error>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        TOTAL DE ADUBAÇÃO REALIZADAS DURANTE A SAFRA
+                    </td>
+                    <td>
+                        <mat-form-field>
+                            <mat-label>Valor</mat-label>
+                            <input matInput type="number" class="text-right" formControlName="totalSafra" min="0" step="1">
+                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.totalSafra?.errors?.required">
+                                Campo Obrigatório!
+                            </mat-error>
+                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.totalSafra?.errors?.min">
+                                Valor mínimo ({{frm.get('modoAplicacao')?.controls?.totalSafra?.errors?.min.min}}) ultrapassado!
+                            </mat-error>
+                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.totalSafra?.errors?.max">
+                                Valor máximo ({{frm.get('modoAplicacao')?.controls?.totalSafra?.errors?.max.max}})  ultrapassado!
+                            </mat-error>
+                        </mat-form-field>
                     </td>
                 </tr>
             </table>
+
+            [{{frm.value.modoAplicacao | json}}]
 
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>
@@ -1565,7 +1628,8 @@
                             <td class="limpo">{{reg.perc / 10}}</td>
                         </tr>
                         <tr *ngIf="reg.adubo">
-                            <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td> <!-- Pegar dados do preco do adubo -->
+                            <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
+                            <!-- Pegar dados do preco do adubo -->
                             <td class="limpo">gramas por metro quadrado</td>
                             <td class="limpo">Custo/nº plantas</td>
                             <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
@@ -1600,7 +1664,8 @@
                             <td class="limpo">--</td>
                         </tr>
                         <tr *ngIf="reg.adubo">
-                            <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td> <!-- Pegar dados do preco do adubo -->
+                            <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
+                            <!-- Pegar dados do preco do adubo -->
                             <td class="limpo">gramas por metro quadrado</td>
                             <td class="limpo">Custo/nº plantas</td>
                             <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
@@ -1633,7 +1698,8 @@
                             <td class="limpo">--</td>
                         </tr>
                         <tr *ngIf="reg.adubo">
-                            <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td> <!-- Pegar dados do preco do adubo -->
+                            <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
+                            <!-- Pegar dados do preco do adubo -->
                             <td class="limpo">gramas por metro quadrado</td>
                             <td class="limpo">Custo/nº plantas</td>
                             <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
@@ -1672,7 +1738,8 @@
                             <td class="limpo">--</td>
                         </tr>
                         <tr *ngIf="reg.adubo">
-                            <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td> <!-- Pegar dados do preco do adubo -->
+                            <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
+                            <!-- Pegar dados do preco do adubo -->
                             <td class="limpo">gramas por metro quadrado</td>
                             <td class="limpo">Custo/nº plantas</td>
                             <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>

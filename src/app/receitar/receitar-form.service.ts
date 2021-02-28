@@ -1,3 +1,4 @@
+import { ModoAplicacao } from './../modelo/entidade/modo-aplicacao';
 import { ReceitaFonteMateriaOrganica } from './receita.fonte.materia.organica';
 import { Cultura } from './../modelo/entidade/cultura';
 import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
@@ -214,12 +215,14 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             necessidadeDeCobre: [entidade.necessidadeDeCobre, []],
             necessidadeDeManganes: [entidade.necessidadeDeManganes, []],
             necessidadeDeZinco: [entidade.necessidadeDeZinco, []],
-        });
 
+            modoAplicacao: this.criarFormModoAplicacao(entidade.modoAplicacao),
+        });
+        
         result.get('cultura').valueChanges.subscribe((c: Cultura) => {
             result.get('espacamento.duplo')?.setValue(c?.espacamentoDuplo === 'S' ? true : false);
         });
-
+        
         result.get('culturaTipo').setValue('F');
         result.get('cultura').setValue({
             armazanamentoEnvio: 'e',
@@ -264,6 +267,11 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             unidade: 'anos'
         });
 
+        result.get('modoAplicacao').valueChanges.subscribe((c: ModoAplicacao) => {
+            let value = c.quantidadePorMes && c.totalMeses ? c.quantidadePorMes * c.totalMeses : 0;
+            result.get('modoAplicacao.totalSafra')?.setValue(value, { emitEvent: false });
+        });
+
         this.calculaForm(result, result.value);
 
         result.valueChanges.subscribe((receita: Receita) => {
@@ -279,6 +287,16 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             calcio: [receitaAmostragemSolo?.calcio, []],
             aluminio: [receitaAmostragemSolo?.aluminio, []],
             satAluminio: [receitaAmostragemSolo?.satAluminio, []]
+        });
+
+        return result;
+    }
+
+    public criarFormModoAplicacao(modoAplicacao: ModoAplicacao) {
+        const result = this.fb.group({
+            quantidadePorMes: [modoAplicacao?.quantidadePorMes, [Validators.required, Validators.min(0)]],
+            totalMeses: [modoAplicacao?.totalMeses, [Validators.required, Validators.min(0)]],
+            totalSafra: [modoAplicacao?.totalSafra, [Validators.min(1)]],
         });
 
         return result;

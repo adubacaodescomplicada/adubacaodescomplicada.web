@@ -1,3 +1,4 @@
+import { ModoAplicacao } from './../modelo/entidade/modo-aplicacao';
 import { ReceitaFonteAdubo } from './receita.fonte.adubo';
 import { FormaAplicacaoAdubo } from './../modelo/entidade/forma-aplicacao-adubo';
 import { Adubo } from './../modelo/entidade/adubo';
@@ -58,5 +59,7 @@ export class Receita {
     necessidadeDeCobre: number;
     necessidadeDeManganes: number;
     necessidadeDeZinco: number;
+
+    modoAplicacao: ModoAplicacao;
 
 }
