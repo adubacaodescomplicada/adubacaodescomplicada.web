@@ -21,6 +21,7 @@ export class Receita {
     receitaAnaliseSoloParametroList: ReceitaAnaliseSoloParametro[];
     idadePlantio: CulturaIdadePlantio;
     produtividadeEsperada: number;
+    referencia: number;
 
     calcario: Adubo;
     calcarioPercentual: number;

@@ -8,8 +8,11 @@ export class Cultura implements EntidadeId {
     public id: number;
     public nome: string;
     public codigo: string;
+    public classificacao: string;
     public formacao: string;
     public producao: string;
+    public cultivoEmSolo: string;
+    public cultivoForaSolo: string;
     public recomendacao: string;
     public epoca: string;
     public tipoFolha: string;

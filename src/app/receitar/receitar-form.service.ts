@@ -167,6 +167,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             cultura: [entidade.cultura, [Validators.required]],
             idadePlantio: [entidade.idadePlantio, []],
             produtividadeEsperada: [entidade.produtividadeEsperada, []],
+            referencia: [entidade.referencia, [Validators.required]],
             receitaAnaliseSoloParametroList: this.criarFormReceitaAnaliseSoloParametroList(entidade.receitaAnaliseSoloParametroList),
             calcario: [entidade.calcario, []],
             calcarioPercentual: [entidade.calcarioPercentual, []],
@@ -223,6 +224,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             result.get('espacamento.duplo')?.setValue(c?.espacamentoDuplo === 'S' ? true : false);
         });
         
+        /*
         result.get('culturaTipo').setValue('F');
         result.get('cultura').setValue({
             armazanamentoEnvio: 'e',
@@ -266,6 +268,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             quantidade: 4,
             unidade: 'anos'
         });
+        */
 
         result.get('modoAplicacao').valueChanges.subscribe((c: ModoAplicacao) => {
             let value = c.quantidadePorMes && c.totalMeses ? c.quantidadePorMes * c.totalMeses : 0;

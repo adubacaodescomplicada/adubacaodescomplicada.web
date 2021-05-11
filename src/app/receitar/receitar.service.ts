@@ -13,6 +13,7 @@ import { Adubo } from './../modelo/entidade/adubo';
 import { Cultura } from '../modelo/entidade/cultura';
 import { UnidadeMedida } from './../modelo/entidade/unidade-medida';
 import { FonteMateriaOrganica } from '../modelo/entidade/fonte-materia-organica';
+import { ReceitaReferencia } from '../modelo/entidade/receita_referencia';
 
 @Injectable({ providedIn: 'root' })
 export class ReceitarService extends CrudService<ReceitaFiltroDTO, Receita, Receita> {
@@ -51,6 +52,11 @@ export class ReceitarService extends CrudService<ReceitaFiltroDTO, Receita, Rece
 
     public garantiaList(): Observable<Garantia[]> {
         return this._http.get<Garantia[]>(`${environment.REST_API_URL}/garantia`,
+            { headers: this.loginService.apiRequestHttpHeader });
+    }
+
+    public receitaReferenciaList(): Observable<ReceitaReferencia[]> {
+        return this._http.get<ReceitaReferencia[]>(`${environment.REST_API_URL}/receita-referencia`,
             { headers: this.loginService.apiRequestHttpHeader });
     }
 

@@ -21,6 +21,7 @@ export class ReceitarResolver implements Resolve<any> {
         fonteMateriaOrganicaList: this.service.fonteMateriaOrganicaList(),
         aduboList: this.service.aduboList(),
         garantiaList: this.service.garantiaList(),
+        receitaReferenciaList: this.service.receitaReferenciaList(),
       }
     };
   }

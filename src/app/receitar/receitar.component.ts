@@ -18,6 +18,7 @@ import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
 import { ReceitaFonteMateriaOrganica } from './receita.fonte.materia.organica';
 import { FormaAplicacaoAdubo } from '../modelo/entidade/forma-aplicacao-adubo';
 import { ReceitaFonteAdubo } from './receita.fonte.adubo';
+import { ReceitaReferencia } from '../modelo/entidade/receita_referencia';
 
 @Component({
   selector: 'app-receitar',
@@ -41,6 +42,7 @@ export class ReceitarComponent implements OnInit {
   fonteNitrogenioList: Adubo[];
   fonteMicroNutrienteList: Adubo[];
   formaAplicacaoAduboList: FormaAplicacaoAdubo[];
+  receitaReferenciaList: ReceitaReferencia[];
 
   constructor(
     private service: ReceitarService,
@@ -54,7 +56,22 @@ export class ReceitarComponent implements OnInit {
   ngOnInit(): void {
     this.route.data.subscribe((resolver) => {
       resolver[0].apoio.aduboList.subscribe((lista) => this.aduboList = lista);
-      resolver[0].apoio.culturaList.subscribe((lista) => this.culturaList = lista);
+      resolver[0].apoio.culturaList.subscribe((lista) => {
+        lista = lista
+          .sort((a, b) => a['nome'].localeCompare(b['nome']))
+          .sort((a, b) => a['classificacao'].localeCompare(b['classificacao']))
+          .reduce((acc, cur, idx, src) => {
+            let classificacaoIdx = acc.map(l => l.nome).indexOf(cur.classificacao);
+            if (classificacaoIdx < 0) {
+              acc.push({ nome: cur.classificacao, lista: [cur] });
+            } else {
+              acc[classificacaoIdx].lista.push(cur);
+            }
+            return acc;
+          }, []);
+
+        this.culturaList = lista;
+      });
       resolver[0].apoio.analiseSoloParametroList.subscribe((lista) => {
         this.analiseSoloParametroList = lista.sort((a, b) => a.ordem > b.ordem ? 1 : (a.ordem < b.ordem ? -1 : 0));
         const entidade = new Receita();
@@ -74,7 +91,12 @@ export class ReceitarComponent implements OnInit {
         this.carregar(entidade);
       });
       resolver[0].apoio.unidadeMedidaList.subscribe((lista) => this.unidadeMedidaList = lista);
-      resolver[0].apoio.fonteMateriaOrganicaList.subscribe((lista) => this.fonteMateriaOrganicaList = lista);
+      console.log('inicio 0');
+      resolver[0].apoio.fonteMateriaOrganicaList.subscribe((lista) => {
+        console.log('inicio 1');
+        this.fonteMateriaOrganicaList = lista;
+      });
+      resolver[0].apoio.receitaReferenciaList.subscribe((lista) => this.receitaReferenciaList = lista);
 
       resolver[0].apoio.aduboList.subscribe((aduboLista) => {
         this.aduboList = aduboLista;
