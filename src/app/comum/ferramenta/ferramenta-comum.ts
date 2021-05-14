@@ -324,7 +324,13 @@ export function codificaNome(nome: string, primeiraLetraMaiuscula = false): stri
     return nome;
 }
 
-export function idListComparar(o1: {id: number}, o2: {id: number}) {
+export function idListComparar(o1: { id: number }, o2: { id: number }) {
     const result = o1 && o2 ? o1.id === o2.id : o1 === o2;
     return result;
+}
+
+export function pad(n, width, z) {
+    z = z || '0';
+    n = n + '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }

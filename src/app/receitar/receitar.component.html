@@ -25,7 +25,7 @@
                 <td><input></td>
             </tr> -->
             <tr>
-                <th scope="row" class="align-middle">DATA</th>
+                <th scope="row" class="align-middle">Data de Preparo desta Receita</th>
                 <td>
                     <mat-form-field>
                         <input matInput type="date" formControlName="data">
@@ -33,6 +33,7 @@
                             Campo Obrigatório!
                         </mat-error>
                     </mat-form-field>
+                    <!-- [{{frm?.value.data}}] -->
                 </td>
             </tr>
 
@@ -52,27 +53,27 @@
                                     Campo Obrigatório!
                                 </mat-error>
                     </mat-form-field>
-                    <!-- {{frm.value.cultura | json}} -->
+                    <!-- {{frm?.value.cultura | json}} -->
                 </td>
             </tr>
-            <tr *ngIf="frm.value.cultura">
+            <tr *ngIf="frm?.value.cultura">
                 <th scope="row" class="align-middle">Tipo</th>
                 <td>
                     <mat-radio-group formControlName="culturaTipo">
                         <mat-radio-button style="margin-right: 16px" value="F"
-                            *ngIf="frm.value.cultura.formacao === 'S'">
+                            *ngIf="frm?.value.cultura.formacao === 'S'">
                             Formação
                         </mat-radio-button>
                         <mat-radio-button style="margin-right: 16px" value="P"
-                            *ngIf="frm.value.cultura.producao === 'S'">
+                            *ngIf="frm?.value.cultura.producao === 'S'">
                             Produção
                         </mat-radio-button>
                         <mat-radio-button style="margin-right: 16px" value="ES"
-                            *ngIf="frm.value.cultura.cultivoEmSolo === 'S'">
+                            *ngIf="frm?.value.cultura.cultivoEmSolo === 'S'">
                             Cultivo em solo (campo)
                         </mat-radio-button>
                         <mat-radio-button style="margin-right: 16px" value="FS"
-                            *ngIf="frm.value.cultura.cultivoForaSolo === 'S'">
+                            *ngIf="frm?.value.cultura.cultivoForaSolo === 'S'">
                             Cultivo fora do solo (hidropônico)
                         </mat-radio-button>
                     </mat-radio-group>
@@ -83,12 +84,12 @@
                 </td>
             </tr>
 
-            <tr *ngIf="frm.value.cultura && frm.value.culturaTipo === 'F'">
+            <tr *ngIf="frm?.value.cultura && frm?.value.culturaTipo === 'F'">
                 <th scope="row" class="align-middle">Idade Plantio</th>
                 <td>
                     <mat-form-field>
                         <mat-select formControlName="idadePlantio" [compareWith]="idListComparar">
-                            <mat-option *ngFor="let idadePlantio of frm.value.cultura.culturaIdadePlantioList"
+                            <mat-option *ngFor="let idadePlantio of frm?.value.cultura.culturaIdadePlantioList"
                                 [value]="idadePlantio">{{idadePlantio.nome}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="frm?.controls?.idadePlantio?.hasError('required')">
@@ -97,7 +98,7 @@
                     </mat-form-field>
                 </td>
             </tr>
-            <tr *ngIf="frm.value.cultura && frm.value.culturaTipo === 'P'">
+            <tr *ngIf="frm?.value.cultura && frm?.value.culturaTipo === 'P'">
                 <th scope="row" class="align-middle">Produtividade Esperada</th>
                 <td>
                     <mat-form-field>
@@ -106,11 +107,11 @@
                             Campo Obrigatório!
                         </mat-error>
                     </mat-form-field>
-                    <!-- <label>{{frm.value.cultura?.unidadeProdutividade}}</label> -->
+                    <!-- <label>{{frm?.value.cultura?.unidadeProdutividade}}</label> -->
                 </td>
             </tr>
 
-            <tr *ngIf="frm.value.cultura">
+            <tr *ngIf="frm?.value.cultura">
                 <th scope="row" class="align-middle">Referência</th>
                 <td>
                     <mat-form-field>
@@ -127,7 +128,8 @@
         </tbody>
     </table>
 
-    <mat-accordion class="example-headers-align">
+    <mat-accordion class="example-headers-align" *ngIf="frm?.value.cultura && frm?.value.referencia">
+        <!--
         <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -222,7 +224,7 @@
                 </mat-panel-description>
             </mat-expansion-panel-header>
 
-            <div *ngIf="frm?.value.cultura">
+            <div>
                 <table class="table m-4">
                     <thead class="thead-dark">
                         <tr>
@@ -325,11 +327,12 @@
                 <button mat-button color="primary" (click)="nextStep()">Proximo</button>
             </mat-action-row>
         </mat-expansion-panel>
+        -->
 
-        <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+        <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    PASSO 2
+                    PASSO 1
                 </mat-panel-title>
                 <mat-panel-description>
                     Análise de Solo
@@ -414,10 +417,10 @@
             </mat-action-row>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle formGroupName="espacamento">
+        <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle formGroupName="espacamento">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    PASSO 3
+                    PASSO 2
                 </mat-panel-title>
                 <mat-panel-description>
                     Espaçamento
@@ -429,19 +432,19 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" class="text-center"
-                            [attr.colspan]="frm.value?.cultura?.espacamentoDuplo === 'S' ? 5: 3">DETALHE O ESPAÇAMENTO
+                            [attr.colspan]="frm?.value?.cultura?.espacamentoDuplo === 'S' ? 5: 3">DETALHE O ESPAÇAMENTO
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngIf="frm.value?.cultura?.espacamentoDuplo === 'S'">
+                    <tr *ngIf="frm?.value?.cultura?.espacamentoDuplo === 'S'">
                         <td colspan="5">
                             <mat-checkbox formControlName="duplo">
                                 Espaçamento Duplo?
                             </mat-checkbox>
                         </td>
                     </tr>
-                    <tr *ngIf="!frm.value?.espacamento?.duplo">
+                    <tr *ngIf="!frm?.value?.espacamento?.duplo">
                         <td>
                             <mat-form-field>
                                 <mat-label>Entre Plantas</mat-label>
@@ -472,7 +475,7 @@
                             </mat-form-field>
                         </td>
                     </tr>
-                    <tr *ngIf="frm.value?.espacamento?.duplo">
+                    <tr *ngIf="frm?.value?.espacamento?.duplo">
                         <td>
                             <mat-form-field>
                                 <mat-label>Entre Plantas</mat-label>
@@ -521,7 +524,7 @@
                 </tbody>
             </table>
             <table class="table m-4"
-                *ngIf="frm.value.espacamento?.a > 0 && frm.value.espacamento?.b > 0 && (!frm.value.espacamento?.duplo || frm.value.espacamento?.duplo && frm.value.espacamento?.c > 0)">
+                *ngIf="frm?.value.espacamento?.a > 0 && frm?.value.espacamento?.b > 0 && (!frm?.value.espacamento?.duplo || frm?.value.espacamento?.duplo && frm?.value.espacamento?.c > 0)">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" class="text-center" colspan="1">NÚMERO DE PLANTAS</th>
@@ -548,7 +551,7 @@
                 </tbody>
             </table>
             <table class="table m-4"
-                *ngIf="frm.value.espacamento?.a > 0 && frm.value.espacamento?.b > 0 && (!frm.value.espacamento?.duplo || frm.value.espacamento?.duplo && frm.value.espacamento?.c > 0)">
+                *ngIf="frm?.value.espacamento?.a > 0 && frm?.value.espacamento?.b > 0 && (!frm?.value.espacamento?.duplo || frm?.value.espacamento?.duplo && frm?.value.espacamento?.c > 0)">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" class="text-center" colspan="1">ÁREA</th>
@@ -579,10 +582,10 @@
             </mat-action-row>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step ===4" (opened)="setStep(4)" hideToggle>
+        <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    PASSO 4
+                    PASSO 3
                 </mat-panel-title>
                 <mat-panel-description>
                     Calcário
@@ -653,7 +656,7 @@
                             Necessidade de Calcário:
                         </td>
                         <td colspan="2">
-                            [{{frm.value.necessidadeCalcarioCorrigido}}]
+                            [{{frm?.value.necessidadeCalcarioCorrigido}}]
                         </td>
                     </tr>
                     <tr>
@@ -661,7 +664,7 @@
                             Necessidade de Pó de Rocha:
                         </td>
                         <td colspan="2">
-                            [{{frm.value.necessidadePoDeRochaCorrigido}}]
+                            [{{frm?.value.necessidadePoDeRochaCorrigido}}]
                         </td>
                     </tr>
                 </tbody>
@@ -694,11 +697,11 @@
             </mat-action-row>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle
+        <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle
             formGroupName="receitaAmostragemSolo">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    PASSO 5
+                    PASSO 4
                 </mat-panel-title>
                 <mat-panel-description>
                     Gesso
@@ -746,7 +749,7 @@
                 </tbody>
             </table>
 
-            <table class="table m-4" *ngIf="frm.value.receitaAmostragemSolo.realizada">
+            <table class="table m-4" *ngIf="frm?.value.receitaAmostragemSolo.realizada">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" class="text-center" colspan="3">SE A RESPOSTA ANTERIOR FOI SIM, DIGA OS DADOS
@@ -805,7 +808,7 @@
                             Necessidade de gesso:
                         </td>
                         <td colspan="2">
-                            [{{frm.value.necessidadeDeGesso}}]
+                            [{{frm?.value.necessidadeDeGesso}}]
                         </td>
                     </tr>
                 </tbody>
@@ -817,7 +820,7 @@
             </mat-action-row>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+        <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     PASSO 6
@@ -893,10 +896,10 @@
                 </tbody>
                 <!-- <tfoot>
                     <tr
-                        [ngClass]="frm.value.receitaFonteMateriaOrganicaPercTotal < 100 ? 'table-danger' : frm.value.receitaFonteMateriaOrganicaPercTotal > 100 ? 'table-warning' : frm.value.receitaFonteMateriaOrganicaPercTotal === 100 ? 'table-success' : ''">
+                        [ngClass]="frm?.value.receitaFonteMateriaOrganicaPercTotal < 100 ? 'table-danger' : frm?.value.receitaFonteMateriaOrganicaPercTotal > 100 ? 'table-warning' : frm?.value.receitaFonteMateriaOrganicaPercTotal === 100 ? 'table-success' : ''">
                         <td colspan="2">Total Geral Percentual</td>
                         <td>
-                            {{frm.value.receitaFonteMateriaOrganicaPercTotal}}%
+                            {{frm?.value.receitaFonteMateriaOrganicaPercTotal}}%
                         </td>
                     </tr>
                 </tfoot> -->
@@ -985,10 +988,10 @@
                 </tbody>
                 <tfoot>
                     <tr
-                        [ngClass]="frm.value.receitaFonteNitrogenioPercTotal < 100 ? 'table-danger' : frm.value.receitaFonteNitrogenioPercTotal > 100 ? 'table-warning' : frm.value.receitaFonteNitrogenioPercTotal === 100 ? 'table-success' : ''">
+                        [ngClass]="frm?.value.receitaFonteNitrogenioPercTotal < 100 ? 'table-danger' : frm?.value.receitaFonteNitrogenioPercTotal > 100 ? 'table-warning' : frm?.value.receitaFonteNitrogenioPercTotal === 100 ? 'table-success' : ''">
                         <td colspan="2">Total Geral Percentual</td>
                         <td colspan="2">
-                            {{frm.value.receitaFonteNitrogenioPercTotal}}%
+                            {{frm?.value.receitaFonteNitrogenioPercTotal}}%
                         </td>
                     </tr>
                 </tfoot>
@@ -1077,10 +1080,10 @@
                 </tbody>
                 <tfoot>
                     <tr
-                        [ngClass]="frm.value.receitaFonteFosforoPercTotal < 100 ? 'table-danger' : frm.value.receitaFonteFosforoPercTotal > 100 ? 'table-warning' : frm.value.receitaFonteFosforoPercTotal === 100 ? 'table-success' : ''">
+                        [ngClass]="frm?.value.receitaFonteFosforoPercTotal < 100 ? 'table-danger' : frm?.value.receitaFonteFosforoPercTotal > 100 ? 'table-warning' : frm?.value.receitaFonteFosforoPercTotal === 100 ? 'table-success' : ''">
                         <td colspan="2">Total Geral Percentual</td>
                         <td colspan="2">
-                            {{frm.value.receitaFonteFosforoPercTotal}}%
+                            {{frm?.value.receitaFonteFosforoPercTotal}}%
                         </td>
                     </tr>
                 </tfoot>
@@ -1169,10 +1172,10 @@
                 </tbody>
                 <tfoot>
                     <tr
-                        [ngClass]="frm.value.receitaFontePotassioPercTotal < 100 ? 'table-danger' : frm.value.receitaFontePotassioPercTotal > 100 ? 'table-warning' : frm.value.receitaFontePotassioPercTotal === 100 ? 'table-success' : ''">
+                        [ngClass]="frm?.value.receitaFontePotassioPercTotal < 100 ? 'table-danger' : frm?.value.receitaFontePotassioPercTotal > 100 ? 'table-warning' : frm?.value.receitaFontePotassioPercTotal === 100 ? 'table-success' : ''">
                         <td colspan="2">Total Geral Percentual</td>
                         <td colspan="2">
-                            {{frm.value.receitaFontePotassioPercTotal}}%
+                            {{frm?.value.receitaFontePotassioPercTotal}}%
                         </td>
                     </tr>
                 </tfoot>
@@ -1195,7 +1198,7 @@
                                     {{item.nome}}
                                 </mat-radio-button>
                             </mat-radio-group>
-                            {{frm.value.formaAplicacaoAdubo | json}}
+                            {{frm?.value.formaAplicacaoAdubo | json}}
                         </td>
                     </tr>
                 </tbody>
@@ -1213,25 +1216,25 @@
                 <tbody>
                     <tr *ngIf="false">
                         <td>Demanda (g/planta)</td>
-                        <td>{{frm.value.eficienciaDeNitrogenio}}</td>
-                        <td>{{frm.value.eficienciaDeFosforo}}</td>
-                        <td>{{frm.value.eficienciaDePotassio}}</td>
+                        <td>{{frm?.value.eficienciaDeNitrogenio}}</td>
+                        <td>{{frm?.value.eficienciaDeFosforo}}</td>
+                        <td>{{frm?.value.eficienciaDePotassio}}</td>
                     </tr>
                     <tr>
                         <td>Excesso/déficit (g/planta)</td>
                         <td
-                            [ngClass]="frm.value.eficienciaDeNitrogenio / (frm.value.totalExcessoDeficitNitrogenio / 100) < 0 ? 'table-danger' : frm.value.eficienciaDeNitrogenio / (frm.value.totalExcessoDeficitNitrogenio / 100) > 0 ? 'table-warning' : frm.value.eficienciaDeNitrogenio / (frm.value.totalExcessoDeficitNitrogenio / 100) === 0 ? 'table-success' : ''">
-                            {{(frm.value.eficienciaDeNitrogenio / (frm.value.totalExcessoDeficitNitrogenio / 100) |
+                            [ngClass]="frm?.value.eficienciaDeNitrogenio / (frm?.value.totalExcessoDeficitNitrogenio / 100) < 0 ? 'table-danger' : frm?.value.eficienciaDeNitrogenio / (frm?.value.totalExcessoDeficitNitrogenio / 100) > 0 ? 'table-warning' : frm?.value.eficienciaDeNitrogenio / (frm?.value.totalExcessoDeficitNitrogenio / 100) === 0 ? 'table-success' : ''">
+                            {{(frm?.value.eficienciaDeNitrogenio / (frm?.value.totalExcessoDeficitNitrogenio / 100) |
                             number:'1.2-2':'pt-BR')}}
                         </td>
                         <td
-                            [ngClass]="frm.value.eficienciaDeFosforo / (frm.value.totalExcessoDeficitFosforo / 100) < 0 ? 'table-danger' : frm.value.eficienciaDeFosforo / (frm.value.totalExcessoDeficitFosforo / 100) > 0 ? 'table-warning' : frm.value.eficienciaDeFosforo / (frm.value.totalExcessoDeficitFosforo / 100) === 0 ? 'table-success' : ''">
-                            {{(frm.value.eficienciaDeFosforo / (frm.value.totalExcessoDeficitFosforo / 100) |
+                            [ngClass]="frm?.value.eficienciaDeFosforo / (frm?.value.totalExcessoDeficitFosforo / 100) < 0 ? 'table-danger' : frm?.value.eficienciaDeFosforo / (frm?.value.totalExcessoDeficitFosforo / 100) > 0 ? 'table-warning' : frm?.value.eficienciaDeFosforo / (frm?.value.totalExcessoDeficitFosforo / 100) === 0 ? 'table-success' : ''">
+                            {{(frm?.value.eficienciaDeFosforo / (frm?.value.totalExcessoDeficitFosforo / 100) |
                             number:'1.2-2':'pt-BR')}}
                         </td>
                         <td
-                            [ngClass]="frm.value.eficienciaDePotassio / (frm.value.totalExcessoDeficitPotassio / 100) < 0 ? 'table-danger' : frm.value.eficienciaDePotassio / (frm.value.totalExcessoDeficitPotassio / 100) > 0 ? 'table-warning' : frm.value.eficienciaDePotassio / (frm.value.totalExcessoDeficitPotassio / 100) === 0 ? 'table-success' : ''">
-                            {{(frm.value.eficienciaDePotassio / (frm.value.totalExcessoDeficitPotassio / 100) |
+                            [ngClass]="frm?.value.eficienciaDePotassio / (frm?.value.totalExcessoDeficitPotassio / 100) < 0 ? 'table-danger' : frm?.value.eficienciaDePotassio / (frm?.value.totalExcessoDeficitPotassio / 100) > 0 ? 'table-warning' : frm?.value.eficienciaDePotassio / (frm?.value.totalExcessoDeficitPotassio / 100) === 0 ? 'table-success' : ''">
+                            {{(frm?.value.eficienciaDePotassio / (frm?.value.totalExcessoDeficitPotassio / 100) |
                             number:'1.2-2':'pt-BR')}}
                         </td>
                     </tr>
@@ -1266,10 +1269,10 @@
             </mat-action-row>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
+        <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    PASSO 7
+                    PASSO 6
                 </mat-panel-title>
                 <mat-panel-description>
                     Adubo Micronutriente
@@ -1365,10 +1368,10 @@
                 </tbody>
                 <tfoot>
                     <tr
-                        [ngClass]="frm.value.receitaFonteMicroNutrientePercTotal < 100 ? 'table-danger' : frm.value.receitaFonteMicroNutrientePercTotal > 100 ? 'table-warning' : frm.value.receitaFonteMicroNutrientePercTotal === 100 ? 'table-success' : ''">
+                        [ngClass]="frm?.value.receitaFonteMicroNutrientePercTotal < 100 ? 'table-danger' : frm?.value.receitaFonteMicroNutrientePercTotal > 100 ? 'table-warning' : frm?.value.receitaFonteMicroNutrientePercTotal === 100 ? 'table-success' : ''">
                         <td colspan="2">Total Geral Percentual</td>
                         <td>
-                            {{frm.value.receitaFonteMicroNutrientePercTotal}}%
+                            {{frm?.value.receitaFonteMicroNutrientePercTotal}}%
                         </td>
                     </tr>
                 </tfoot>
@@ -1388,28 +1391,28 @@
                 <tbody>
                     <tr *ngIf="false">
                         <td>Demanda (g/planta)</td>
-                        <td>{{frm.value.necessidadeDeBoro}}</td>
-                        <td>{{frm.value.necessidadeDeCobre}}</td>
-                        <td>{{frm.value.necessidadeDeManganes}}</td>
-                        <td>{{frm.value.necessidadeDeZinco}}</td>
+                        <td>{{frm?.value.necessidadeDeBoro}}</td>
+                        <td>{{frm?.value.necessidadeDeCobre}}</td>
+                        <td>{{frm?.value.necessidadeDeManganes}}</td>
+                        <td>{{frm?.value.necessidadeDeZinco}}</td>
                     </tr>
                     <tr>
                         <td>Excesso ou déficit (g/planta)</td>
                         <td
-                            [ngClass]="(frm.value.necessidadeDeBoro - frm.value.totalExcessoDeficitBoro) * -1 < 0 ? 'table-danger' : (frm.value.necessidadeDeBoro - frm.value.totalExcessoDeficitBoro) * -1 >= 0 ? 'table-success' : ''">
-                            {{(frm.value.necessidadeDeBoro - frm.value.totalExcessoDeficitBoro) * -1}}
+                            [ngClass]="(frm?.value.necessidadeDeBoro - frm?.value.totalExcessoDeficitBoro) * -1 < 0 ? 'table-danger' : (frm?.value.necessidadeDeBoro - frm?.value.totalExcessoDeficitBoro) * -1 >= 0 ? 'table-success' : ''">
+                            {{(frm?.value.necessidadeDeBoro - frm?.value.totalExcessoDeficitBoro) * -1}}
                         </td>
                         <td
-                            [ngClass]="(frm.value.necessidadeDeCobre - frm.value.totalExcessoDeficitCobre) * -1 < 0 ? 'table-danger' : (frm.value.necessidadeDeCobre - frm.value.totalExcessoDeficitCobre) * -1 > 0 ? 'table-warning' : (frm.value.necessidadeDeCobre - frm.value.totalExcessoDeficitCobre) * -1 === 0 ? 'table-success' : ''">
-                            {{(frm.value.necessidadeDeCobre - frm.value.totalExcessoDeficitCobre) * -1}}
+                            [ngClass]="(frm?.value.necessidadeDeCobre - frm?.value.totalExcessoDeficitCobre) * -1 < 0 ? 'table-danger' : (frm?.value.necessidadeDeCobre - frm?.value.totalExcessoDeficitCobre) * -1 > 0 ? 'table-warning' : (frm?.value.necessidadeDeCobre - frm?.value.totalExcessoDeficitCobre) * -1 === 0 ? 'table-success' : ''">
+                            {{(frm?.value.necessidadeDeCobre - frm?.value.totalExcessoDeficitCobre) * -1}}
                         </td>
                         <td
-                            [ngClass]="(frm.value.necessidadeDeManganes - frm.value.totalExcessoDeficitManganes) * -1 < 0 ? 'table-danger' : (frm.value.necessidadeDeManganes - frm.value.totalExcessoDeficitManganes) * -1 > 0 ? 'table-warning' : (frm.value.necessidadeDeManganes - frm.value.totalExcessoDeficitManganes) * -1 === 0 ? 'table-success' : ''">
-                            {{(frm.value.necessidadeDeManganes - frm.value.totalExcessoDeficitManganes) * -1}}
+                            [ngClass]="(frm?.value.necessidadeDeManganes - frm?.value.totalExcessoDeficitManganes) * -1 < 0 ? 'table-danger' : (frm?.value.necessidadeDeManganes - frm?.value.totalExcessoDeficitManganes) * -1 > 0 ? 'table-warning' : (frm?.value.necessidadeDeManganes - frm?.value.totalExcessoDeficitManganes) * -1 === 0 ? 'table-success' : ''">
+                            {{(frm?.value.necessidadeDeManganes - frm?.value.totalExcessoDeficitManganes) * -1}}
                         </td>
                         <td
-                            [ngClass]="(frm.value.necessidadeDeZinco - frm.value.totalExcessoDeficitZinco) * -1 < 0 ? 'table-danger' : (frm.value.necessidadeDeZinco - frm.value.totalExcessoDeficitZinco) * -1 > 0 ? 'table-warning' : (frm.value.necessidadeDeZinco - frm.value.totalExcessoDeficitZinco) * -1 === 0 ? 'table-success' : ''">
-                            {{(frm.value.necessidadeDeZinco - frm.value.totalExcessoDeficitZinco) * -1}}
+                            [ngClass]="(frm?.value.necessidadeDeZinco - frm?.value.totalExcessoDeficitZinco) * -1 < 0 ? 'table-danger' : (frm?.value.necessidadeDeZinco - frm?.value.totalExcessoDeficitZinco) * -1 > 0 ? 'table-warning' : (frm?.value.necessidadeDeZinco - frm?.value.totalExcessoDeficitZinco) * -1 === 0 ? 'table-success' : ''">
+                            {{(frm?.value.necessidadeDeZinco - frm?.value.totalExcessoDeficitZinco) * -1}}
                         </td>
                     </tr>
                     <tr style="font-family: 'Courier New', Courier, monospace;">
@@ -1443,11 +1446,10 @@
             </mat-action-row>
         </mat-expansion-panel>
 
-
-        <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)" hideToggle>
+        <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    PASSO 8
+                    PASSO 7
                 </mat-panel-title>
                 <mat-panel-description>
                     Modo de Aplicação
@@ -1536,7 +1538,7 @@
                 </tr>
             </table>
 
-            [{{frm.value.modoAplicacao | json}}]
+            [{{frm?.value.modoAplicacao | json}}]
 
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>
@@ -1544,10 +1546,10 @@
             </mat-action-row>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step === 9" (opened)="setStep(9)" hideToggle>
+        <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    PASSO 9
+                    PASSO 8
                 </mat-panel-title>
                 <mat-panel-description>
                     Resultado
@@ -1569,7 +1571,7 @@
                         NOME DO PROPRIETÁRIO
                     </td>
                     <td>
-                        {{frm.value.pessoa?.nome}}
+                        {{frm?.value.pessoa?.nome}}
                     </td>
                 </tr>
                 <tr>
@@ -1577,7 +1579,7 @@
                         DATA
                     </td>
                     <td>
-                        {{frm.value.data}}
+                        {{frm?.value.data}}
                     </td>
                 </tr>
             </table>
@@ -1593,9 +1595,9 @@
             <table class="res">
                 <tr class="limpo">
                     <td>Número de plantas por hectare (100m x 100m):</td>
-                    <td>{{frm.value.espacamento?.quantidadePlanta}}</td>
+                    <td>{{frm?.value.espacamento?.quantidadePlanta}}</td>
                     <td>Área (ha):</td>
-                    <td>{{frm.value.espacamento?.area}}</td>
+                    <td>{{frm?.value.espacamento?.area}}</td>
                 </tr>
             </table>
 

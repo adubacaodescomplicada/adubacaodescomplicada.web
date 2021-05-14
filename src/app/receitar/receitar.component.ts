@@ -11,7 +11,7 @@ import { ReceitarService } from './receitar.service';
 import { MensagemService } from './../comum/servico/mensagem/mensagem.service';
 import { LoginService } from './../seguranca/login/login.service';
 import { ReceitarFormService } from './receitar-form.service';
-import { idListComparar } from '../comum/ferramenta/ferramenta-comum';
+import { idListComparar, pad } from '../comum/ferramenta/ferramenta-comum';
 import { Receita } from './receita';
 import { Pessoa } from '../modelo/entidade/pessoa';
 import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
@@ -55,7 +55,9 @@ export class ReceitarComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe((resolver) => {
-      resolver[0].apoio.aduboList.subscribe((lista) => this.aduboList = lista);
+      resolver[0].apoio.aduboList.subscribe((lista) => {
+        this.aduboList = lista;
+      });
       resolver[0].apoio.culturaList.subscribe((lista) => {
         lista = lista
           .sort((a, b) => a['nome'].localeCompare(b['nome']))
@@ -72,10 +74,11 @@ export class ReceitarComponent implements OnInit {
 
         this.culturaList = lista;
       });
+
       resolver[0].apoio.analiseSoloParametroList.subscribe((lista) => {
         this.analiseSoloParametroList = lista.sort((a, b) => a.ordem > b.ordem ? 1 : (a.ordem < b.ordem ? -1 : 0));
         const entidade = new Receita();
-        entidade.data = `${new Date().getFullYear()}-0${new Date().getMonth() + 1}-0${new Date().getDate()}`;
+        entidade.data = `${new Date().getFullYear()}-${pad(new Date().getMonth() + 1, 2, '0')}-${pad(new Date().getDate(), 2, '0')}`;
         entidade.pessoa = new Pessoa();
         entidade.pessoa.id = this.loginService.dadosLogin.pessoa_id;
         entidade.pessoa.nome = this.loginService.dadosLogin.nome;
@@ -90,13 +93,16 @@ export class ReceitarComponent implements OnInit {
         }
         this.carregar(entidade);
       });
-      resolver[0].apoio.unidadeMedidaList.subscribe((lista) => this.unidadeMedidaList = lista);
-      console.log('inicio 0');
+
+      resolver[0].apoio.unidadeMedidaList.subscribe((lista) => {
+        this.unidadeMedidaList = lista;
+      });
       resolver[0].apoio.fonteMateriaOrganicaList.subscribe((lista) => {
-        console.log('inicio 1');
         this.fonteMateriaOrganicaList = lista;
       });
-      resolver[0].apoio.receitaReferenciaList.subscribe((lista) => this.receitaReferenciaList = lista);
+      resolver[0].apoio.receitaReferenciaList.subscribe((lista) => {
+        this.receitaReferenciaList = lista;
+      });
 
       resolver[0].apoio.aduboList.subscribe((aduboLista) => {
         this.aduboList = aduboLista;
@@ -320,7 +326,7 @@ export class ReceitarComponent implements OnInit {
 
   getReceitaAnaliseSoloParametro(codigo: string) {
     let result = null;
-    if (this.frm.value.receitaAnaliseSoloParametroList) {
+    if (this.frm && this.frm.value.receitaAnaliseSoloParametroList) {
       for (const r of this.frm.value.receitaAnaliseSoloParametroList) {
         if (r.analiseSoloParametro?.codigo === codigo) {
           result = r;
