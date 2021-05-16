@@ -50,8 +50,8 @@
                             </mat-optgroup>
                         </mat-select>
                         <mat-error *ngIf="frm?.controls.cultura.touched && frm?.controls.cultura.hasError('required')">
-                                    Campo Obrigatório!
-                                </mat-error>
+                            Campo Obrigatório!
+                        </mat-error>
                     </mat-form-field>
                     <!-- {{frm?.value.cultura | json}} -->
                 </td>
@@ -115,7 +115,7 @@
                 <th scope="row" class="align-middle">Referência</th>
                 <td>
                     <mat-form-field>
-                        <mat-select formControlName="referencia">
+                        <mat-select formControlName="referencia" (selectionChange)="referenciaChange($event)">
                             <mat-option *ngFor="let receitaReferencia of receitaReferenciaList"
                                 [value]="receitaReferencia">{{receitaReferencia.nome}}</mat-option>
                         </mat-select>
@@ -357,8 +357,8 @@
                     <tbody formArrayName="receitaAnaliseSoloParametroList">
                         <ng-template ngFor let-receitaAnaliseSoloParametro
                             [ngForOf]="frm?.get('receitaAnaliseSoloParametroList')['controls']" let-i="index">
-                            <tr [formGroupName]="i">
-                                <td
+                            <tr [formGroupName]="i" [style.background-color]="receitaAnaliseSoloParametro?.value?.analiseSoloParametro?.temFormulaQualidadeSolo === 'S' ? 'silver' : ''">
+                                <td 
                                     [attr.rowspan]="receitaAnaliseSoloParametro.value.valor && receitaAnaliseSoloParametro.value.avaliacao ? 2 : 1">
                                     {{i+1}}
                                 </td>
@@ -370,6 +370,7 @@
                                         <mat-label>Valor</mat-label>
                                         <input matInput type="number" class="text-right" formControlName="valor" min="0"
                                             step="0.01"
+                                            [readonly]="receitaAnaliseSoloParametro?.value?.analiseSoloParametro?.temFormulaQualidadeSolo === 'S'"
                                             [max]="receitaAnaliseSoloParametro?.value?.analiseSoloParametro?.unidadeMedida?.codigo === 'PERCENTUAL' ? 100 : null">
                                         <mat-error
                                             *ngIf="receitaAnaliseSoloParametro?.controls?.valor?.errors?.required">Campo

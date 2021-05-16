@@ -8,5 +8,6 @@ export class AnaliseSoloParametro implements EntidadeId {
     public codigo: string;
     public sigla: string;
     public unidadeMedida: UnidadeMedida;
+    public temFormulaQualidadeSolo: string;
     public ordem: number;
 }

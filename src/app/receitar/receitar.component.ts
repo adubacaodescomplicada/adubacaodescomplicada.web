@@ -75,25 +75,6 @@ export class ReceitarComponent implements OnInit {
         this.culturaList = lista;
       });
 
-      resolver[0].apoio.analiseSoloParametroList.subscribe((lista) => {
-        this.analiseSoloParametroList = lista.sort((a, b) => a.ordem > b.ordem ? 1 : (a.ordem < b.ordem ? -1 : 0));
-        const entidade = new Receita();
-        entidade.data = `${new Date().getFullYear()}-${pad(new Date().getMonth() + 1, 2, '0')}-${pad(new Date().getDate(), 2, '0')}`;
-        entidade.pessoa = new Pessoa();
-        entidade.pessoa.id = this.loginService.dadosLogin.pessoa_id;
-        entidade.pessoa.nome = this.loginService.dadosLogin.nome;
-        entidade.culturaTipo = null;
-        entidade.cultura = null;
-        entidade.receitaAnaliseSoloParametroList = [];
-        for (const analiseSoloParametro of this.analiseSoloParametroList) {
-          const receitaAnaliseSoloParametro = new ReceitaAnaliseSoloParametro();
-          receitaAnaliseSoloParametro.analiseSoloParametro = Object.assign({}, analiseSoloParametro);
-          receitaAnaliseSoloParametro.valor = 0;
-          entidade.receitaAnaliseSoloParametroList.push(receitaAnaliseSoloParametro);
-        }
-        this.carregar(entidade);
-      });
-
       resolver[0].apoio.unidadeMedidaList.subscribe((lista) => {
         this.unidadeMedidaList = lista;
       });
@@ -134,11 +115,45 @@ export class ReceitarComponent implements OnInit {
     if (!this.loginService.estaLogado) {
       this.mensagem.erro(`Faça o login primeiro`);
       this.router.navigate(['/']);
+      return;
     }
     if (!this.loginService.dadosLogin.pessoa_id) {
       this.mensagem.erro(`Faltam as informações pessoais do usuário ${this.loginService.dadosLogin.username}!`);
       this.router.navigate(['/', 'login']);
+      return;
     }
+
+    this.analiseSoloParametroList = [];
+    const entidade = new Receita();
+    entidade.data = `${new Date().getFullYear()}-${pad(new Date().getMonth() + 1, 2, '0')}-${pad(new Date().getDate(), 2, '0')}`;
+    entidade.pessoa = new Pessoa();
+    entidade.pessoa.id = this.loginService.dadosLogin.pessoa_id;
+    entidade.pessoa.nome = this.loginService.dadosLogin.nome;
+    entidade.culturaTipo = null;
+    entidade.cultura = null;
+    entidade.receitaAnaliseSoloParametroList = [];
+    for (const analiseSoloParametro of this.analiseSoloParametroList) {
+      const receitaAnaliseSoloParametro = new ReceitaAnaliseSoloParametro();
+      receitaAnaliseSoloParametro.analiseSoloParametro = Object.assign({}, analiseSoloParametro);
+      receitaAnaliseSoloParametro.valor = 0;
+      entidade.receitaAnaliseSoloParametroList.push(receitaAnaliseSoloParametro);
+    }
+    this.carregar(entidade);
+  }
+
+  public referenciaChange(event) {
+    let entidade: Receita = this.frm.value;
+
+    this.analiseSoloParametroList = event.value.receitaReferenciaAnaliseSoloParametroList.map(a => a.analiseSoloParametro).sort((a, b) => a.ordem - b.ordem);
+
+    entidade.receitaAnaliseSoloParametroList = [];
+    for (const analiseSoloParametro of this.analiseSoloParametroList) {
+      const receitaAnaliseSoloParametro = new ReceitaAnaliseSoloParametro();
+      receitaAnaliseSoloParametro.analiseSoloParametro = Object.assign({}, analiseSoloParametro);
+      receitaAnaliseSoloParametro.valor = 0;
+      entidade.receitaAnaliseSoloParametroList.push(receitaAnaliseSoloParametro);
+    }
+    this.carregar(entidade);
   }
 
   protected carregar(valor: any) {

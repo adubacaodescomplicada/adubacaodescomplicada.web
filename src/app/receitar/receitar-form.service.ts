@@ -12,6 +12,7 @@ import { Espacamento } from '../modelo/entidade/espacamento';
 import { distinctUntilChanged, pairwise } from 'rxjs/operators';
 import { ReceitaAmostragemSolo } from '../modelo/entidade/receita-amostragem-solo';
 import { ReceitaFonteAdubo } from './receita.fonte.adubo';
+import { AnaliseSoloParametro } from '../modelo/entidade/analise-solo-parametro';
 
 const faixaArgilaFosforo = [
     [null, 16, [[null, 12, 'baixo'], [12, 18, 'medio'], [18, null, 'adequado']]],
@@ -219,11 +220,11 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
 
             modoAplicacao: this.criarFormModoAplicacao(entidade.modoAplicacao),
         });
-        
+
         result.get('cultura').valueChanges.subscribe((c: Cultura) => {
             result.get('espacamento.duplo')?.setValue(c?.espacamentoDuplo === 'S' ? true : false);
         });
-        
+
         /*
         result.get('culturaTipo').setValue('F');
         result.get('cultura').setValue({
@@ -433,7 +434,73 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         }
         const result = this.fb.array(listaCtrl, [Validators.required]);
 
+        result.valueChanges.subscribe((r) => {
+            result.setValue(this.calculaAnaliseSoloParametro(r), { emitEvent: false });
+        });
         return result;
+    }
+
+    private calculaAnaliseSoloParametro(pla: ReceitaAnaliseSoloParametro[]): ReceitaAnaliseSoloParametro[] {
+        // calculo prioritario
+        pla.forEach(e => {
+            if (e?.analiseSoloParametro?.temFormulaQualidadeSolo === 'S') {
+                switch (e?.analiseSoloParametro?.codigo) {
+                    case 'ctc':
+                        e.valor =
+                            this.pegaValorReceitaAnaliseSoloParametro(pla, 'calcio') +
+                            this.pegaValorReceitaAnaliseSoloParametro(pla, 'magnesio') +
+                            this.pegaValorReceitaAnaliseSoloParametro(pla, 'potassio') +
+                            this.pegaValorReceitaAnaliseSoloParametro(pla, 'sodio') +
+                            this.pegaValorReceitaAnaliseSoloParametro(pla, 'h_al');
+                        break;
+                }
+            }
+        });
+
+        // calculo dependente
+        pla.forEach(e => {
+            if (e?.analiseSoloParametro?.temFormulaQualidadeSolo === 'S') {
+                switch (e?.analiseSoloParametro?.codigo) {
+                    case 'carbono':
+                        e.valor = this.pegaValorReceitaAnaliseSoloParametro(pla, 'mat_organica') / 1.72;
+                        break;
+                    case 'ctc_ph7':
+                        e.valor = this.pegaValorReceitaAnaliseSoloParametro(pla, 'calcio') +
+                            this.pegaValorReceitaAnaliseSoloParametro(pla, 'magnesio') +
+                            this.pegaValorReceitaAnaliseSoloParametro(pla, 'potassio') +
+                            this.pegaValorReceitaAnaliseSoloParametro(pla, 'h_al');
+                        break;
+                    case 'sat_base':
+                        e.valor = this.pegaValorReceitaAnaliseSoloParametro(pla, 'ctc') === 0 ? 0 :
+                            100 *
+                            (this.pegaValorReceitaAnaliseSoloParametro(pla, 'calcio') +
+                                this.pegaValorReceitaAnaliseSoloParametro(pla, 'magnesio') +
+                                this.pegaValorReceitaAnaliseSoloParametro(pla, 'potassio'))
+                            /
+                            this.pegaValorReceitaAnaliseSoloParametro(pla, 'ctc');
+                        break;
+                    case 'silte':
+                        e.valor = 100 - (this.pegaValorReceitaAnaliseSoloParametro(pla, 'argila') + 
+                        this.pegaValorReceitaAnaliseSoloParametro(pla, 'areia'));
+                        break;
+                    case 'soma_bases':
+                        e.valor = this.pegaValorReceitaAnaliseSoloParametro(pla, 'magnesio')
+                            + this.pegaValorReceitaAnaliseSoloParametro(pla, 'calcio')
+                            + this.pegaValorReceitaAnaliseSoloParametro(pla, 'potassio');
+                        break;
+                }
+            }
+        });
+        return pla;
+    }
+
+    private pegaValorReceitaAnaliseSoloParametro(pla: ReceitaAnaliseSoloParametro[], codigo: string) {
+        for (let r of pla) {
+            if (r.analiseSoloParametro.codigo === codigo) {
+                return r.valor || 0;
+            }
+        }
+        return 0;
     }
 
     public criarFormReceitaFonteMateriaOrganicaList(lista: ReceitaFonteMateriaOrganica[]): FormArray {
@@ -523,13 +590,13 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
                 totalZinco = 0;
                 for (const aduboGarantia of value.adubo?.aduboGarantiaList) {
                     totalFosforo += aduboGarantia.garantia.codigo === 'P2O5' ? aduboGarantia.valor : 0;
-                    totalPotassio +=  aduboGarantia.garantia.codigo === 'K2O' ? aduboGarantia.valor : 0;
-                    totalNitrogenio +=  aduboGarantia.garantia.codigo === 'N' ? aduboGarantia.valor : 0;
+                    totalPotassio += aduboGarantia.garantia.codigo === 'K2O' ? aduboGarantia.valor : 0;
+                    totalNitrogenio += aduboGarantia.garantia.codigo === 'N' ? aduboGarantia.valor : 0;
 
-                    totalBoro +=  aduboGarantia.garantia.codigo === 'B' ? aduboGarantia.valor : 0;
-                    totalCobre +=  aduboGarantia.garantia.codigo === 'Cu' ? aduboGarantia.valor : 0;
-                    totalManganes +=  aduboGarantia.garantia.codigo === 'Mn' ? aduboGarantia.valor : 0;
-                    totalZinco +=  aduboGarantia.garantia.codigo === 'Zn' ? aduboGarantia.valor : 0;
+                    totalBoro += aduboGarantia.garantia.codigo === 'B' ? aduboGarantia.valor : 0;
+                    totalCobre += aduboGarantia.garantia.codigo === 'Cu' ? aduboGarantia.valor : 0;
+                    totalManganes += aduboGarantia.garantia.codigo === 'Mn' ? aduboGarantia.valor : 0;
+                    totalZinco += aduboGarantia.garantia.codigo === 'Zn' ? aduboGarantia.valor : 0;
                 }
             }
             result.get('totalFosforo').setValue(totalFosforo, { emitEvent: false });
@@ -558,7 +625,6 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         if (entidade?.analiseSoloParametro?.unidadeMedida?.codigo === 'PERCENTUAL') {
             result.get('valor').setValidators([Validators.required, Validators.min(0), Validators.max(100)]);
         }
-
         return result;
     }
 
@@ -729,22 +795,25 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         let necessidadeDeCobreTemp = 0;
         let necessidadeDeManganesTemp = 0;
         let necessidadeDeZincoTemp = 0;
-        if (this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'boro').get('avaliacao')?.value === 'baixo') {
-            necessidadeDeBoroTemp = 2;
+
+        if (this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl) {
+            if (this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'boro')?.get('avaliacao')?.value === 'baixo') {
+                necessidadeDeBoroTemp = 2;
+            }
+            if (this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'cobre')?.get('avaliacao')?.value === 'baixo') {
+                necessidadeDeCobreTemp = 2;
+            }
+            if (this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'manganes')?.get('avaliacao')?.value === 'baixo') {
+                necessidadeDeManganesTemp = 6;
+            }
+            if (this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'zinco')?.get('avaliacao')?.value === 'baixo') {
+                necessidadeDeZincoTemp = 6;
+            }
+            ctrl.get('necessidadeDeBoro')?.setValue(necessidadeDeBoroTemp, { emitEvent: false });
+            ctrl.get('necessidadeDeCobre')?.setValue(necessidadeDeCobreTemp, { emitEvent: false });
+            ctrl.get('necessidadeDeManganes')?.setValue(necessidadeDeManganesTemp, { emitEvent: false });
+            ctrl.get('necessidadeDeZinco')?.setValue(necessidadeDeZincoTemp, { emitEvent: false });
         }
-        if (this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'cobre').get('avaliacao')?.value === 'baixo') {
-            necessidadeDeCobreTemp = 2;
-        }
-        if (this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'manganes').get('avaliacao')?.value === 'baixo') {
-            necessidadeDeManganesTemp = 6;
-        }
-        if (this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'zinco').get('avaliacao')?.value === 'baixo') {
-            necessidadeDeZincoTemp = 6;
-        }
-        ctrl.get('necessidadeDeBoro').setValue(necessidadeDeBoroTemp, { emitEvent: false });
-        ctrl.get('necessidadeDeCobre').setValue(necessidadeDeCobreTemp, { emitEvent: false });
-        ctrl.get('necessidadeDeManganes').setValue(necessidadeDeManganesTemp, { emitEvent: false });
-        ctrl.get('necessidadeDeZinco').setValue(necessidadeDeZincoTemp, { emitEvent: false });
     }
 
     private necessidadeCalagemTHaCalc(ctrl: FormGroup, receita: Receita) {
@@ -825,17 +894,17 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         const calcio = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'calcio');
 
         // calc fósforo solo
-        fosforo.get('avaliacao').setValue(this.avaliaFaixa(
+        fosforo && fosforo.get('avaliacao').setValue(this.avaliaFaixa(
             [argila.value.valor, fosforo.value.valor], faixaArgilaFosforo), { emitEvent: false });
-        potassio.get('avaliacao').setValue(this.avaliaFaixa(
+        potassio && potassio.get('avaliacao').setValue(this.avaliaFaixa(
             [argila.value.valor, potassio.value.valor], faixaArgilaPotassio), { emitEvent: false });
-        boro.get('avaliacao').setValue(this.avaliaFaixa(
+        boro && boro.get('avaliacao').setValue(this.avaliaFaixa(
             [boro.value.valor], faixaBoro), { emitEvent: false });
-        cobre.get('avaliacao').setValue(this.avaliaFaixa(
+        cobre && cobre.get('avaliacao').setValue(this.avaliaFaixa(
             [cobre.value.valor], faixaCobre), { emitEvent: false });
-        manganes.get('avaliacao').setValue(this.avaliaFaixa(
+        manganes && manganes.get('avaliacao').setValue(this.avaliaFaixa(
             [manganes.value.valor], faixaManganes), { emitEvent: false });
-        zinco.get('avaliacao').setValue(this.avaliaFaixa(
+        zinco && zinco.get('avaliacao').setValue(this.avaliaFaixa(
             [zinco.value.valor], faixaZinco), { emitEvent: false });
     }
 
