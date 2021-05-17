@@ -355,6 +355,7 @@
                     <!-- FRZ -->
 
                     <tbody formArrayName="receitaAnaliseSoloParametroList">
+                        <tr><td colspan="4">Deixe em branco os campos cujos dados não estejam presentes na análise laboratorial de solos.</td></tr>
                         <ng-template ngFor let-receitaAnaliseSoloParametro
                             [ngForOf]="frm?.get('receitaAnaliseSoloParametroList')['controls']" let-i="index">
                             <tr [formGroupName]="i" [style.background-color]="receitaAnaliseSoloParametro?.value?.analiseSoloParametro?.temFormulaQualidadeSolo === 'S' ? 'silver' : ''">
@@ -399,6 +400,11 @@
                                         <mat-error>Campo Obrigatório!</mat-error>
                                     </mat-form-field>
                                 -->
+                                </td>
+                            </tr>
+                            <tr *ngIf="receitaAnaliseSoloParametro.value.analiseSoloParametro.observacao">
+                                <td colspan="4">
+                                    <small>Observação: <b>{{receitaAnaliseSoloParametro.value.analiseSoloParametro.observacao}}</b></small>
                                 </td>
                             </tr>
                             <tr [formGroupName]="i"

@@ -10,4 +10,5 @@ export class AnaliseSoloParametro implements EntidadeId {
     public unidadeMedida: UnidadeMedida;
     public temFormulaQualidadeSolo: string;
     public ordem: number;
+    public observacao: string;
 }
