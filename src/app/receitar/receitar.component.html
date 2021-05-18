@@ -356,15 +356,18 @@
 
                     <tbody formArrayName="receitaAnaliseSoloParametroList">
                         <tr>
-                            <td colspan="4">Deixe em branco os campos cujos dados não estejam presentes na análise
-                                laboratorial de solos.</td>
+                            <td colspan="4">
+                                Deixe em branco os campos cujos dados não estejam presentes na análise laboratorial de solos.
+                            </td>
                         </tr>
                         <ng-template ngFor let-receitaAnaliseSoloParametro
                             [ngForOf]="frm?.get('receitaAnaliseSoloParametroList')['controls']" let-i="index">
                             <tr [formGroupName]="i"
                                 [style.background-color]="receitaAnaliseSoloParametro?.value?.analiseSoloParametro?.temFormulaQualidadeSolo === 'S' ? 'silver' : ''">
-                                <td
-                                    [attr.rowspan]="receitaAnaliseSoloParametro.value.valor && receitaAnaliseSoloParametro.value.avaliacao ? 2 : 1">
+                                <!-- td
+                                    [attr.rowspan]="receitaAnaliseSoloParametro.value.valor && receitaAnaliseSoloParametro.value.avaliacao ? 2 : 1"
+                                -->
+                                <td>
                                     {{i+1}}
                                 </td>
                                 <td>
@@ -412,13 +415,13 @@
                                         <b>{{receitaAnaliseSoloParametro.value.analiseSoloParametro.observacao}}</b></small>
                                 </td>
                             </tr>
-                            <tr [formGroupName]="i"
+                            <!-- <tr [formGroupName]="i"
                                 *ngIf="receitaAnaliseSoloParametro.value.valor && receitaAnaliseSoloParametro.value.avaliacao">
                                 <td colspan="3"
                                     [ngClass]="receitaAnaliseSoloParametro.value.avaliacao === 'baixo' ? 'table-danger' : receitaAnaliseSoloParametro.value.avaliacao === 'medio' ? 'table-warning' : receitaAnaliseSoloParametro.value.avaliacao === 'adequado' ? 'table-success' : ''">
                                     {{receitaAnaliseSoloParametro.value.avaliacao}}
                                 </td>
-                            </tr>
+                            </tr> -->
                         </ng-template>
                     </tbody>
                 </table>
@@ -654,6 +657,29 @@
 
                         <tr>
                             <th>
+                                P-Resina / S
+                            </th>
+                            <th>
+                                P-Melich / P Total
+                            </th>
+                            <th>
+                                P-Melish / S
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                36,54
+                            </td>
+                            <td>
+                                18,00%
+                            </td>
+                            <td>
+                                17,31
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>
                                 Ca/K
                             </th>
                             <th>
@@ -684,7 +710,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col" class="text-center">
-                                Observações
+                                OBSERVAÇÕES
                             </th>
                         </tr>
                     </thead>
@@ -697,7 +723,6 @@
                     </tbody>
                 </table>
             </div>
-
 
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>
