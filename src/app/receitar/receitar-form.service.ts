@@ -165,6 +165,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             data: [entidade.data, [Validators.required]],
             pessoa: [entidade.pessoa, [Validators.required]],
             culturaTipo: [entidade.culturaTipo, [Validators.required]],
+            formaPlantio: [entidade.formaPlantio, []],
             cultura: [entidade.cultura, [Validators.required]],
             idadePlantio: [entidade.idadePlantio, []],
             produtividadeEsperada: [entidade.produtividadeEsperada, []],

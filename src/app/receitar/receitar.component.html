@@ -57,7 +57,7 @@
                 </td>
             </tr>
             <tr *ngIf="frm?.value.cultura">
-                <th scope="row" class="align-middle">Tipo</th>
+                <th scope="row" class="align-middle">Tipo ({{frm?.value.cultura?.classificacao}})</th>
                 <td>
                     <mat-radio-group formControlName="culturaTipo">
                         <mat-radio-button style="margin-right: 16px" value="F"
@@ -110,6 +110,25 @@
                     <!-- <label>{{frm?.value.cultura?.unidadeProdutividade}}</label> -->
                 </td>
             </tr>
+
+            <tr *ngIf="frm?.value.cultura && (frm?.value.culturaTipo === 'ES' || frm?.value.culturaTipo === 'FS')">
+                <th scope="row" class="align-middle">Forma de Plantio</th>
+                <td>
+                    <mat-radio-group formControlName="©">
+                        <mat-radio-button style="margin-right: 16px" value="L">
+                            Em linha
+                        </mat-radio-button>
+                        <mat-radio-button style="margin-right: 16px" value="C">
+                            Em Canteiro
+                        </mat-radio-button>
+                    </mat-radio-group>
+                    <mat-error style="font-size: 75%;"
+                        *ngIf="frm?.controls.formaPlantio.touched && frm?.controls.formaPlantio.hasError('required')">
+                        Campo Obrigatório!
+                    </mat-error>
+                </td>
+            </tr>
+
 
             <tr *ngIf="frm?.value.cultura">
                 <th scope="row" class="align-middle">Referência</th>
@@ -357,7 +376,8 @@
                     <tbody formArrayName="receitaAnaliseSoloParametroList">
                         <tr>
                             <td colspan="4">
-                                Deixe em branco os campos cujos dados não estejam presentes na análise laboratorial de solos.
+                                Deixe em branco os campos cujos dados não estejam presentes na análise laboratorial de
+                                solos.
                             </td>
                         </tr>
                         <ng-template ngFor let-receitaAnaliseSoloParametro
@@ -717,7 +737,9 @@
                     <tbody>
                         <tr>
                             <th>
-                                1. A interpretação dos resultados da analise de solos foi feita com base no livro 5ª Aproximação - Recomendações para o uso de corretivos e fertilizantes em Minas Gerais. Viçosa/MG, 1999.
+                                1. A interpretação dos resultados da analise de solos foi feita com base no livro 5ª
+                                Aproximação - Recomendações para o uso de corretivos e fertilizantes em Minas Gerais.
+                                Viçosa/MG, 1999.
                             </th>
                         </tr>
                     </tbody>
@@ -901,14 +923,14 @@
                     PASSO 3
                 </mat-panel-title>
                 <mat-panel-description>
-                    Calcário
+                    Corretivos, remineralizadores e gessos agrícolas
                     <mat-icon>date_range</mat-icon>
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <table class="table m-4">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center" colspan="3">ESCOLHA O CALCÁRIO E DIGA SEU PERCENTUAL PARA
+                        <th scope="col" class="text-center" colspan="4">ESCOLHA O CALCÁRIO E DIGA SEU PERCENTUAL PARA
                             ATENDER A DEMANDA</th>
                     </tr>
                 </thead>
@@ -924,14 +946,35 @@
                                 </mat-select>
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
-                            {{adubovlr.value | json}}
+                            <!-- {{adubovlr.value | json}} -->
                         </td>
-                        <td>X</td>
+                        <td class="text-right">
+                            <mat-form-field>
+                                <mat-label>Valor</mat-label>
+                                <input matInput type="number" class="text-right" min="0"
+                                    step="0.01">
+                                <!--
+                                <mat-error *ngIf="receitaAnaliseSoloParametro?.controls?.valor?.errors?.required">Campo
+                                    Obrigatório!</mat-error>
+                                <mat-error *ngIf="receitaAnaliseSoloParametro?.controls?.valor?.errors?.min">
+                                    Valor mínimo
+                                    ({{receitaAnaliseSoloParametro?.controls?.valor?.errors?.min.min}})
+                                    ultrapassado!</mat-error>
+                                <mat-error *ngIf="receitaAnaliseSoloParametro?.controls?.valor?.errors?.max">
+                                    Valor máximo
+                                    ({{receitaAnaliseSoloParametro?.controls?.valor?.errors?.max.max}})
+                                    ultrapassado!</mat-error>
+                                -->
+                            </mat-form-field>
+                        </td>
                         <td>
-                            <mat-slider thumbLabel min="0" max="100" step="0.5" #vlr1 [disabled]="!adubovlr.value"
+                            <!-- X -->
+                        </td>
+                        <td>
+                            <!-- <mat-slider thumbLabel min="0" max="100" step="0.5" #vlr1 [disabled]="!adubovlr.value"
                                 formControlName="calcarioPercentual">
                             </mat-slider>
-                            [{{vlr1.value | number:'3.1-1':'pt-BR' }}]%
+                            [{{vlr1.value | number:'3.1-1':'pt-BR' }}]% -->
                         </td>
                     </tr>
                 </tbody>
@@ -939,7 +982,7 @@
             <table class="table m-4">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center" colspan="3">ESCOLHA O PÓ DE ROCHA E DIGA SEU PERCENTUAL PARA
+                        <th scope="col" class="text-center" colspan="4">ESCOLHA O PÓ DE ROCHA E DIGA SEU PERCENTUAL PARA
                             ATENDER A DEMANDA</th>
                     </tr>
                 </thead>
@@ -956,6 +999,25 @@
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
                         </td>
+                        <td class="text-right">
+                            <mat-form-field>
+                                <mat-label>Valor</mat-label>
+                                <input matInput type="number" class="text-right" min="0"
+                                    step="0.01">
+                                <!--
+                                <mat-error *ngIf="receitaAnaliseSoloParametro?.controls?.valor?.errors?.required">Campo
+                                    Obrigatório!</mat-error>
+                                <mat-error *ngIf="receitaAnaliseSoloParametro?.controls?.valor?.errors?.min">
+                                    Valor mínimo
+                                    ({{receitaAnaliseSoloParametro?.controls?.valor?.errors?.min.min}})
+                                    ultrapassado!</mat-error>
+                                <mat-error *ngIf="receitaAnaliseSoloParametro?.controls?.valor?.errors?.max">
+                                    Valor máximo
+                                    ({{receitaAnaliseSoloParametro?.controls?.valor?.errors?.max.max}})
+                                    ultrapassado!</mat-error>
+                                -->
+                            </mat-form-field>
+                        </td>
                         <td>X</td>
                         <td>
                             <mat-slider thumbLabel min="0" max="100" step="0.5" #vlr2 [disabled]="!poDeRochav.value"
@@ -968,7 +1030,7 @@
                         <td>
                             Necessidade de Calcário:
                         </td>
-                        <td colspan="2">
+                        <td colspan="3">
                             [{{frm?.value.necessidadeCalcarioCorrigido}}]
                         </td>
                     </tr>
@@ -976,33 +1038,142 @@
                         <td>
                             Necessidade de Pó de Rocha:
                         </td>
-                        <td colspan="2">
+                        <td colspan="3">
                             [{{frm?.value.necessidadePoDeRochaCorrigido}}]
                         </td>
                     </tr>
                 </tbody>
             </table>
 
+            <!-- 
             <mat-card>
                 <mat-card-content>
                     <div class="alert"
-                        [class]="(vlr1.value + vlr2.value) < 100 ? 'alert-warning' : (vlr1.value + vlr2.value) === 100 ? 'alert-success' : 'alert-danger'">
+                        [class]="(vlr1?.value + vlr2?.value) < 100 ? 'alert-warning' : (vlr1?.value + vlr2?.value) === 100 ? 'alert-success' : 'alert-danger'">
                         <h2 class="m-2">
-                            Percentual Total [{{vlr1.value | number:'3.1-1':'pt-BR'}}% +
-                            {{vlr2.value | number:'3.1-1':'pt-BR'}}]% =
-                            {{(vlr1.value + vlr2.value) | number:'3.1-1':'pt-BR'}}%
+                            Percentual Total [{{vlr1?.value | number:'3.1-1':'pt-BR'}}% +
+                            {{vlr2?.value | number:'3.1-1':'pt-BR'}}]% =
+                            {{(vlr1?.value + vlr2.value) | number:'3.1-1':'pt-BR'}}%
                         </h2>
-                        <small *ngIf="(vlr1.value + vlr2.value) < 100">Acrescente os Percentuais</small>
-                        <small *ngIf="(vlr1.value + vlr2.value) === 100">Percentual Válido</small>
-                        <small *ngIf="(vlr1.value + vlr2.value) > 100">Dimunua os Percentuais</small>
+                        <small *ngIf="(vlr1?.value + vlr2?.value) < 100">Acrescente os Percentuais</small>
+                        <small *ngIf="(vlr1?.value + vlr2?.value) === 100">Percentual Válido</small>
+                        <small *ngIf="(vlr1?.value + vlr2?.value) > 100">Dimunua os Percentuais</small>
                         <section>
                             <mat-progress-bar color="primary" mode="determinate"
-                                [value]="(vlr1.value / 1) + (vlr2.value / 1)" #barra>
+                                [value]="(vlr1?.value / 1) + (vlr2?.value / 1)" #barra>
                             </mat-progress-bar>
                         </section>
                     </div>
                 </mat-card-content>
             </mat-card>
+             -->
+
+            <div formGroupName="receitaAmostragemSolo">
+                <table class="table m-4">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="text-center">ESCOLHA O GESSO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <mat-form-field>
+                                    <mat-select [compareWith]="idListComparar" formControlName="gesso">
+                                        <mat-option
+                                            *ngFor="let gesso of aduboList | callback : filtraAduboTipo : ['gesso_agricola']"
+                                            [value]="gesso">
+                                            {{gesso.nome}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="table m-4">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="text-center">DIGA SE FOI REALIZADA AMOSTRAGEM DE SOLO DE 40-60 CM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <mat-checkbox class="example-margin" formControlName="realizada">
+                                    Sim
+                                </mat-checkbox>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="table m-4" *ngIf="frm?.value.receitaAmostragemSolo.realizada">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="text-center" colspan="3">SE A RESPOSTA ANTERIOR FOI SIM, DIGA OS DADOS
+                                ABAIXO
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                CÁLCIO
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <mat-label>Valor</mat-label>
+                                    <input matInput type="number" class="text-right" formControlName="calcio">
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                cmolс/dm³ = mE/100mL
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                ALUMÍNIO
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <mat-label>Valor</mat-label>
+                                    <input matInput type="number" class="text-right" formControlName="aluminio">
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                cmolс/dm³ = mE/100mL
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                SAT. ALUMÍNIO
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <mat-label>Valor</mat-label>
+                                    <input matInput type="number" class="text-right" formControlName="satAluminio">
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                %
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Necessidade de gesso:
+                            </td>
+                            <td colspan="2">
+                                [{{frm?.value.necessidadeDeGesso}}]
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+        </div>
 
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>
@@ -1010,133 +1181,10 @@
             </mat-action-row>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle
-            formGroupName="receitaAmostragemSolo">
+        <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(4)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     PASSO 4
-                </mat-panel-title>
-                <mat-panel-description>
-                    Gesso
-                    <mat-icon>date_range</mat-icon>
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-
-            <table class="table m-4">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col" class="text-center">ESCOLHA O GESSO</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <mat-form-field>
-                                <mat-select [compareWith]="idListComparar" formControlName="gesso">
-                                    <mat-option
-                                        *ngFor="let gesso of aduboList | callback : filtraAduboTipo : ['gesso_agricola']"
-                                        [value]="gesso">
-                                        {{gesso.nome}}</mat-option>
-                                </mat-select>
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <table class="table m-4">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col" class="text-center">DIGA SE FOI REALIZADA AMOSTRAGEM DE SOLO DE 40-60 CM</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <mat-checkbox class="example-margin" formControlName="realizada">
-                                Sim
-                            </mat-checkbox>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <table class="table m-4" *ngIf="frm?.value.receitaAmostragemSolo.realizada">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col" class="text-center" colspan="3">SE A RESPOSTA ANTERIOR FOI SIM, DIGA OS DADOS
-                            ABAIXO
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            CÁLCIO
-                        </td>
-                        <td>
-                            <mat-form-field>
-                                <mat-label>Valor</mat-label>
-                                <input matInput type="number" class="text-right" formControlName="calcio">
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td>
-                            cmolс/dm³ = mE/100mL
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            ALUMÍNIO
-                        </td>
-                        <td>
-                            <mat-form-field>
-                                <mat-label>Valor</mat-label>
-                                <input matInput type="number" class="text-right" formControlName="aluminio">
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td>
-                            cmolс/dm³ = mE/100mL
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            SAT. ALUMÍNIO
-                        </td>
-                        <td>
-                            <mat-form-field>
-                                <mat-label>Valor</mat-label>
-                                <input matInput type="number" class="text-right" formControlName="satAluminio">
-                                <mat-error>Campo Obrigatório!</mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td>
-                            %
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Necessidade de gesso:
-                        </td>
-                        <td colspan="2">
-                            [{{frm?.value.necessidadeDeGesso}}]
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <mat-action-row>
-                <button mat-button color="warn" (click)="prevStep()">Anterior</button>
-                <button mat-button color="primary" (click)="nextStep()">Próximo</button>
-            </mat-action-row>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    PASSO 6
                 </mat-panel-title>
                 <mat-panel-description>
                     Adubo
@@ -1582,10 +1630,10 @@
             </mat-action-row>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+        <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(5)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    PASSO 6
+                    PASSO 5
                 </mat-panel-title>
                 <mat-panel-description>
                     Adubo Micronutriente
@@ -1759,10 +1807,10 @@
             </mat-action-row>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+        <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(6)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    PASSO 7
+                    PASSO 6
                 </mat-panel-title>
                 <mat-panel-description>
                     Modo de Aplicação
@@ -1859,10 +1907,10 @@
             </mat-action-row>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
+        <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(7)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    PASSO 8
+                    PASSO 7
                 </mat-panel-title>
                 <mat-panel-description>
                     Resultado

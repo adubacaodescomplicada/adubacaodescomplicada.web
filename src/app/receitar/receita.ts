@@ -10,14 +10,16 @@ import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
 import { Espacamento } from '../modelo/entidade/espacamento';
 import { ReceitaAmostragemSolo } from '../modelo/entidade/receita-amostragem-solo';
 import { ReceitaFonteMateriaOrganica } from './receita.fonte.materia.organica';
+import { FormaPlantio } from '../modelo/entidade/forma-plantio';
 
 export class Receita {
 
     id: number;
     data: string;
     pessoa: Pessoa;
-    culturaTipo: CulturaTipo | string;
     cultura: Cultura;
+    culturaTipo: CulturaTipo | string;
+    formaPlantio: FormaPlantio | string;
     receitaAnaliseSoloParametroList: ReceitaAnaliseSoloParametro[];
     idadePlantio: CulturaIdadePlantio;
     produtividadeEsperada: number;

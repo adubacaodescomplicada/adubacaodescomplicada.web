@@ -130,6 +130,7 @@ export class ReceitarComponent implements OnInit {
     entidade.pessoa.id = this.loginService.dadosLogin.pessoa_id;
     entidade.pessoa.nome = this.loginService.dadosLogin.nome;
     entidade.culturaTipo = null;
+    entidade.formaPlantio = null;
     entidade.cultura = null;
     entidade.receitaAnaliseSoloParametroList = [];
     for (const analiseSoloParametro of this.analiseSoloParametroList) {
