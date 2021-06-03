@@ -12,18 +12,7 @@
                     <b>{{frm?.value.pessoa?.nome}}</b>
                 </td>
             </tr>
-            <!-- <tr>
-                <th scope="row" class="align-middle">PROPRIEDADE</th>
-                <td><input></td>
-            </tr>
-            <tr>
-                <th scope="row" class="align-middle">EXPLORAÇÃO</th>
-                <td><input></td>
-            </tr>
-            <tr>
-                <th scope="row" class="align-middle">UNIDADE LOCAL</th>
-                <td><input></td>
-            </tr> -->
+        
             <tr>
                 <th scope="row" class="align-middle">Data de Preparo desta Receita</th>
                 <td>
@@ -33,7 +22,6 @@
                             Campo Obrigatório!
                         </mat-error>
                     </mat-form-field>
-                    <!-- [{{frm?.value.data}}] -->
                 </td>
             </tr>
 
@@ -53,7 +41,6 @@
                             Campo Obrigatório!
                         </mat-error>
                     </mat-form-field>
-                    <!-- {{frm?.value.cultura | json}} -->
                 </td>
             </tr>
             <tr *ngIf="frm?.value.cultura">
@@ -107,7 +94,6 @@
                             Campo Obrigatório!
                         </mat-error>
                     </mat-form-field>
-                    <!-- <label>{{frm?.value.cultura?.unidadeProdutividade}}</label> -->
                 </td>
             </tr>
 
@@ -129,9 +115,8 @@
                 </td>
             </tr>
 
-
             <tr *ngIf="frm?.value.cultura">
-                <th scope="row" class="align-middle">Referência</th>
+                <th scope="row" class="align-middle">Referência Bibliografica</th>
                 <td>
                     <mat-form-field>
                         <mat-select formControlName="referencia" (selectionChange)="referenciaChange($event)">
@@ -148,7 +133,7 @@
     </table>
 
     <mat-accordion class="example-headers-align" *ngIf="frm?.value.cultura && frm?.value.referencia">
-        <!--
+<!-- FRZ - ESTE CÓDIGO DENTRE DESTE COMENTÁRIO DEVE SER COLOCADO EM UMA PÁGINA À PARTE
         <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -371,7 +356,6 @@
                             <th scope="col" class="text-center">UNIDADE</th>
                         </tr>
                     </thead>
-                    <!-- FRZ -->
 
                     <tbody formArrayName="receitaAnaliseSoloParametroList">
                         <tr>
@@ -426,7 +410,7 @@
                                         </mat-select>
                                         <mat-error>Campo Obrigatório!</mat-error>
                                     </mat-form-field>
-                                -->
+                                    -->
                                 </td>
                             </tr>
                             <tr *ngIf="receitaAnaliseSoloParametro.value.analiseSoloParametro.observacao">
@@ -923,15 +907,14 @@
                     PASSO 3
                 </mat-panel-title>
                 <mat-panel-description>
-                    Corretivos, remineralizadores e gessos agrícolas
+                    Corretivos, remineralizadores e gesso agrícola
                     <mat-icon>date_range</mat-icon>
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <table class="table m-4">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center" colspan="4">ESCOLHA O CALCÁRIO E DIGA SEU PERCENTUAL PARA
-                            ATENDER A DEMANDA</th>
+                        <th scope="col" class="text-center" colspan="4">ESCOLHA O CALCÁRIO QUE SERÁ USADO PARA CORREÇÃO DE SOLO</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -949,11 +932,12 @@
                             <!-- {{adubovlr.value | json}} -->
                         </td>
                         <td class="text-right">
-                            <mat-form-field>
+                            <!--<mat-form-field>
+                                
                                 <mat-label>Valor</mat-label>
                                 <input matInput type="number" class="text-right" min="0"
                                     step="0.01">
-                                <!--
+                                
                                 <mat-error *ngIf="receitaAnaliseSoloParametro?.controls?.valor?.errors?.required">Campo
                                     Obrigatório!</mat-error>
                                 <mat-error *ngIf="receitaAnaliseSoloParametro?.controls?.valor?.errors?.min">
@@ -964,8 +948,8 @@
                                     Valor máximo
                                     ({{receitaAnaliseSoloParametro?.controls?.valor?.errors?.max.max}})
                                     ultrapassado!</mat-error>
-                                -->
-                            </mat-form-field>
+                                
+                            </mat-form-field>-->
                         </td>
                         <td>
                             <!-- X -->
@@ -979,11 +963,13 @@
                     </tr>
                 </tbody>
             </table>
+            
             <table class="table m-4">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center" colspan="4">ESCOLHA O PÓ DE ROCHA E DIGA SEU PERCENTUAL PARA
-                            ATENDER A DEMANDA</th>
+                        <th scope="col" class="text-center" colspan="4">CASO DESEJE SUBSTITUIR O CALCÁRIO POR REMINERALIZADOR,
+                            ESCOLHA O REMINERALIZADOR E INDIQUE O PERCENTUAL DE SUBSTITUIÇÃO
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -992,19 +978,20 @@
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar" #poDeRochav formControlName="poDeRocha">
                                     <mat-option
-                                        *ngFor="let poDeBrita of aduboList | callback : filtraAduboTipo : ['remineralizador']"
+                                        *ngFor="let poDeBrita of aduboList | callback : filtraAduboTipo : ['po_de_rocha']"
                                         [value]="poDeBrita">
-                                        {{poDeBrita.nome}}</mat-option>
+                                        {{poDeBrita.nome}} remineralizador</mat-option>
                                 </mat-select>
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
                         </td>
                         <td class="text-right">
-                            <mat-form-field>
+                            <!--
+                                <mat-form-field>
                                 <mat-label>Valor</mat-label>
                                 <input matInput type="number" class="text-right" min="0"
                                     step="0.01">
-                                <!--
+                                
                                 <mat-error *ngIf="receitaAnaliseSoloParametro?.controls?.valor?.errors?.required">Campo
                                     Obrigatório!</mat-error>
                                 <mat-error *ngIf="receitaAnaliseSoloParametro?.controls?.valor?.errors?.min">
@@ -1015,8 +1002,8 @@
                                     Valor máximo
                                     ({{receitaAnaliseSoloParametro?.controls?.valor?.errors?.max.max}})
                                     ultrapassado!</mat-error>
-                                -->
-                            </mat-form-field>
+                                
+                            </mat-form-field>-->
                         </td>
                         <td>X</td>
                         <td>
@@ -1026,7 +1013,7 @@
                             [{{vlr2.value | number:'3.1-1':'pt-BR' }}]%
                         </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="false">
                         <td>
                             Necessidade de Calcário:
                         </td>
@@ -1034,7 +1021,7 @@
                             [{{frm?.value.necessidadeCalcarioCorrigido}}]
                         </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="false">
                         <td>
                             Necessidade de Pó de Rocha:
                         </td>
@@ -1044,8 +1031,8 @@
                     </tr>
                 </tbody>
             </table>
-
-            <!-- 
+         
+            <!--
             <mat-card>
                 <mat-card-content>
                     <div class="alert"
@@ -1066,13 +1053,12 @@
                     </div>
                 </mat-card-content>
             </mat-card>
-             -->
-
+            -->
             <div formGroupName="receitaAmostragemSolo">
                 <table class="table m-4">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col" class="text-center">ESCOLHA O GESSO</th>
+                            <th scope="col" class="text-center">ESCOLHA O GESSO AGRÍCOLA</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1095,7 +1081,7 @@
                 <table class="table m-4">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col" class="text-center">DIGA SE FOI REALIZADA AMOSTRAGEM DE SOLO DE 40-60 CM</th>
+                            <th scope="col" class="text-center">INFORME SE FOI REALIZADA AMOSTRAGEM DE SOLO DE 40-60 CM</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1112,7 +1098,7 @@
                 <table class="table m-4" *ngIf="frm?.value.receitaAmostragemSolo.realizada">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col" class="text-center" colspan="3">SE A RESPOSTA ANTERIOR FOI SIM, DIGA OS DADOS
+                            <th scope="col" class="text-center" colspan="3">SE A RESPOSTA ANTERIOR FOI SIM, INFORME OS DADOS
                                 ABAIXO
                             </th>
                         </tr>
@@ -1163,7 +1149,7 @@
                                 %
                             </td>
                         </tr>
-                        <tr>
+                        <tr *ngIf="false">
                             <td>
                                 Necessidade de gesso:
                             </td>
@@ -1173,14 +1159,32 @@
                         </tr>
                     </tbody>
                 </table>
-        </div>
-
+            </div>
+        
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>
                 <button mat-button color="primary" (click)="nextStep()">Próximo</button>
             </mat-action-row>
         </mat-expansion-panel>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
         <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(4)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -1196,8 +1200,8 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" class="text-center" colspan="4">
-                            ESCOLHA A FONTE DE MATÉRIA ORGÂNICA E DIGA O PERCENTUAL QUE CABERÁ A CADA FONTE
-                            <!-- FRZ -->
+                            ESCOLHA A FONTE DO ADUBO ORGÂNICO PARA ADUBAÇÃO DE BASE / PLANTIO
+                            <!-- FRZ -- >
                         </th>
                     </tr>
                 </thead>
@@ -1236,7 +1240,7 @@
                                     <mat-error>Campo Obrigatório!</mat-error>
                                 </mat-form-field>
                                 <mat-slider formControlName="valor"></mat-slider>
-                                % -->
+                                % -- >
                             </td>
                             <td>
                                 <button mat-button color="warn" (click)="excluirFonteMateriaOrganica(i)"
@@ -1263,16 +1267,16 @@
                             {{frm?.value.receitaFonteMateriaOrganicaPercTotal}}%
                         </td>
                     </tr>
-                </tfoot> -->
+                </tfoot> -- >
             </table>
-            <!-- <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p> -->
+            <!-- <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p> -- >
 
             <table class="table m-4">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" class="text-center" colspan="4">
-                            ESCOLHA O ADUBO FONTE DE NITROGÊNIO E DIGA O PERCENTUAL QUE CABERÁ A CADA ADUBO
-                            <!-- FRZ -->
+                            ESCOLHA O ADUBO DE BASE / PLANTIO
+                            <!-- FRZ -- >
                         </th>
                     </tr>
                 </thead>
@@ -1363,8 +1367,8 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" class="text-center" colspan="4">
-                            ESCOLHA O ADUBO FONTE DE FÓSFORO E DIGA O PERCENTUAL QUE CABERÁ A CADA ADUBO
-                            <!-- FRZ -->
+                            ESCOLHA O ADUBO FONTE DE FÓSFORO E INFORME O PERCENTUAL QUE CABERÁ A CADA ADUBO
+                            <!-- FRZ -- >
                         </th>
                     </tr>
                 </thead>
@@ -1455,8 +1459,8 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" class="text-center" colspan="4">
-                            ESCOLHA O ADUBO FONTE DE POTÁSSIO E DIGA O PERCENTUAL QUE CABERÁ A CADA ADUBO
-                            <!-- FRZ -->
+                            ESCOLHA O ADUBO FONTE DE POTÁSSIO E INFORME O PERCENTUAL QUE CABERÁ A CADA ADUBO
+                            <!-- FRZ -- >
                         </th>
                     </tr>
                 </thead>
@@ -1546,7 +1550,7 @@
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
-                        <th><label>ESCOLHA A FORMA DE APLICAÇÃO DOS ADUBOS</label></th>
+                        <th><label>ESCOLHA A FORMA DE IRRIGAÇÃO</label></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1646,7 +1650,7 @@
                     <tr>
                         <th scope="col" class="text-center" colspan="4">
                             ESCOLHA O ADUBO FONTE DE MICRONUTRIENTE
-                            <!-- FRZ -->
+                            <!-- FRZ -- >
                         </th>
                     </tr>
                 </thead>
@@ -1829,7 +1833,7 @@
             <table class="res" formGroupName="modoAplicacao">
                 <tr>
                     <td width="80%">
-                        SE FOR FEITA ADUBAÇÃO PARCELADA A LANÇO OU FERTIRRIGAÇÃO, DIGA QUANTAS VEZES POR MÊS OS ADUBOS
+                        SE FOR FEITA ADUBAÇÃO PARCELADA A LANÇO OU FERTIRRIGAÇÃO, INFORME QUANTAS VEZES POR MÊS OS ADUBOS
                         SERÃO APLICADOS
                     </td>
                     <td width="20%">
@@ -2034,7 +2038,7 @@
                         </tr>
                         <tr *ngIf="reg.adubo">
                             <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
-                            <!-- Pegar dados do preco do adubo -->
+                            <!-- Pegar dados do preco do adubo -- >
                             <td class="limpo">kilos por metro quadrado</td>
                             <td class="limpo">Custo/nº plantas</td>
                             <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
@@ -2070,7 +2074,7 @@
                         </tr>
                         <tr *ngIf="reg.adubo">
                             <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
-                            <!-- Pegar dados do preco do adubo -->
+                            <!-- Pegar dados do preco do adubo -- >
                             <td class="limpo">gramas por metro quadrado</td>
                             <td class="limpo">Custo/nº plantas</td>
                             <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
@@ -2104,7 +2108,7 @@
                         </tr>
                         <tr *ngIf="reg.adubo">
                             <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
-                            <!-- Pegar dados do preco do adubo -->
+                            <!-- Pegar dados do preco do adubo -- >
                             <td class="limpo">gramas por metro quadrado</td>
                             <td class="limpo">Custo/nº plantas</td>
                             <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
@@ -2144,7 +2148,7 @@
                         </tr>
                         <tr *ngIf="reg.adubo">
                             <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
-                            <!-- Pegar dados do preco do adubo -->
+                            <!-- Pegar dados do preco do adubo -- >
                             <td class="limpo">gramas por metro quadrado</td>
                             <td class="limpo">Custo/nº plantas</td>
                             <td class="limpo">{{reg.adubo.aduboPrecoList[0]}}</td>
@@ -2195,13 +2199,13 @@
                     <td><input value="22,3560846278554"></td>
                 </tr>
             </table>
-             -->
+             -- >
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>
                 <button mat-button color="primary" (click)="nextStep()">Final</button>
             </mat-action-row>
         </mat-expansion-panel>
-
+    -->
     </mat-accordion>
 </form>
 <!-- [{{frm?.value | json}}] -->
