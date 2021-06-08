@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class CrudRestService<F, E, L> {
 
-    private funcionalidade = 'entidade';
+    protected funcionalidade = 'entidade';
     private _http: HttpClient;
     private _loginService: LoginService;
 

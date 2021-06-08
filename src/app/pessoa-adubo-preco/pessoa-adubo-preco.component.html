@@ -1,0 +1,29 @@
+<p>Meus Preços de Adubos!</p>
+<label>Filtro</label>
+<label>Tipo</label>
+<select>
+    <option>Todos</option>
+    <option *ngFor="let item of aduboTipoLista" [value]="item">{{item.nome}}</option>
+</select>
+<label>Nome</label>
+<input>
+<table>
+    <thead>
+        <tr>
+            <th>Tipo</th>
+            <th>Adubo</th>
+            <th>Unidade Medida</th>
+            <th>Data</th>
+            <th>Valor</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of lista ">
+            <td>{{item.adubo.aduboTipo.nome}}</td>
+            <td>{{item.adubo.nome}}</td>
+            <td>{{item.unidadeMedida.nome}}</td>
+            <td>{{item.data | date:'dd/MM/yyyy' }}</td>
+            <td><input type="number" [value]="item.valor"  class="text-right"></td>
+        </tr>
+    </tbody>
+</table>

@@ -29,6 +29,10 @@ const routes: Routes = [
         path: 'receitar',
         loadChildren: () => import('./receitar/receitar.module').then(m => m.ReceitarModule),
       },
+      {
+        path: 'pessoa-adubo-preco',
+        loadChildren: () => import('./pessoa-adubo-preco/pessoa-adubo-preco.module').then(m => m.PessoaAduboPrecoModule),
+      }
     ]
   },
   {
