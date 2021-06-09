@@ -1,29 +1,67 @@
-<p>Meus Preços de Adubos!</p>
-<label>Filtro</label>
-<label>Tipo</label>
-<select>
-    <option>Todos</option>
-    <option *ngFor="let item of aduboTipoLista" [value]="item">{{item.nome}}</option>
-</select>
-<label>Nome</label>
-<input>
-<table>
-    <thead>
-        <tr>
-            <th>Tipo</th>
-            <th>Adubo</th>
-            <th>Unidade Medida</th>
-            <th>Data</th>
-            <th>Valor</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let item of lista ">
-            <td>{{item.adubo.aduboTipo.nome}}</td>
-            <td>{{item.adubo.nome}}</td>
-            <td>{{item.unidadeMedida.nome}}</td>
-            <td>{{item.data | date:'dd/MM/yyyy' }}</td>
-            <td><input type="number" [value]="item.valor"  class="text-right"></td>
-        </tr>
-    </tbody>
-</table>
+<div class="container">
+    <div class="row p-3">
+        <div class="col text-center">
+            <div class="card">
+                <div class="card-body">
+                    Meus Preços de Adubos!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row p-3">
+        <div class="col">
+
+
+            <div class="card">
+                <div class="card-header">
+                    Filtro
+                </div>
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Tipo</label>
+                        <div class="col-sm-4">
+                            <select [(ngModel)]="filtro.aduboTipo" class="form-control">
+                                <option value="">Todos</option>
+                                <option *ngFor="let item of aduboTipoLista" [value]="item.codigo">{{item.nome}}</option>
+                            </select>
+                        </div>
+                        <label class="col-sm-2 col-form-label">Nome</label>
+                        <div class="col-sm-4">
+                            <input [(ngModel)]="filtro.conteudo" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table [formGroup]="listaFrm" class="table">
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Adubo</th>
+                <th>Unidade Medida</th>
+                <th>Data</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody formArrayName="items">
+            <tr *ngFor="let item of listaFrm.get('items')['controls'] | callback : filtrar : [filtro]; let i = index"
+                [formGroupName]="i">
+                <td>{{item.value.adubo.aduboTipo.nome}}</td>
+                <td>{{item.value.adubo.nome}}</td>
+                <td>{{item.value.unidadeMedida.nome}}</td>
+                <td>{{item.value.data | date:'dd/MM/yyyy' }}</td>
+                <td>
+                    <input type="number" class="text-right" formControlName="valor">
+                    [valor: {{item.value.valor}}]
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<button (click)="salvar()" class="btn btn-primary btn-lg btn-block">SALVAR</button>

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+
 import { AduboTipo } from '../modelo/entidade/adubo-tipo';
 import { PessoaAduboPreco } from '../modelo/entidade/pessoa-adubo-preco';
+import { PessoaAduboPrecoFormService } from './pessoa-adubo-preco-form.service';
 
 @Component({
   selector: 'app-pessoa-adubo-preco',
@@ -12,10 +14,14 @@ import { PessoaAduboPreco } from '../modelo/entidade/pessoa-adubo-preco';
 export class PessoaAduboPrecoComponent implements OnInit {
 
   lista: PessoaAduboPreco[];
+  listaFrm: FormGroup;
   aduboTipoLista: AduboTipo[];
 
+  filtro = { aduboTipo: '', conteudo: '' };
+
   constructor(
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _formService: PessoaAduboPrecoFormService,
   ) { }
 
   ngOnInit(): void {
@@ -31,9 +37,20 @@ export class PessoaAduboPrecoComponent implements OnInit {
             this.aduboTipoLista.push(e.adubo.aduboTipo);
           };
         });
-        console.log(this.aduboTipoLista);
+        this.listaFrm = this._formService.criarLista(this.lista);
       }
     });
+  }
+
+  public salvar(): void {
+
+  }
+
+  filtrar(elemento: PessoaAduboPreco | any, filtro) {
+    filtro = filtro[0];
+    elemento = elemento.value;
+    return (!filtro.aduboTipo || (filtro.aduboTipo && elemento.adubo.aduboTipo.codigo === filtro.aduboTipo)) &&
+      (!filtro.conteudo.trim().length || (filtro.conteudo && elemento.adubo.nome.trim().toLowerCase().includes(filtro.conteudo.trim().toLowerCase())));
   }
 
 }
