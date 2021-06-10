@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AduboTipo } from '../modelo/entidade/adubo-tipo';
 import { PessoaAduboPreco } from '../modelo/entidade/pessoa-adubo-preco';
 import { PessoaAduboPrecoFormService } from './pessoa-adubo-preco-form.service';
+import { PessoaAduboPrecoRestService } from './pessoa-adubo-preco.rest.service';
 
 @Component({
   selector: 'app-pessoa-adubo-preco',
@@ -21,6 +22,7 @@ export class PessoaAduboPrecoComponent implements OnInit {
 
   constructor(
     private _route: ActivatedRoute,
+    private _service: PessoaAduboPrecoRestService,
     private _formService: PessoaAduboPrecoFormService,
   ) { }
 
@@ -43,7 +45,7 @@ export class PessoaAduboPrecoComponent implements OnInit {
   }
 
   public salvar(): void {
-
+    this._service.salvar(this.listaFrm.value).subscribe(r => console.log('resultado', r));
   }
 
   filtrar(elemento: PessoaAduboPreco | any, filtro) {

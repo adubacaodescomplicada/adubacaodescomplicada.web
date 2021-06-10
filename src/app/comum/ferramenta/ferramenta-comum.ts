@@ -334,3 +334,21 @@ export function pad(n, width, z) {
     n = n + '';
     return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
+
+export function isObject(val) {
+    if (val === null) { return false; }
+    return ((typeof val === 'function') || (typeof val === 'object'));
+}
+
+function format(k, v) {
+    return v !== null ? `${k}=${encodeURIComponent(v)}` : '';
+}
+
+export function objectToQueryString(obj) {
+    return [].concat(...Object.entries(obj)
+        .map(([k, v]) => Array.isArray(v)
+            ? v.map(arr => objectToQueryString({ [k]: arr }))
+            : isObject(v) ? k.concat('.').concat(objectToQueryString(v)) : format(k, v)))
+        .filter(x => x)
+        .join('&');
+}

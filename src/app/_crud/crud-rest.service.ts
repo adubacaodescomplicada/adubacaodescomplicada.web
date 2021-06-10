@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { InjetorEstaticoService } from '../comum/servico/injetor-estatico.service';
 import { LoginService } from '../seguranca/login/login.service';
 import { environment } from '../../environments/environment';
+import { objectToQueryString } from '../comum/ferramenta/ferramenta-comum';
 
 @Injectable({ providedIn: 'root' })
 export class CrudRestService<F, E, L> {
@@ -87,9 +88,7 @@ export class CrudRestService<F, E, L> {
         // captar parametros do filtro
         let param = '';
         if (filtro) {
-            param = Object.keys(filtro).filter(key => filtro[key])
-                .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(filtro[key]))
-                .join('&');
+            param = objectToQueryString(filtro);
             if (param) {
                 param = '?' + param;
             }
