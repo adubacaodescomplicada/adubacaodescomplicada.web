@@ -1,0 +1,50 @@
+<h3 mat-dialog-title class="modal-header">
+    Conversão de Unidades para 1 Quilo
+</h3>
+
+<div mat-dialog-content>
+    <form >
+        <div class="container">
+            <div class="row">
+                <div class="col-6">Unidade</div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <select ([ngModel])="campo.unidade" name="unidade" class="form-control">
+                            <option value="1">1 quilo</option>
+                            <option value="5">5 quilo(s)</option>
+                            <option value="20">20 quilo(s)</option>
+                            <option value="25">25 quilo(s)</option>
+                            <option value="40">40 quilo(s)</option>
+                            <option value="50">50 quilo(s)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">Valor</div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <input type="number" ([ngModel])="campo.valor" name="valor" class="form-control text-right">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">Valor em 1 quilo</div>
+                <div class="col-6">
+                    <div class="form-group">
+                        [{{campo.valorConvertido}}]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+[{{campo.unidade}}]
+[{{campo.valor}}]
+[{{campo.valorConvertido}}]
+
+<div mat-dialog-actions class="modal-footer">
+    <button mat-dialog-close class="btn btn-secondary" (click)="cancelar($event)">Cancelar</button>
+    <button class="btn btn-primary" (click)="confirmar($event)">Salvar</button>
+</div>

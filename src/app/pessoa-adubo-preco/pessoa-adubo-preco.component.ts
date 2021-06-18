@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { CalculadoraService } from '../calculadora/calculadora.service';
 
 import { AduboTipo } from '../modelo/entidade/adubo-tipo';
 import { PessoaAduboPreco } from '../modelo/entidade/pessoa-adubo-preco';
@@ -24,6 +25,7 @@ export class PessoaAduboPrecoComponent implements OnInit {
     private _route: ActivatedRoute,
     private _service: PessoaAduboPrecoRestService,
     private _formService: PessoaAduboPrecoFormService,
+    private _calculadoraService: CalculadoraService,
   ) { }
 
   ngOnInit(): void {
@@ -46,6 +48,14 @@ export class PessoaAduboPrecoComponent implements OnInit {
 
   public salvar(): void {
     this._service.salvar(this.listaFrm.value).subscribe(r => console.log('resultado', r));
+  }
+
+  public converter(valor): void {
+    console.log('valor', valor);
+    this._calculadoraService.converteQuilo(valor.value).subscribe((v: any) => {
+      console.log('resultado calcula serv', v);
+      valor.setValue(v.valor);
+    });
   }
 
   filtrar(elemento: PessoaAduboPreco | any, filtro) {

@@ -20,6 +20,7 @@ import { LayoutModule } from './layout/layout.module';
 import { SegurancaRoutingModule } from './seguranca/seguranca-routing.module';
 import { FrzComponentesModule } from './comum/frz-componentes/frz-componentes.module';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -43,6 +44,7 @@ registerLocaleData(localePt, 'pt-BR');
     FrzComponentesModule,
     LayoutModule,
     MatNativeDateModule,
+    MatDialogModule,
   ],
   exports: [
   ],

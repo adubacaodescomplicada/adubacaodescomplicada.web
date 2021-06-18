@@ -35,15 +35,14 @@
     </div>
 </div>
 
-<div class="table-responsive">
+<div class="table-responsive" style="height: 200px;">
     <table [formGroup]="listaFrm" class="table">
         <thead>
             <tr>
                 <th>Tipo</th>
                 <th>Adubo</th>
-                <th>Unidade Medida</th>
-                <th>Data</th>
-                <th>Valor</th>
+                <th>A partir de</th>
+                <th class="text-right">Valor (1 quilo/R$)</th>
             </tr>
         </thead>
         <tbody formArrayName="items">
@@ -51,11 +50,17 @@
                 [formGroupName]="i">
                 <td>{{item.value.adubo.aduboTipo.nome}}</td>
                 <td>{{item.value.adubo.nome}}</td>
-                <td>{{item.value.unidadeMedida.nome}}</td>
                 <td>{{item.value.data | date:'dd/MM/yyyy' }}</td>
                 <td>
-                    <input type="number" class="text-right" formControlName="valor">
-                    [valor: {{item.value.valor}}]
+                    <div class="input-group mb-3">
+                        <input type="number" class="form-control text-right" formControlName="valor">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" (click)="converter(item)">
+                                <i class="bi bi-calculator"></i>
+                                Converter
+                            </button>
+                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
