@@ -19,6 +19,7 @@ import { ReceitaFonteMateriaOrganica } from './receita.fonte.materia.organica';
 import { FormaAplicacaoAdubo } from '../modelo/entidade/forma-aplicacao-adubo';
 import { ReceitaFonteAdubo } from './receita.fonte.adubo';
 import { ReceitaReferencia } from '../modelo/entidade/receita_referencia';
+import { PessoaAduboPreco } from '../modelo/entidade/pessoa-adubo-preco';
 
 @Component({
   selector: 'app-receitar',
@@ -43,6 +44,7 @@ export class ReceitarComponent implements OnInit {
   fonteMicroNutrienteList: Adubo[];
   formaAplicacaoAduboList: FormaAplicacaoAdubo[];
   receitaReferenciaList: ReceitaReferencia[];
+  pessoaAduboPrecoList: PessoaAduboPreco[];
 
   constructor(
     private service: ReceitarService,
@@ -84,7 +86,10 @@ export class ReceitarComponent implements OnInit {
       resolver[0].apoio.receitaReferenciaList.subscribe((lista) => {
         this.receitaReferenciaList = lista;
       });
-
+      resolver[0].apoio.pessoaAduboPrecoList.subscribe((lista) => {
+        this.pessoaAduboPrecoList = lista;
+      });
+      
       resolver[0].apoio.aduboList.subscribe((aduboLista) => {
         this.aduboList = aduboLista;
 
@@ -393,6 +398,27 @@ export class ReceitarComponent implements OnInit {
     this.addLista(results, this.frm.value.receitaFonteMicroNutrienteList);
 
     return results;
+  }
+
+  atualizaPessoaAduboPreco(event) {
+    let adubo: Adubo = event.value;
+    let result: PessoaAduboPreco = null;
+
+    if (adubo) {
+      result = this.getPessoaAduboPreco(adubo);
+    }
+    this.frm.get('calcarioPrecoQuilo').setValue(result.valor);
+  }
+
+  private getPessoaAduboPreco(adubo: Adubo) {
+    let result: PessoaAduboPreco = null;
+    for (let pap of this.pessoaAduboPrecoList) {
+      if (pap.adubo.codigo === adubo.codigo) {
+        result = pap;
+        break;
+      }
+    }
+    return result;
   }
 
 }

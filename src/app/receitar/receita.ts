@@ -27,6 +27,7 @@ export class Receita {
 
     calcario: Adubo;
     calcarioPercentual: number;
+    calcarioPrecoQuilo: number;
     poDeRocha: Adubo;
     poDeRochaPercentual: number;
 

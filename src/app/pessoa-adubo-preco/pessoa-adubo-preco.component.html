@@ -1,48 +1,51 @@
-<div class="container">
-    <div class="row p-3">
-        <div class="col text-center">
-            <div class="card">
-                <div class="card-body">
-                    Meus Preços de Adubos!
+<header>
+    <div class="container">
+        <div class="row p-3">
+            <div class="col text-center">
+                <div class="card">
+                    <div class="card-body">
+                        Meus Preços de Adubos!
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row p-3">
-        <div class="col">
-            <div class="card">
-                <div class="card-header">
-                    Filtro
-                </div>
-                <div class="card-body">
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Tipo</label>
-                        <div class="col-sm-4">
-                            <select [(ngModel)]="filtro.aduboTipo" class="form-control">
-                                <option value="">Todos</option>
-                                <option *ngFor="let item of aduboTipoLista" [value]="item.codigo">{{item.nome}}</option>
-                            </select>
-                        </div>
-                        <label class="col-sm-2 col-form-label">Nome</label>
-                        <div class="col-sm-4">
-                            <input [(ngModel)]="filtro.conteudo" class="form-control">
+        <div class="row p-3">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        Filtro
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Tipo</label>
+                            <div class="col-sm-4">
+                                <select [(ngModel)]="filtro.aduboTipo" class="form-control">
+                                    <option value="">Todos</option>
+                                    <option *ngFor="let item of aduboTipoLista" [value]="item.codigo">{{item.nome}}
+                                    </option>
+                                </select>
+                            </div>
+                            <label class="col-sm-2 col-form-label">Nome</label>
+                            <div class="col-sm-4">
+                                <input [(ngModel)]="filtro.conteudo" class="form-control">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</header>
 
-<div class="table-responsive" style="height: 200px;">
+<div class="table-responsive" style="max-height: fit-content; overflow: scroll;">
     <table [formGroup]="listaFrm" class="table">
         <thead>
             <tr>
                 <th>Tipo</th>
                 <th>Adubo</th>
                 <th>A partir de</th>
-                <th class="text-right">Valor (1 quilo/R$)</th>
+                <th class="text-right">Valor (R$ reais/ 1 quilo)</th>
             </tr>
         </thead>
         <tbody formArrayName="items">
@@ -67,4 +70,6 @@
     </table>
 </div>
 
-<button (click)="salvar()" class="btn btn-primary btn-lg btn-block">SALVAR</button>
+<footer style="position: fixed; bottom: 10px; width: 400px;">
+    <button (click)="salvar()" class="btn btn-primary btn-lg btn-block">SALVAR</button>
+</footer>

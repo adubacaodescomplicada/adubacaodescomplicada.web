@@ -173,6 +173,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             receitaAnaliseSoloParametroList: this.criarFormReceitaAnaliseSoloParametroList(entidade.receitaAnaliseSoloParametroList),
             calcario: [entidade.calcario, []],
             calcarioPercentual: [entidade.calcarioPercentual, []],
+            calcarioPrecoQuilo: [entidade.calcarioPrecoQuilo, [Validators.required, Validators.min(0)]],
             poDeRocha: [entidade.poDeRocha, []],
             poDeRochaPercentual: [entidade.poDeRochaPercentual, []],
             necessidadeCalcario: [entidade.necessidadeCalcario, []],
