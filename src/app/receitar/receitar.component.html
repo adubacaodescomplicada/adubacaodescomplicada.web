@@ -12,7 +12,7 @@
                     <b>{{frm?.value.pessoa?.nome}}</b>
                 </td>
             </tr>
-        
+
             <tr>
                 <th scope="row" class="align-middle">Data de Preparo desta Receita</th>
                 <td>
@@ -133,7 +133,7 @@
     </table>
 
     <mat-accordion class="example-headers-align" *ngIf="frm?.value.cultura && frm?.value.referencia">
-<!-- FRZ - ESTE CÓDIGO DENTRE DESTE COMENTÁRIO DEVE SER COLOCADO EM UMA PÁGINA À PARTE
+        <!-- FRZ - ESTE CÓDIGO DENTRE DESTE COMENTÁRIO DEVE SER COLOCADO EM UMA PÁGINA À PARTE
         <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -431,304 +431,316 @@
                 </table>
             </div>
 
-            <div class="table-responsive">
-                <table class="table m-4">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col" class="text-center" colspan="3">INTERPRETAÇÃO DA ANALISE LABORATORIAL DE
-                                SOLOS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>
-                                Textura
-                            </th>
-                            <th>
-                                pH em H2O
-                            </th>
-                            <th>
-                                pH em CaCl2
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                argilosa
-                            </td>
-                            <td>
-                                alto
-                            </td>
-                            <td>
-                                -
-                            </td>
-                        </tr>
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header style="background-color: black; color: white;">
+                        <mat-panel-description style="background-color: black; color: white;">
+                            INTERPRETAÇÃO DA ANALISE LABORATORIAL DE SOLOS
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
 
-                        <tr>
-                            <th>
-                                Fósforo, P-Rem
-                            </th>
-                            <th>
-                                Fósforo - P, Mehlich 1
-                            </th>
-                            <th>
-                                Fósforo, P-Resina
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                muito bom
-                            </td>
-                            <td>
-                                -
-                            </td>
-                            <td>
-                                -
-                            </td>
-                        </tr>
+                    <div class="table-responsive">
+                        <table class="table m-4">
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        Textura
+                                    </th>
+                                    <th>
+                                        pH em H2O
+                                    </th>
+                                    <th>
+                                        pH em CaCl2
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        argilosa
+                                    </td>
+                                    <td>
+                                        alto
+                                    </td>
+                                    <td>
+                                        -
+                                    </td>
+                                </tr>
 
-                        <tr>
-                            <th>
-                                Potássio - K
-                            </th>
-                            <th>
-                                Cálcio - Ca
-                            </th>
-                            <th>
-                                Magnésio - Mg
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                baixo
-                            </td>
-                            <td>
-                                muito baixo
-                            </td>
-                            <td>
-                                -
-                            </td>
-                        </tr>
+                                <tr>
+                                    <th>
+                                        Fósforo, P-Rem
+                                    </th>
+                                    <th>
+                                        Fósforo - P, Mehlich 1
+                                    </th>
+                                    <th>
+                                        Fósforo, P-Resina
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        muito bom
+                                    </td>
+                                    <td>
+                                        -
+                                    </td>
+                                    <td>
+                                        -
+                                    </td>
+                                </tr>
 
-                        <tr>
-                            <th>
-                                Enxofre - S
-                            </th>
-                            <th>
-                                Boro - B
-                            </th>
-                            <th>
-                                Zinco - Zn
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                muito bom
-                            </td>
-                            <td>
-                                médio
-                            </td>
-                            <td>
-                                muito bom
-                            </td>
-                        </tr>
+                                <tr>
+                                    <th>
+                                        Potássio - K
+                                    </th>
+                                    <th>
+                                        Cálcio - Ca
+                                    </th>
+                                    <th>
+                                        Magnésio - Mg
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        baixo
+                                    </td>
+                                    <td>
+                                        muito baixo
+                                    </td>
+                                    <td>
+                                        -
+                                    </td>
+                                </tr>
 
-                        <tr>
-                            <th>
-                                Cobre - Cu
-                            </th>
-                            <th>
-                                Manganês - Mn
-                            </th>
-                            <th>
-                                Ferro - Fe
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                muito bom
-                            </td>
-                            <td>
-                                muito bom
-                            </td>
-                            <td>
-                                baixo
-                            </td>
-                        </tr>
+                                <tr>
+                                    <th>
+                                        Enxofre - S
+                                    </th>
+                                    <th>
+                                        Boro - B
+                                    </th>
+                                    <th>
+                                        Zinco - Zn
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        muito bom
+                                    </td>
+                                    <td>
+                                        médio
+                                    </td>
+                                    <td>
+                                        muito bom
+                                    </td>
+                                </tr>
 
-                        <tr>
-                            <th>
-                                Matéria orgânica - MO
-                            </th>
-                            <th>
-                                Carbono - C
-                            </th>
-                            <th>
-                                C.T.C ou T
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                médio
-                            </td>
-                            <td>
-                                médio
-                            </td>
-                            <td>
-                                baixo
-                            </td>
-                        </tr>
+                                <tr>
+                                    <th>
+                                        Cobre - Cu
+                                    </th>
+                                    <th>
+                                        Manganês - Mn
+                                    </th>
+                                    <th>
+                                        Ferro - Fe
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        muito bom
+                                    </td>
+                                    <td>
+                                        muito bom
+                                    </td>
+                                    <td>
+                                        baixo
+                                    </td>
+                                </tr>
 
-                        <tr>
-                            <th>
-                                Acidez (H + Al)
-                            </th>
-                            <th>
-                                Acidez trocável - Al³
-                            </th>
-                            <th>
-                                Saturação por Bases
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                baixo
-                            </td>
-                            <td>
-                                muito baixo
-                            </td>
-                            <td>
-                                muito baixo
-                            </td>
-                        </tr>
+                                <tr>
+                                    <th>
+                                        Matéria orgânica - MO
+                                    </th>
+                                    <th>
+                                        Carbono - C
+                                    </th>
+                                    <th>
+                                        C.T.C ou T
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        médio
+                                    </td>
+                                    <td>
+                                        médio
+                                    </td>
+                                    <td>
+                                        baixo
+                                    </td>
+                                </tr>
 
-                    </tbody>
-                </table>
-            </div>
+                                <tr>
+                                    <th>
+                                        Acidez (H + Al)
+                                    </th>
+                                    <th>
+                                        Acidez trocável - Al³
+                                    </th>
+                                    <th>
+                                        Saturação por Bases
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        baixo
+                                    </td>
+                                    <td>
+                                        muito baixo
+                                    </td>
+                                    <td>
+                                        muito baixo
+                                    </td>
+                                </tr>
 
-            <div class="table-responsive">
-                <table class="table m-4">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col" class="text-center" colspan="3">RELAÇÃO ENTRE OS NUTRIENTES</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>
-                                Cálcio na C.T.C
-                            </th>
-                            <th>
-                                Magnésio na C.T.C
-                            </th>
-                            <th>
-                                Potássio na C.T.C
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                3,55%
-                            </td>
-                            <td>
-                                1,77%
-                            </td>
-                            <td>
-                                3,55%
-                            </td>
-                        </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                        <tr>
-                            <th>
-                                Sódio na C.T.C
-                            </th>
-                            <th>
-                                Alumínio na C.T.C
-                            </th>
-                            <th>
-                                P-Resina / P total
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                2,48%
-                            </td>
-                            <td>
-                                0,00%
-                            </td>
-                            <td>
-                                -
-                            </td>
-                        </tr>
+                </mat-expansion-panel>
 
-                        <tr>
-                            <th>
-                                P-Resina / S
-                            </th>
-                            <th>
-                                P-Melich / P Total
-                            </th>
-                            <th>
-                                P-Melish / S
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                36,54
-                            </td>
-                            <td>
-                                18,00%
-                            </td>
-                            <td>
-                                17,31
-                            </td>
-                        </tr>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header style="background-color: black; color: white;">
+                        <mat-panel-description style="background-color: black; color: white;">
+                            RELAÇÃO ENTRE OS NUTRIENTES
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
 
-                        <tr>
-                            <th>
-                                Ca/K
-                            </th>
-                            <th>
-                                Ca/Mg
-                            </th>
-                            <th>
-                                Mg/K
-                            </th>
-                        </tr>
-                        <tr>
-                            <td>
-                                1,00
-                            </td>
-                            <td>
-                                2,00
-                            </td>
-                            <td>
-                                0,50
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                    <div class="table-responsive">
+                        <table class="table m-4">
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        Cálcio na C.T.C
+                                    </th>
+                                    <th>
+                                        Magnésio na C.T.C
+                                    </th>
+                                    <th>
+                                        Potássio na C.T.C
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        3,55%
+                                    </td>
+                                    <td>
+                                        1,77%
+                                    </td>
+                                    <td>
+                                        3,55%
+                                    </td>
+                                </tr>
 
+                                <tr>
+                                    <th>
+                                        Sódio na C.T.C
+                                    </th>
+                                    <th>
+                                        Alumínio na C.T.C
+                                    </th>
+                                    <th>
+                                        P-Resina / P total
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2,48%
+                                    </td>
+                                    <td>
+                                        0,00%
+                                    </td>
+                                    <td>
+                                        -
+                                    </td>
+                                </tr>
 
-            <div class="table-responsive">
-                <table class="table m-4">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col" class="text-center">
-                                OBSERVAÇÕES
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>
-                                1. A interpretação dos resultados da analise de solos foi feita com base no livro 5ª
-                                Aproximação - Recomendações para o uso de corretivos e fertilizantes em Minas Gerais.
-                                Viçosa/MG, 1999.
-                            </th>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                                <tr>
+                                    <th>
+                                        P-Resina / S
+                                    </th>
+                                    <th>
+                                        P-Melich / P Total
+                                    </th>
+                                    <th>
+                                        P-Melish / S
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        36,54
+                                    </td>
+                                    <td>
+                                        18,00%
+                                    </td>
+                                    <td>
+                                        17,31
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        Ca/K
+                                    </th>
+                                    <th>
+                                        Ca/Mg
+                                    </th>
+                                    <th>
+                                        Mg/K
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        1,00
+                                    </td>
+                                    <td>
+                                        2,00
+                                    </td>
+                                    <td>
+                                        0,50
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </mat-expansion-panel>
+
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header style="background-color: black; color: white;">
+                        <mat-panel-description style="background-color: black; color: white;">
+                            OBSERVAÇÕES
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <div class="table-responsive">
+                        <table class="table m-4">
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        1. A interpretação dos resultados da analise de solos foi feita com base no
+                                        livro 5ª
+                                        Aproximação - Recomendações para o uso de corretivos e fertilizantes em Minas
+                                        Gerais.
+                                        Viçosa/MG, 1999.
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </mat-expansion-panel>
+            </mat-accordion>
 
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>
@@ -914,14 +926,16 @@
             <table class="table m-4">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center" colspan="4">ESCOLHA O CALCÁRIO QUE SERÁ USADO PARA CORREÇÃO DE SOLO</th>
+                        <th scope="col" class="text-center" colspan="4">ESCOLHA O CALCÁRIO QUE SERÁ USADO PARA CORREÇÃO
+                            DE SOLO</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="idListComparar" #adubovlr formControlName="calcario" (selectionChange)="atualizaPessoaAduboPreco($event)">
+                                <mat-select [compareWith]="idListComparar" #adubovlr formControlName="calcario"
+                                    (selectionChange)="atualizaPessoaAduboPreco($event)">
                                     <mat-option
                                         *ngFor="let adubo of aduboList | callback : filtraAduboTipo : ['calcario']"
                                         [value]="adubo">
@@ -934,9 +948,9 @@
                         <td class="text-right">
                             <mat-form-field>
                                 <mat-label>Preço por Quilo</mat-label>
-                                <input matInput type="number" class="text-right" min="0"
-                                    step="0.01" formControlName="calcarioPrecoQuilo" [readonly]="!frm.get('calcario').value">
-                                
+                                <input matInput type="number" class="text-right" min="0" step="0.01"
+                                    formControlName="calcarioPrecoQuilo" [readonly]="!frm.get('calcario').value">
+
                                 <mat-error *ngIf="frm.get('calcarioPrecoQuilo').errors?.required">Campo
                                     Obrigatório!</mat-error>
                                 <mat-error *ngIf="frm.get('calcarioPrecoQuilo').errors?.min">
@@ -961,11 +975,12 @@
                     </tr>
                 </tbody>
             </table>
-            
+
             <table class="table m-4">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center" colspan="4">CASO DESEJE SUBSTITUIR O CALCÁRIO POR REMINERALIZADOR,
+                        <th scope="col" class="text-center" colspan="4">CASO DESEJE SUBSTITUIR O CALCÁRIO POR
+                            REMINERALIZADOR,
                             ESCOLHA O REMINERALIZADOR E INDIQUE O PERCENTUAL DE SUBSTITUIÇÃO
                         </th>
                     </tr>
@@ -1012,9 +1027,9 @@
                              -->
                             <mat-form-field>
                                 <mat-label>Percentual</mat-label>
-                                <input matInput type="number" class="text-right" min="0"
-                                    step="0.01" formControlName="poDeRochaPercentual" [disabled]="!poDeRochav.value">
-                                
+                                <input matInput type="number" class="text-right" min="0" step="0.01"
+                                    formControlName="poDeRochaPercentual" [disabled]="!poDeRochav.value">
+
                                 <mat-error *ngIf="frm.get('poDeRochaPercentual').errors?.required">Campo
                                     Obrigatório!</mat-error>
                                 <mat-error *ngIf="frm.get('poDeRochaPercentual').errors?.min">
@@ -1046,7 +1061,7 @@
                     </tr>
                 </tbody>
             </table>
-         
+
             <!--
             <mat-card>
                 <mat-card-content>
@@ -1096,7 +1111,8 @@
                 <table class="table m-4">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col" class="text-center">INFORME SE FOI REALIZADA AMOSTRAGEM DE SOLO DE 40-60 CM</th>
+                            <th scope="col" class="text-center">INFORME SE FOI REALIZADA AMOSTRAGEM DE SOLO DE 40-60 CM
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1113,7 +1129,8 @@
                 <table class="table m-4" *ngIf="frm?.value.receitaAmostragemSolo.realizada">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col" class="text-center" colspan="3">SE A RESPOSTA ANTERIOR FOI SIM, INFORME OS DADOS
+                            <th scope="col" class="text-center" colspan="3">SE A RESPOSTA ANTERIOR FOI SIM, INFORME OS
+                                DADOS
                                 ABAIXO
                             </th>
                         </tr>
@@ -1175,7 +1192,7 @@
                     </tbody>
                 </table>
             </div>
-        
+
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>
                 <button mat-button color="primary" (click)="nextStep()">Próximo</button>
@@ -1199,7 +1216,7 @@
 
 
 
-<!-- PAREI AQUI, MAS O JULIANO PEDIU PARA DESCOMENTAR 20/06/2021 -->
+        <!-- PAREI AQUI, MAS O JULIANO PEDIU PARA DESCOMENTAR 20/06/2021 -->
         <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -1376,7 +1393,7 @@
                     </tr>
                 </tfoot>
             </table>
-            <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p>
+            <!-- <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p> -->
 
             <table class="table m-4">
                 <thead class="thead-dark">
@@ -1468,7 +1485,7 @@
                     </tr>
                 </tfoot>
             </table>
-            <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p>
+            <!-- <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p> -->
 
             <table class="table m-4">
                 <thead class="thead-dark">
@@ -1560,7 +1577,7 @@
                     </tr>
                 </tfoot>
             </table>
-            <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p>
+            <!-- <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p> -->
 
             <table class="table">
                 <thead class="thead-dark">
@@ -1756,7 +1773,7 @@
                     </tr>
                 </tfoot>
             </table>
-            <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p>
+            <!-- <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p> -->
 
             <table class="table">
                 <thead class="thead-dark">
@@ -1848,7 +1865,8 @@
             <table class="res" formGroupName="modoAplicacao">
                 <tr>
                     <td width="80%">
-                        SE FOR FEITA ADUBAÇÃO PARCELADA A LANÇO OU FERTIRRIGAÇÃO, INFORME QUANTAS VEZES POR MÊS OS ADUBOS
+                        SE FOR FEITA ADUBAÇÃO PARCELADA A LANÇO OU FERTIRRIGAÇÃO, INFORME QUANTAS VEZES POR MÊS OS
+                        ADUBOS
                         SERÃO APLICADOS
                     </td>
                     <td width="20%">
@@ -2220,7 +2238,7 @@
                 <button mat-button color="primary" (click)="nextStep()">Final</button>
             </mat-action-row>
         </mat-expansion-panel>
-    -->
+        -->
     </mat-accordion>
 </form>
 <!-- [{{frm?.value | json}}] -->
