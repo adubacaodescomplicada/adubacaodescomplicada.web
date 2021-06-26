@@ -1012,11 +1012,12 @@
                         <td>
                             <mat-form-field>
                                 <mat-select [compareWith]="idListComparar" #adubovlr formControlName="calcario"
-                                    (selectionChange)="atualizaPessoaAduboPreco($event)">
+                                    (selectionChange)="atualizaPessoaAduboPreco($event, frm.get('calcarioPrecoPorQuilo'))">
                                     <mat-option
                                         *ngFor="let adubo of aduboList | callback : filtraAduboTipo : ['calcario']"
                                         [value]="adubo">
-                                        {{adubo.nome}}</mat-option>
+                                        {{adubo.nome}}
+                                    </mat-option>
                                 </mat-select>
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
@@ -1026,17 +1027,17 @@
                             <mat-form-field>
                                 <mat-label>Preço por Quilo</mat-label>
                                 <input matInput type="number" class="text-right" min="0" step="0.01"
-                                    formControlName="calcarioPrecoQuilo" [readonly]="!frm.get('calcario').value">
+                                    formControlName="calcarioPrecoPorQuilo" [readonly]="!frm.get('calcario').value">
 
-                                <mat-error *ngIf="frm.get('calcarioPrecoQuilo').errors?.required">Campo
+                                <mat-error *ngIf="frm.get('calcarioPrecoPorQuilo').errors?.required">Campo
                                     Obrigatório!</mat-error>
-                                <mat-error *ngIf="frm.get('calcarioPrecoQuilo').errors?.min">
+                                <mat-error *ngIf="frm.get('calcarioPrecoPorQuilo').errors?.min">
                                     Valor mínimo
-                                    ({{frm.get('calcarioPrecoQuilo').errors?.min.min}})
+                                    ({{frm.get('calcarioPrecoPorQuilo').errors?.min.min}})
                                     ultrapassado!</mat-error>
-                                <mat-error *ngIf="frm.get('calcarioPrecoQuilo').errors?.max">
+                                <mat-error *ngIf="frm.get('calcarioPrecoPorQuilo').errors?.max">
                                     Valor máximo
-                                    ({{frm.get('calcarioPrecoQuilo').errors?.max.max}})
+                                    ({{frm.get('calcarioPrecoPorQuilo').errors?.max.max}})
                                     ultrapassado!</mat-error>
                             </mat-form-field>
                         </td>
@@ -1066,34 +1067,33 @@
                     <tr>
                         <td>
                             <mat-form-field>
-                                <mat-select [compareWith]="idListComparar" #poDeRochav formControlName="poDeRocha">
+                                <mat-select [compareWith]="idListComparar" #poDeRochav formControlName="poDeRocha"
+                                    (selectionChange)="atualizaPessoaAduboPreco($event, frm.get('poDeRochaPrecoPorQuilo'))">
                                     <mat-option
-                                        *ngFor="let poDeBrita of aduboList | callback : filtraAduboTipo : ['po_de_rocha']"
-                                        [value]="poDeBrita">
-                                        {{poDeBrita.nome}} remineralizador</mat-option>
+                                        *ngFor="let remineralizador of aduboList | callback : filtraAduboTipo : ['po_de_rocha']"
+                                        [value]="remineralizador">
+                                        {{remineralizador.nome}}
+                                    </mat-option>
                                 </mat-select>
                                 <mat-error>Campo Obrigatório!</mat-error>
                             </mat-form-field>
                         </td>
                         <td class="text-right">
-                            <!--
-                                <mat-form-field>
-                                <mat-label>Valor</mat-label>
-                                <input matInput type="number" class="text-right" min="0"
-                                    step="0.01">
-                                
-                                <mat-error *ngIf="receitaAnaliseSoloParametro?.controls?.valor?.errors?.required">Campo
+                            <mat-form-field>
+                                <mat-label>Preço por Quilo</mat-label>
+                                <input matInput type="number" class="text-right" min="0" step="0.01"
+                                    formControlName="poDeRochaPrecoPorQuilo" [readonly]="!frm.get('poDeRocha').value">
+                                <mat-error *ngIf="frm.get('poDeRochaPrecoPorQuilo').errors?.required">Campo
                                     Obrigatório!</mat-error>
-                                <mat-error *ngIf="receitaAnaliseSoloParametro?.controls?.valor?.errors?.min">
+                                <mat-error *ngIf="frm.get('poDeRochaPrecoPorQuilo').errors?.min">
                                     Valor mínimo
-                                    ({{receitaAnaliseSoloParametro?.controls?.valor?.errors?.min.min}})
+                                    ({{frm.get('poDeRochaPrecoPorQuilo').errors?.min.min}})
                                     ultrapassado!</mat-error>
-                                <mat-error *ngIf="receitaAnaliseSoloParametro?.controls?.valor?.errors?.max">
+                                <mat-error *ngIf="frm.get('poDeRochaPrecoPorQuilo').errors?.max">
                                     Valor máximo
-                                    ({{receitaAnaliseSoloParametro?.controls?.valor?.errors?.max.max}})
+                                    ({{frm.get('poDeRochaPrecoPorQuilo').errors?.max.max}})
                                     ultrapassado!</mat-error>
-                                
-                            </mat-form-field>-->
+                            </mat-form-field>
                         </td>
                         <td>X</td>
                         <td>
@@ -1171,9 +1171,10 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="2">
+                            <td colspan="0">
                                 <mat-form-field>
-                                    <mat-select [compareWith]="idListComparar" formControlName="gesso">
+                                    <mat-select [compareWith]="idListComparar" formControlName="gesso" 
+                                       (selectionChange)="atualizaPessoaAduboPreco($event, frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'])">
                                         <mat-option
                                             *ngFor="let gesso of aduboList | callback : filtraAduboTipo : ['gesso_agricola']"
                                             [value]="gesso">
@@ -1182,7 +1183,25 @@
                                     <mat-error>Campo Obrigatório!</mat-error>
                                 </mat-form-field>
                             </td>
-                        </tr>
+                            <td class="text-right">
+                                <mat-form-field>
+                                    <mat-label>Preço por Quilo</mat-label>
+                                    <input matInput type="number" class="text-right" min="0" step="0.01"
+                                        formControlName="precoPorQuilo" [readonly]="!frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'].value">
+    
+                                    <mat-error *ngIf="frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'].errors?.required">Campo
+                                        Obrigatório!</mat-error>
+                                    <mat-error *ngIf="frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'].errors?.min">
+                                        Valor mínimo
+                                        ({{frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'].errors?.min.min}})
+                                        ultrapassado!</mat-error>
+                                    <mat-error *ngIf="frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'].errors?.max">
+                                        Valor máximo
+                                        ({{frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'].errors?.max.max}})
+                                        ultrapassado!</mat-error>
+                                </mat-form-field>
+                            </td>
+                            </tr>
                         <tr>
                             <td>
                                 Necessidade de gesso:

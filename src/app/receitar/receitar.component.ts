@@ -2,7 +2,7 @@ import { AnaliseSoloParametro } from './../modelo/entidade/analise-solo-parametr
 import { UnidadeMedida } from './../modelo/entidade/unidade-medida';
 import { FonteMateriaOrganica } from './../modelo/entidade/fonte-materia-organica';
 import { Adubo } from './../modelo/entidade/adubo';
-import { FormGroup, FormArray, FormControl } from '@angular/forms';
+import { FormGroup, FormArray, FormControl, AbstractControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -401,14 +401,14 @@ export class ReceitarComponent implements OnInit {
     return results;
   }
 
-  atualizaPessoaAduboPreco(event) {
+  atualizaPessoaAduboPreco(event, controle: FormControl | AbstractControl) {
     let adubo: Adubo = event.value;
     let result: PessoaAduboPreco = null;
 
     if (adubo) {
       result = this.getPessoaAduboPreco(adubo);
     }
-    this.frm.get('calcarioPrecoQuilo').setValue(result.valor);
+    controle.setValue(result.valor);
   }
 
   private getPessoaAduboPreco(adubo: Adubo) {

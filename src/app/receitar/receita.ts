@@ -27,12 +27,13 @@ export class Receita {
 
     calcario: Adubo;
     calcarioPercentual: number;
-    calcarioPrecoQuilo: number;
-    poDeRocha: Adubo;
-    poDeRochaPercentual: number;
-
+    calcarioPrecoPorQuilo: number;
     necessidadeCalcario: number;
     necessidadeCalcarioCorrigido: number;
+
+    poDeRocha: Adubo;
+    poDeRochaPercentual: number;
+    poDeRochaPrecoPorQuilo: number;
     necessidadePoDeRocha: number;
     necessidadePoDeRochaCorrigido: number;
 
