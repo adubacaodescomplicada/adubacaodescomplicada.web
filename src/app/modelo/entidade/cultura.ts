@@ -25,4 +25,5 @@ export class Cultura implements EntidadeId {
     public unidadeProdutividade: string;
     public culturaNecessidadeAduboFormacaoList: CulturaNecessidadeAduboFormacao[];
     public culturaNecessidadeAduboProducaoList: CulturaNecessidadeAduboProducao[];
+    public formaPlantio: string[];
 }

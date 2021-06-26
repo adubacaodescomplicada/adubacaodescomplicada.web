@@ -2,7 +2,7 @@ import { AnaliseSoloParametro } from './../modelo/entidade/analise-solo-parametr
 import { UnidadeMedida } from './../modelo/entidade/unidade-medida';
 import { FonteMateriaOrganica } from './../modelo/entidade/fonte-materia-organica';
 import { Adubo } from './../modelo/entidade/adubo';
-import { FormGroup, FormArray } from '@angular/forms';
+import { FormGroup, FormArray, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -20,6 +20,7 @@ import { FormaAplicacaoAdubo } from '../modelo/entidade/forma-aplicacao-adubo';
 import { ReceitaFonteAdubo } from './receita.fonte.adubo';
 import { ReceitaReferencia } from '../modelo/entidade/receita_referencia';
 import { PessoaAduboPreco } from '../modelo/entidade/pessoa-adubo-preco';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-receitar',
@@ -421,4 +422,8 @@ export class ReceitarComponent implements OnInit {
     return result;
   }
 
+  public realizadaChange(checkbox: MatCheckbox, checked: boolean, controle: FormControl) {
+    controle.setValue(checked ? 'S' : 'N');
+    checkbox.checked = controle.value === 'S';
+  }
 }
