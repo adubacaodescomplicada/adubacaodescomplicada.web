@@ -21,7 +21,7 @@ export class Cultura implements EntidadeId {
     public observacaoColeta: string;
     public metaSaturacaoBase: number;
     public culturaIdadePlantioList: CulturaIdadePlantio[];
-    public espacamentoDuplo: string;
+    public espacamentoQuantidade: number;
     public unidadeProdutividade: string;
     public culturaNecessidadeAduboFormacaoList: CulturaNecessidadeAduboFormacao[];
     public culturaNecessidadeAduboProducaoList: CulturaNecessidadeAduboProducao[];

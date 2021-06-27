@@ -426,4 +426,18 @@ export class ReceitarComponent implements OnInit {
     controle.setValue(checked ? 'S' : 'N');
     checkbox.checked = controle.value === 'S';
   }
+
+  public arrayIntegerTamanho(tamanho): number[] {
+    tamanho = !tamanho ? 1 : parseInt(tamanho);
+    const result = new Array(tamanho);
+    for (let i = 0; i < tamanho; i++) {
+      result[i] = i + 1;
+    }
+    return result;
+  }
+
+  public culturaMudou(event, frm) {
+    frm.get('culturaTipo').setValue(null);
+    frm.get('espacamento.quantidade').setValue(null);
+  }
 }

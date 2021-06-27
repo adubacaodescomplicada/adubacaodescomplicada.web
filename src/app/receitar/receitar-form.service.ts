@@ -224,10 +224,6 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             modoAplicacao: this.criarFormModoAplicacao(entidade.modoAplicacao),
         });
 
-        result.get('cultura').valueChanges.subscribe((c: Cultura) => {
-            result.get('espacamento.duplo')?.setValue(c?.espacamentoDuplo === 'S' ? true : false);
-        });
-
         /*
         result.get('culturaTipo').setValue('F');
         result.get('cultura').setValue({
@@ -264,7 +260,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             producao: 'S',
             recomendacao: 'a',
             tipoFolha: 'c',
-            espacamentoDuplo: 'S',
+            espacamentoQuantidade: 3,
         });
         result.get('idadePlantio').setValue({
             id: 7,
@@ -312,7 +308,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
 
     public criarFormEspacamento(espacamento: Espacamento) {
         const result = this.fb.group({
-            duplo: [espacamento?.duplo, []],
+            quantidade: [espacamento?.quantidade, [Validators.required]],
             a: [espacamento?.a, [Validators.required, Validators.min(0.01)]],
             b: [espacamento?.b, [Validators.required, Validators.min(0.01)]],
             c: [espacamento?.c, [Validators.required, Validators.min(0.01)]],
@@ -327,16 +323,16 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             result.get('quantidadePlanta').setValue(this.espacamentoCalcQuantidadePlanta(result.value), { emitEvent: false });
         }
 
-        result.get('duplo').valueChanges.subscribe((v: number) => {
+        result.get('quantidade').valueChanges.subscribe((v: number) => {
             // verificar se tem elementos para o cálculo
             const temp = result.value;
-            temp.duplo = v;
+            temp.quantidade = v;
             if (temp.quantidadePlanta > 0) {
                 result.get('area').setValue(this.espacamentoCalcArea(temp), { emitEvent: false });
             } else if (temp.area > 0) {
                 result.get('quantidadePlanta').setValue(this.espacamentoCalcQuantidadePlanta(temp), { emitEvent: false });
             }
-            // console.log('duplo modificado');
+            // console.log('quantidade modificado');
         });
 
         result.get('a').valueChanges.subscribe((v: number) => {
@@ -399,13 +395,13 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         if (espacamento?.quantidadePlanta > 0 &&
             espacamento?.a > 0 &&
             espacamento?.b > 0 &&
-            (!espacamento?.duplo || espacamento?.duplo && espacamento?.c > 0)) {
-            if (!espacamento.duplo) {
+            (!espacamento?.quantidade || espacamento?.quantidade && espacamento?.c > 0)) {
+            if (!espacamento.quantidade) {
                 result = espacamento.quantidadePlanta / (10000 / (espacamento.a * espacamento.b));
                 // console.log('simples area', result);
             } else {
                 result = espacamento.quantidadePlanta / (10000 / ((espacamento.a * (espacamento.b + espacamento.c) / 2)));
-                // console.log('duplo area', result);
+                // console.log('quantidade area', result);
             }
         }
         return result;
@@ -416,13 +412,13 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         if (espacamento?.area > 0 &&
             espacamento?.a > 0 &&
             espacamento?.b > 0 &&
-            (!espacamento?.duplo || espacamento?.duplo && espacamento?.c > 0)) {
-            if (!espacamento.duplo) {
+            (!espacamento?.quantidade || espacamento?.quantidade && espacamento?.c > 0)) {
+            if (!espacamento.quantidade) {
                 result = espacamento.area * (10000 / (espacamento.a * espacamento.b));
                 // console.log('simples quantidadePlanta', result);
             } else {
                 result = espacamento.area * (10000 / ((espacamento.a * ((espacamento.c + espacamento.b) / 2))));
-                // console.log('duplo quantidadePlanta', result);
+                // console.log('quantidade quantidadePlanta', result);
             }
         }
         return result;

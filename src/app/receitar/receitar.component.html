@@ -30,7 +30,7 @@
                 <td>
                     <mat-form-field>
                         <mat-select formControlName="cultura" [compareWith]="idListComparar"
-                            (selectionChange)="frm.controls['culturaTipo'].setValue(null)">
+                            (selectionChange)="culturaMudou($event, frm)">
                             <mat-optgroup *ngFor="let classificacao of culturaList" [label]="classificacao.nome">
                                 <mat-option *ngFor="let cultura of classificacao.lista" [value]="cultura">
                                     {{cultura.nome}}
@@ -840,19 +840,27 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" class="text-center"
-                            [attr.colspan]="frm?.value?.cultura?.espacamentoDuplo === 'S' ? 5: 3">DETALHE O ESPAÇAMENTO
+                            [attr.colspan]="frm?.value?.cultura?.espacamentoQuantidade > 1 ? 5: 3">DETALHE O ESPAÇAMENTO
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngIf="frm?.value?.cultura?.espacamentoDuplo === 'S'">
-                        <td colspan="5">
-                            <mat-checkbox formControlName="duplo">
-                                Espaçamento Duplo?
-                            </mat-checkbox>
+                    <tr>
+                        <td [attr.colspan]="frm?.value?.cultura?.espacamentoQuantidade > 1 ? 5: 3">
+                            <p>Espaçamento, quantidade de linhas:</p>
+                            <mat-form-field>
+                                <mat-select formControlName="quantidade">
+                                    <mat-option
+                                        *ngFor="let linha of arrayIntegerTamanho(frm?.value?.cultura?.espacamentoQuantidade)"
+                                        [value]="linha">
+                                        {{linha}} linha(s)
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error>Campo Obrigatório!</mat-error>
+                            </mat-form-field>
                         </td>
                     </tr>
-                    <tr *ngIf="!frm?.value?.espacamento?.duplo">
+                    <tr *ngIf="frm?.value.espacamento.quantidade">
                         <td>
                             <mat-form-field>
                                 <mat-label>Entre Plantas</mat-label>
@@ -882,60 +890,34 @@
                                 </mat-error>
                             </mat-form-field>
                         </td>
-                    </tr>
-                    <tr *ngIf="frm?.value?.espacamento?.duplo">
-                        <td>
-                            <mat-form-field>
-                                <mat-label>Entre Plantas</mat-label>
-                                <input matInput type="number" class="text-right" formControlName="a"
-                                    [attr.min]="frm?.get('espacamento.a').errors?.min?.min" step="0.5">
-                                <span matSuffix> metros </span>
-                                <mat-error *ngIf="frm?.get('espacamento.a').errors?.required">Campo
-                                    Obrigatório!
-                                </mat-error>
-                                <mat-error *ngIf="frm?.get('espacamento.a').errors?.min">
-                                    Valor mínimo ({{frm?.get('espacamento.a').errors?.min.min}}) ultrapassado!
-                                </mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td>X</td>
-                        <td>
-                            <mat-form-field>
-                                <mat-label>Entre Ruas</mat-label>
-                                <input matInput type="number" class="text-right" formControlName="b"
-                                    [attr.min]="frm?.get('espacamento.b').errors?.min?.min" step="0.5">
-                                <span matSuffix> metros </span>
-                                <mat-error *ngIf="frm?.get('espacamento.b').errors?.required">Campo
-                                    Obrigatório!
-                                </mat-error>
-                                <mat-error *ngIf="frm?.get('espacamento.b').errors?.min">
-                                    Valor mínimo ({{frm?.get('espacamento.b').errors?.min.min}}) ultrapassado!
-                                </mat-error>
-                            </mat-form-field>
-                        </td>
-                        <td>X</td>
-                        <td>
-                            <mat-form-field>
-                                <mat-label>Entre Plantas</mat-label>
-                                <input matInput type="number" class="text-right" formControlName="c"
-                                    [attr.min]="frm?.get('espacamento.c').errors?.min?.min" step="0.5">
-                                <span matSuffix> metros </span>
-                                <mat-error *ngIf="frm?.get('espacamento.c').errors?.required">Campo
-                                    Obrigatório!
-                                </mat-error>
-                                <mat-error *ngIf="frm?.get('espacamento.c').errors?.min">
-                                    Valor mínimo ({{frm?.get('espacamento.c').errors?.min.min}}) ultrapassado!
-                                </mat-error>
-                            </mat-form-field>
+                        <td *ngIf="frm?.value.espacamento.quantidade > 1">X</td>
+                        <td *ngIf="frm?.value.espacamento.quantidade > 1">
+                            <p
+                                *ngFor="let i of arrayIntegerTamanho((frm?.value.espacamento.quantidade ? frm?.value.espacamento.quantidade : 1) - 1)">
+                                <mat-form-field>
+                                    <mat-label>Entre Plantas {{i + 1}}&#170; linha</mat-label>
+                                    <input matInput type="number" class="text-right" formControlName="c"
+                                        [attr.min]="frm?.get('espacamento.c').errors?.min?.min" step="0.5">
+                                    <span matSuffix> metros </span>
+                                    <mat-error *ngIf="frm?.get('espacamento.c').errors?.required">Campo
+                                        Obrigatório!
+                                    </mat-error>
+                                    <mat-error *ngIf="frm?.get('espacamento.c').errors?.min">
+                                        Valor mínimo ({{frm?.get('espacamento.c').errors?.min.min}}) ultrapassado!
+                                    </mat-error>
+                                </mat-form-field>
+                            </p>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <table class="table m-4"
-                *ngIf="frm?.value.espacamento?.a > 0 && frm?.value.espacamento?.b > 0 && (!frm?.value.espacamento?.duplo || frm?.value.espacamento?.duplo && frm?.value.espacamento?.c > 0)">
+                *ngIf="frm?.value.espacamento?.a > 0 && frm?.value.espacamento?.b > 0 && (!frm?.value.espacamento?.quantidade || frm?.value.espacamento?.quantidade && frm?.value.espacamento?.c > 0)">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center" colspan="1">NÚMERO DE PLANTAS</th>
+                        <th scope="col" class="text-center">
+                            NÚMERO DE PLANTAS
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -959,10 +941,12 @@
                 </tbody>
             </table>
             <table class="table m-4"
-                *ngIf="frm?.value.espacamento?.a > 0 && frm?.value.espacamento?.b > 0 && (!frm?.value.espacamento?.duplo || frm?.value.espacamento?.duplo && frm?.value.espacamento?.c > 0)">
+                *ngIf="frm?.value.espacamento?.a > 0 && frm?.value.espacamento?.b > 0 && (!frm?.value.espacamento?.quantidade || frm?.value.espacamento?.quantidade && frm?.value.espacamento?.c > 0)">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center" colspan="1">ÁREA</th>
+                        <th scope="col" class="text-center">
+                            ÁREA
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1161,8 +1145,7 @@
                 </mat-card-content>
             </mat-card>
             -->
-            <div formGroupName="receitaAmostragemSolo"
-                *ngIf="frm?.value.receitaAmostragemSolo.realizada === 'S'">
+            <div formGroupName="receitaAmostragemSolo" *ngIf="frm?.value.receitaAmostragemSolo.realizada === 'S'">
                 <table class="table m-4">
                     <thead class="thead-dark">
                         <tr>
@@ -1173,8 +1156,8 @@
                         <tr>
                             <td colspan="0">
                                 <mat-form-field>
-                                    <mat-select [compareWith]="idListComparar" formControlName="gesso" 
-                                       (selectionChange)="atualizaPessoaAduboPreco($event, frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'])">
+                                    <mat-select [compareWith]="idListComparar" formControlName="gesso"
+                                        (selectionChange)="atualizaPessoaAduboPreco($event, frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'])">
                                         <mat-option
                                             *ngFor="let gesso of aduboList | callback : filtraAduboTipo : ['gesso_agricola']"
                                             [value]="gesso">
@@ -1187,21 +1170,26 @@
                                 <mat-form-field>
                                     <mat-label>Preço por Quilo</mat-label>
                                     <input matInput type="number" class="text-right" min="0" step="0.01"
-                                        formControlName="precoPorQuilo" [readonly]="!frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'].value">
-    
-                                    <mat-error *ngIf="frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'].errors?.required">Campo
+                                        formControlName="precoPorQuilo"
+                                        [readonly]="!frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'].value">
+
+                                    <mat-error
+                                        *ngIf="frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'].errors?.required">
+                                        Campo
                                         Obrigatório!</mat-error>
-                                    <mat-error *ngIf="frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'].errors?.min">
+                                    <mat-error
+                                        *ngIf="frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'].errors?.min">
                                         Valor mínimo
                                         ({{frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'].errors?.min.min}})
                                         ultrapassado!</mat-error>
-                                    <mat-error *ngIf="frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'].errors?.max">
+                                    <mat-error
+                                        *ngIf="frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'].errors?.max">
                                         Valor máximo
                                         ({{frm.get('receitaAmostragemSolo')['controls']['precoPorQuilo'].errors?.max.max}})
                                         ultrapassado!</mat-error>
                                 </mat-form-field>
                             </td>
-                            </tr>
+                        </tr>
                         <tr>
                             <td>
                                 Necessidade de gesso:
