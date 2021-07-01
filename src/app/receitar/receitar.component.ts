@@ -21,6 +21,7 @@ import { ReceitaFonteAdubo } from './receita.fonte.adubo';
 import { ReceitaReferencia } from '../modelo/entidade/receita_referencia';
 import { PessoaAduboPreco } from '../modelo/entidade/pessoa-adubo-preco';
 import { MatCheckbox } from '@angular/material/checkbox';
+import { FormaIrrigacao } from '../modelo/entidade/forma-irrigacao';
 
 @Component({
   selector: 'app-receitar',
@@ -43,6 +44,7 @@ export class ReceitarComponent implements OnInit {
   fontePotassioList: Adubo[];
   fonteNitrogenioList: Adubo[];
   fonteMicroNutrienteList: Adubo[];
+  formaIrrigacaoList: FormaIrrigacao[];
   formaAplicacaoAduboList: FormaAplicacaoAdubo[];
   receitaReferenciaList: ReceitaReferencia[];
   pessoaAduboPrecoList: PessoaAduboPreco[];
@@ -90,7 +92,7 @@ export class ReceitarComponent implements OnInit {
       resolver[0].apoio.pessoaAduboPrecoList.subscribe((lista) => {
         this.pessoaAduboPrecoList = lista;
       });
-      
+
       resolver[0].apoio.aduboList.subscribe((aduboLista) => {
         this.aduboList = aduboLista;
 
@@ -112,11 +114,28 @@ export class ReceitarComponent implements OnInit {
         });
       });
 
-      this.formaAplicacaoAduboList = [
-        { id: 1, nome: 'Sulco', eficienciaNitrogenio: 0.5, eficienciaFosforo: 1, eficienciaPotassio: 0.7 },
-        { id: 2, nome: 'A lanço', eficienciaNitrogenio: 0.65, eficienciaFosforo: 1, eficienciaPotassio: 0.75 },
-        { id: 3, nome: 'Gotejamento ou microaspersão', eficienciaNitrogenio: 0.8, eficienciaFosforo: 1, eficienciaPotassio: 0.85 }
+      // this.formaAplicacaoAduboList = [
+      //   { id: 1, nome: 'Sulco', eficienciaNitrogenio: 0.5, eficienciaFosforo: 1, eficienciaPotassio: 0.7 },
+      //   { id: 2, nome: 'A lanço', eficienciaNitrogenio: 0.65, eficienciaFosforo: 1, eficienciaPotassio: 0.75 },
+      //   { id: 3, nome: 'Gotejamento ou microaspersão', eficienciaNitrogenio: 0.8, eficienciaFosforo: 1, eficienciaPotassio: 0.85 }
+      // ];
+
+      this.formaIrrigacaoList = [
+         { id: 1, nome: 'Aspersão por sistema autopropelido' },
+         { id: 2, nome: 'Aspersão por sistema convencional' },
+         { id: 3, nome: 'Aspersão por sistema de malha' },
+         { id: 4, nome: 'Aspersão por sistema pivô central' },
+         { id: 5, nome: 'Gotejamento' },
+         { id: 6, nome: 'Gotejamento subterrâneo - tubo poroso' },
+         { id: 7, nome: 'Micro aspersão' },
+         { id: 8, nome: 'Sulcos' },
+         { id: 9, nome: 'Tubos perfurados' },
       ];
+      this.formaAplicacaoAduboList = [
+        { id: 1, nome: 'A lanço ou manual', eficienciaNitrogenio: 0, eficienciaFosforo: 0, eficienciaPotassio: 0 },
+        { id: 2, nome: 'Fertirrigação (via água de irrigação)', eficienciaNitrogenio: 0, eficienciaFosforo: 0, eficienciaPotassio: 0 },
+     ];
+            
     });
     if (!this.loginService.estaLogado) {
       this.mensagem.erro(`Faça o login primeiro`);
@@ -189,10 +208,6 @@ export class ReceitarComponent implements OnInit {
   }
 
   idListComparar(o1, o2) {
-    return idListComparar(o1, o2);
-  }
-
-  idListComparar2(o1, o2) {
     return idListComparar(o1, o2);
   }
 
@@ -440,4 +455,12 @@ export class ReceitarComponent implements OnInit {
     frm.get('culturaTipo').setValue(null);
     frm.get('espacamento.quantidade').setValue(null);
   }
+
+  public exibeParametroSolo(codigo: string) {
+    let exibe = this.frm.value.referencia.receitaReferenciaAnaliseSoloParametroList.filter(
+      rrasp => rrasp.analiseSoloParametro.codigo === codigo).length > 0;
+    //console.log("exibe parametro => ", exibe);
+    return exibe;
+  }
+
 }

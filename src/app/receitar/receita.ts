@@ -11,6 +11,7 @@ import { Espacamento } from '../modelo/entidade/espacamento';
 import { ReceitaAmostragemSolo } from '../modelo/entidade/receita-amostragem-solo';
 import { ReceitaFonteMateriaOrganica } from './receita.fonte.materia.organica';
 import { FormaPlantio } from '../modelo/entidade/forma-plantio';
+import { FormaIrrigacao } from '../modelo/entidade/forma-irrigacao';
 
 export class Receita {
 
@@ -58,6 +59,7 @@ export class Receita {
     receitaFonteMicroNutrienteList: ReceitaFonteAdubo[];
     receitaFonteMicroNutrientePercTotal: number;
 
+    formaIrrigacao: FormaIrrigacao;
     formaAplicacaoAdubo: FormaAplicacaoAdubo;
 
     necessidadeDeBoro: number;

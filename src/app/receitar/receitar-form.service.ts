@@ -197,6 +197,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             receitaFonteMicroNutrienteList: this.criarFormReceitaFonteAduboList(entidade.receitaFonteMicroNutrienteList),
             receitaFonteMicroNutrientePercTotal: [entidade.receitaFonteMicroNutrientePercTotal, []],
 
+            formaIrrigacao: [entidade.formaIrrigacao, []],
             formaAplicacaoAdubo: [entidade.formaAplicacaoAdubo, []],
 
             necessidadeDeNitrogenio: [, []],
@@ -621,6 +622,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             analiseSoloParametro: [entidade.analiseSoloParametro, [Validators.required]],
             valor: [entidade.valor, [Validators.required, Validators.min(0)]],
             avaliacao: [null, []],
+            unidadeMedida: [entidade.unidadeMedida, []],
         });
         if (entidade?.analiseSoloParametro?.unidadeMedida?.codigo === 'PERCENTUAL') {
             result.get('valor').setValidators([Validators.required, Validators.min(0), Validators.max(100)]);
