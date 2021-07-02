@@ -61,7 +61,11 @@
                         </mat-radio-button>
                         <mat-radio-button style="margin-right: 16px" value="FS"
                             *ngIf="frm?.value.cultura.cultivoForaSolo === 'S'">
-                            Cultivo fora do solo (hidropônico)
+                            Cultivo fora do solo (semi-hidropônico)
+                        </mat-radio-button>
+                        <mat-radio-button style="margin-right: 16px" value="HI"
+                            *ngIf="frm?.value.cultura.cultivoHidroponico === 'S'">
+                            Hidropônico
                         </mat-radio-button>
                     </mat-radio-group>
                     <mat-error style="font-size: 75%;"
@@ -537,162 +541,162 @@
                             <tbody>
                                 <tr>
                                     <th>
-                                        Textura
+                                        <p *ngIf="true">Textura</p>
                                     </th>
                                     <th>
-                                        pH em H2O
+                                        <p *ngIf="true">pH em H2O</p>
                                     </th>
                                     <th>
-                                        pH em CaCl2
+                                        <p *ngIf="true">pH em CaCl2</p>
                                     </th>
                                 </tr>
                                 <tr>
                                     <td>
-                                        argilosa
+                                        <p *ngIf="true">argilosa</p>
                                     </td>
                                     <td>
-                                        alto
+                                        <p *ngIf="true">alto</p>
                                     </td>
                                     <td>
-                                        -
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        Fósforo, P-Rem
-                                    </th>
-                                    <th>
-                                        Fósforo - P, Mehlich 1
-                                    </th>
-                                    <th>
-                                        Fósforo, P-Resina
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        muito bom
-                                    </td>
-                                    <td>
-                                        -
-                                    </td>
-                                    <td>
-                                        -
+                                        <p *ngIf="true">-</p>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <th>
-                                        Potássio - K
+                                        <p *ngIf="exibeParametroSolo('fosforo_remanescente')">Fósforo, P-Rem</p>
                                     </th>
                                     <th>
-                                        Cálcio - Ca
+                                        <p *ngIf="exibeParametroSolo('fosforo_mehlich')">Fósforo - P, Mehlich 1</p>
                                     </th>
                                     <th>
-                                        Magnésio - Mg
+                                        <p *ngIf="exibeParametroSolo('fosforo_resina')">Fósforo, P-Resina</p>
                                     </th>
                                 </tr>
                                 <tr>
                                     <td>
-                                        baixo
+                                        <p *ngIf="exibeParametroSolo('fosforo_remanescente')">muito bom</p>
                                     </td>
                                     <td>
-                                        muito baixo
+                                        <p *ngIf="exibeParametroSolo('fosforo_mehlich')">-</p>
                                     </td>
                                     <td>
-                                        -
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        Enxofre - S
-                                    </th>
-                                    <th>
-                                        Boro - B
-                                    </th>
-                                    <th>
-                                        Zinco - Zn
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        muito bom
-                                    </td>
-                                    <td>
-                                        médio
-                                    </td>
-                                    <td>
-                                        muito bom
+                                        <p *ngIf="exibeParametroSolo('fosforo_resina')">-</p>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <th>
-                                        Cobre - Cu
+                                        <p *ngIf="true">Potássio - K</p>
                                     </th>
                                     <th>
-                                        Manganês - Mn
+                                        <p *ngIf="true">Cálcio - Ca</p>
                                     </th>
                                     <th>
-                                        Ferro - Fe
+                                        <p *ngIf="true">Magnésio - Mg</p>
                                     </th>
                                 </tr>
                                 <tr>
                                     <td>
-                                        muito bom
+                                        <p *ngIf="true">baixo</p>
                                     </td>
                                     <td>
-                                        muito bom
+                                        <p *ngIf="true">muito baixo</p>
                                     </td>
                                     <td>
-                                        baixo
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        Matéria orgânica - MO
-                                    </th>
-                                    <th>
-                                        Carbono - C
-                                    </th>
-                                    <th>
-                                        C.T.C ou T
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        médio
-                                    </td>
-                                    <td>
-                                        médio
-                                    </td>
-                                    <td>
-                                        baixo
+                                        <p *ngIf="true">-</p>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <th>
-                                        Acidez (H + Al)
+                                        <p *ngIf="true">Enxofre - S</p>
                                     </th>
                                     <th>
-                                        Acidez trocável - Al³
+                                        <p *ngIf="true">Boro - B</p>
                                     </th>
                                     <th>
-                                        Saturação por Bases
+                                        <p *ngIf="true">Zinco - Zn</p>
                                     </th>
                                 </tr>
                                 <tr>
                                     <td>
-                                        baixo
+                                        <p *ngIf="true">muito bom</p>
                                     </td>
                                     <td>
-                                        muito baixo
+                                        <p *ngIf="true">médio</p>
                                     </td>
                                     <td>
-                                        muito baixo
+                                        <p *ngIf="true">muito bom</p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        <p *ngIf="true">Cobre - Cu</p>
+                                    </th>
+                                    <th>
+                                        <p *ngIf="true">Manganês - Mn</p>
+                                    </th>
+                                    <th>
+                                        <p *ngIf="true">Ferro - Fe</p>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p *ngIf="true">muito bom</p>
+                                    </td>
+                                    <td>
+                                        <p *ngIf="true">muito bom</p>
+                                    </td>
+                                    <td>
+                                        <p *ngIf="true">baixo</p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        <p *ngIf="true">Matéria orgânica - MO</p>
+                                    </th>
+                                    <th>
+                                        <p *ngIf="true">Carbono - C</p>
+                                    </th>
+                                    <th>
+                                        <p *ngIf="true">C.T.C ou T</p>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p *ngIf="true">médio</p>
+                                    </td>
+                                    <td>
+                                        <p *ngIf="true">médio</p>
+                                    </td>
+                                    <td>
+                                        <p *ngIf="true">baixo</p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        <p *ngIf="true">Acidez (H + Al)</p>
+                                    </th>
+                                    <th>
+                                        <p *ngIf="true">Acidez trocável - Al³</p>
+                                    </th>
+                                    <th>
+                                        <p *ngIf="true">Saturação por Bases</p>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p *ngIf="true">baixo</p>
+                                    </td>
+                                    <td>
+                                        <p *ngIf="true">muito baixo</p>
+                                    </td>
+                                    <td>
+                                        <p *ngIf="true">muito baixo</p>
                                     </td>
                                 </tr>
 
@@ -743,7 +747,7 @@
                                         <p *ngIf="true">Alumínio na C.T.C</p>
                                     </th>
                                     <th>
-                                        <p *ngIf="exibeParametroSolo('fosforo_total')">P-Resina / P total</p>
+                                        <p *ngIf="exibeParametroSolo('fosforo_resina')">P-Resina / P total</p>
                                     </th>
                                 </tr>
                                 <tr>
@@ -754,7 +758,7 @@
                                         <p *ngIf="true">0,00%</p>
                                     </td>
                                     <td>
-                                        <p *ngIf="exibeParametroSolo('fosforo_total')">-</p>
+                                        <p *ngIf="exibeParametroSolo('fosforo_resina')">-</p>
                                     </td>
                                 </tr>
 
@@ -1368,7 +1372,7 @@
                         let-l="last">
                         <tr [formGroupName]="i">
                             <td *ngIf="!l">
-                                {{receitaFonteNitrogenio.value.adubo.nome}}
+                                <p>{{receitaFonteNitrogenio.value.adubo.nome}}</p>
                             </td>
                             <td *ngIf="l">
                                 <mat-form-field>
@@ -1382,14 +1386,14 @@
                                 </mat-form-field>
                             </td>
                             <td>
-                                <mat-form-field>
+                                <mat-form-field *ngIf="false">
                                     <mat-label>Valor</mat-label>
                                     <input matInput type="number" class="text-right" formControlName="valor" step="1"
                                         min="0" max="100">
                                     <mat-error>Campo Obrigatório!</mat-error>
                                 </mat-form-field>
-                                <mat-slider formControlName="valor"></mat-slider>
-                                %
+                                <mat-slider *ngIf="false" formControlName="valor"></mat-slider>
+                                <span *ngIf="false">%</span>
                             </td>
                             <td>
                                 <div *ngIf="receitaFonteNitrogenio.value.adubo?.id" style="font-size: 70%;">
@@ -1417,13 +1421,13 @@
                                 </div>
                             </td>
                             <td>
-                                <button mat-button color="warn" (click)="excluirFonteNitrogenio(i)" *ngIf="!f && l">
+                                <button mat-button color="warn" (click)="excluirFonteNitrogenio(i)" *ngIf="false && !f && l">
                                     Excluir
                                 </button>
                             </td>
                         </tr>
                     </ng-template>
-                    <tr
+                    <!-- <tr
                         *ngIf="(fonteNitrogenioList | callback : filtraFonteAdubo : [frm, 'receitaFonteNitrogenioList'])?.length > 1">
                         <td colspan="4">
                             <button mat-button color="warn" (click)="inserirFonteNitrogenio()"
@@ -1431,7 +1435,7 @@
                                 Incluir
                             </button>
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
                 <tfoot>
                     <tr

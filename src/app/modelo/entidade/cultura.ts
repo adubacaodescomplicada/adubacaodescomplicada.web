@@ -13,6 +13,7 @@ export class Cultura implements EntidadeId {
     public producao: string;
     public cultivoEmSolo: string;
     public cultivoForaSolo: string;
+    public cultivoHidroponico: string;
     public recomendacao: string;
     public epoca: string;
     public tipoFolha: string;
