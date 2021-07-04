@@ -436,7 +436,20 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         const result = this.fb.array(listaCtrl, [Validators.required]);
 
         result.valueChanges.subscribe((r) => {
-            result.setValue(this.calculaAnaliseSoloParametro(r), { emitEvent: false });
+            let calculo = new Array<ReceitaAnaliseSoloParametro>();
+            for (let l1 of r) {
+                calculo.push(Object.assign({}, l1));
+            }
+            calculo = this.calculaAnaliseSoloParametro(calculo);
+            for (let l1 = 0; l1 < r.length; l1 ++) {
+                for (let l2 of calculo) {
+                    if (r[l1].analiseSoloParametro.codigo === l2.analiseSoloParametro.codigo &&
+                        r[l1].valor !== l2.valor) {
+                        result.controls[l1]['controls'].valor.setValue(l2.valor, { emitEvent: false });
+                        break;
+                    }
+                }
+            }
         });
         return result;
     }
@@ -481,8 +494,8 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
                             this.pegaValorReceitaAnaliseSoloParametro(pla, 'ctc');
                         break;
                     case 'silte':
-                        e.valor = 100 - (this.pegaValorReceitaAnaliseSoloParametro(pla, 'argila') + 
-                        this.pegaValorReceitaAnaliseSoloParametro(pla, 'areia'));
+                        e.valor = 100 - (this.pegaValorReceitaAnaliseSoloParametro(pla, 'argila') +
+                            this.pegaValorReceitaAnaliseSoloParametro(pla, 'areia'));
                         break;
                     case 'soma_bases':
                         e.valor = this.pegaValorReceitaAnaliseSoloParametro(pla, 'magnesio')
