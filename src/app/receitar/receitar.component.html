@@ -400,11 +400,29 @@
                                     </mat-form-field>
                                 </td>
                                 <td>
-                                    <p *ngIf="!receitaAnaliseSoloParametro.value.analiseSoloParametro.observacao || receitaAnaliseSoloParametro?.value?.analiseSoloParametro?.temFormulaQualidadeSolo === 'S'">
-                                        {{receitaAnaliseSoloParametro.value.analiseSoloParametro?.unidadeMedida?.nome}}
-                                    </p>
+                                    <p
+                                        *ngIf="receitaAnaliseSoloParametro?.value.analiseSoloParametro?.unidadeMedidaLista?.length === 1">
+                                        {{receitaAnaliseSoloParametro?.value?.unidadeMedida.nome }}</p>
 
-                                    <mat-form-field
+                                    <mat-radio-group formControlName="unidadeMedida"
+                                        *ngIf="receitaAnaliseSoloParametro?.value.analiseSoloParametro?.unidadeMedidaLista?.length > 1"
+                                        (change)="mudouUnidadeMedida($event, receitaAnaliseSoloParametro)">
+                                        <mat-radio-button style="margin-right: 16px"
+                                            *ngFor="let um of getUnidadeMedidaList(receitaAnaliseSoloParametro.value.analiseSoloParametro?.unidadeMedidaLista)"
+                                            [value]="um">
+                                            {{um.nome}}
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                    <mat-error style="font-size: 75%;"
+                                        *ngIf="receitaAnaliseSoloParametro?.controls.unidadeMedida.touched && receitaAnaliseSoloParametro?.controls.unidadeMedida.hasError('required')">
+                                        Campo Obrigatório!
+                                    </mat-error>
+
+                                    <!-- <p *ngIf="!receitaAnaliseSoloParametro.value.analiseSoloParametro.observacao || receitaAnaliseSoloParametro?.value?.analiseSoloParametro?.temFormulaQualidadeSolo === 'S'">
+                                        {{receitaAnaliseSoloParametro.value.analiseSoloParametro?.unidadeMedida?.nome}}
+                                    </p> -->
+
+                                    <!-- <mat-form-field
                                         *ngIf="receitaAnaliseSoloParametro.value.analiseSoloParametro.observacao && receitaAnaliseSoloParametro?.value?.analiseSoloParametro?.temFormulaQualidadeSolo !== 'S'">
                                         <mat-select [compareWith]="idListComparar" formControlName="unidadeMedida">
                                             <mat-option *ngFor="let unidadeMedida of unidadeMedidaList"
@@ -413,7 +431,7 @@
                                             </mat-option>
                                         </mat-select>
                                         <mat-error>Campo Obrigatório!</mat-error>
-                                    </mat-form-field>
+                                    </mat-form-field> -->
 
                                 </td>
                             </tr>
@@ -1421,7 +1439,8 @@
                                 </div>
                             </td>
                             <td>
-                                <button mat-button color="warn" (click)="excluirFonteNitrogenio(i)" *ngIf="false && !f && l">
+                                <button mat-button color="warn" (click)="excluirFonteNitrogenio(i)"
+                                    *ngIf="false && !f && l">
                                     Excluir
                                 </button>
                             </td>

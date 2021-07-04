@@ -624,9 +624,9 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             avaliacao: [null, []],
             unidadeMedida: [entidade.unidadeMedida, []],
         });
-        if (entidade?.analiseSoloParametro?.unidadeMedida?.codigo === 'PERCENTUAL') {
-            result.get('valor').setValidators([Validators.required, Validators.min(0), Validators.max(100)]);
-        }
+        // if (entidade?.analiseSoloParametro?.unidadeMedida?.codigo === 'PERCENTUAL') {
+        //     result.get('valor').setValidators([Validators.required, Validators.min(0), Validators.max(100)]);
+        // }
         return result;
     }
 

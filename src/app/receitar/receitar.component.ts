@@ -162,6 +162,8 @@ export class ReceitarComponent implements OnInit {
       const receitaAnaliseSoloParametro = new ReceitaAnaliseSoloParametro();
       receitaAnaliseSoloParametro.analiseSoloParametro = Object.assign({}, analiseSoloParametro);
       receitaAnaliseSoloParametro.valor = 0;
+      let umList = this.getUnidadeMedidaList(receitaAnaliseSoloParametro.analiseSoloParametro.unidadeMedidaLista);
+      receitaAnaliseSoloParametro.unidadeMedida = umList.length ? umList[0]: null;
       entidade.receitaAnaliseSoloParametroList.push(receitaAnaliseSoloParametro);
     }
     this.carregar(entidade);
@@ -177,6 +179,8 @@ export class ReceitarComponent implements OnInit {
       const receitaAnaliseSoloParametro = new ReceitaAnaliseSoloParametro();
       receitaAnaliseSoloParametro.analiseSoloParametro = Object.assign({}, analiseSoloParametro);
       receitaAnaliseSoloParametro.valor = 0;
+      let umList = this.getUnidadeMedidaList(receitaAnaliseSoloParametro.analiseSoloParametro.unidadeMedidaLista);
+      receitaAnaliseSoloParametro.unidadeMedida = umList.length ? umList[0]: null;
       entidade.receitaAnaliseSoloParametroList.push(receitaAnaliseSoloParametro);
     }
     this.carregar(entidade);
@@ -461,6 +465,26 @@ export class ReceitarComponent implements OnInit {
       rrasp => rrasp.analiseSoloParametro.codigo === codigo).length > 0;
     //console.log("exibe parametro => ", exibe);
     return exibe;
+  }
+
+  public getUnidadeMedidaList(unidadeList: number[]): UnidadeMedida[] {
+    let result = new Array<UnidadeMedida>();
+
+    for (let unidadeMedida of this.unidadeMedidaList) {
+      for (let n of unidadeList) {
+        if (unidadeMedida.id === n) {
+          result.push(unidadeMedida);
+          break;
+        }
+      }
+    }
+
+    return result;
+  }
+
+  public mudouUnidadeMedida(event, registro) {
+    console.log('registro', registro);
+    console.log('event', event);
   }
 
 }
