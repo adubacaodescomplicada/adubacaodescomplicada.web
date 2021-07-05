@@ -1265,12 +1265,43 @@
                 </table>
             </div>
 
+            <table class="table table-striped m-4">
+                <thead class="thead-dark text-center">
+                    <tr>
+                        <th colspan="3">TOTAIS / CUSTOS</th>
+                    </tr>
+                    <tr>
+                        <th>Elemento</th>
+                        <th>Custo por [{{frm.get('formaPlantio').value}}] (R$)</th>
+                        <th>Custo por área plantada (R$)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Calcário</td>
+                        <td class="text-right">0,00</td>
+                        <td class="text-right">0,00</td>
+                    </tr>
+                    <tr>
+                        <td>Remineralizador</td>
+                        <td class="text-right">0,00</td>
+                        <td class="text-right">0,00</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Totais</th>
+                        <th class="text-right">0,00</th>
+                        <th class="text-right">0,00</th>
+                    </tr>
+                </tfoot>
+            </table>
+            
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>
                 <button mat-button color="primary" (click)="nextStep()">Próximo</button>
             </mat-action-row>
         </mat-expansion-panel>
-
 
 
         <!-- PAREI AQUI, MAS O JULIANO PEDIU PARA DESCOMENTAR 20/06/2021 -->
@@ -1304,7 +1335,7 @@
                             <td *ngIf="l">
                                 <mat-form-field>
                                     <mat-select [compareWith]="idListComparar" formControlName="fonteMateriaOrganica"
-                                       (selectionChange)="atualizaPessoaAduboPreco($event, frm?.get('receitaFonteMateriaOrganicaList')['controls'][i].get('precoPorQuilo'))">
+                                        (selectionChange)="atualizaPessoaAduboPreco($event, frm?.get('receitaFonteMateriaOrganicaList')['controls'][i].get('precoPorQuilo'))">
                                         <mat-option
                                             *ngFor="let fonteMateriaOrganica of fonteMateriaOrganicaList | callback : filtraFonteMateriaOrganica : [frm] "
                                             [value]="fonteMateriaOrganica">
@@ -1337,18 +1368,23 @@
                                 <mat-form-field>
                                     <mat-label>Preço por Quilo</mat-label>
                                     <input matInput type="number" class="text-right" min="0" step="0.01"
-                                        formControlName="precoPorQuilo" [readonly]="!frm?.get('receitaFonteMateriaOrganicaList')['controls'][i].get('fonteMateriaOrganica').value">
-                                    <mat-error *ngIf="frm?.get('receitaFonteMateriaOrganicaList')['controls'][i].get('precoPorQuilo').errors?.required">Campo
+                                        formControlName="precoPorQuilo"
+                                        [readonly]="!frm?.get('receitaFonteMateriaOrganicaList')['controls'][i].get('fonteMateriaOrganica').value">
+                                    <mat-error
+                                        *ngIf="frm?.get('receitaFonteMateriaOrganicaList')['controls'][i].get('precoPorQuilo').errors?.required">
+                                        Campo
                                         Obrigatório!</mat-error>
-                                    <mat-error *ngIf="frm?.get('receitaFonteMateriaOrganicaList')['controls'][i].get('precoPorQuilo').errors?.min">
+                                    <mat-error
+                                        *ngIf="frm?.get('receitaFonteMateriaOrganicaList')['controls'][i].get('precoPorQuilo').errors?.min">
                                         Valor mínimo
                                         ({{frm?.get('receitaFonteMateriaOrganicaList')['controls'][i].get('precoPorQuilo').errors?.min.min}})
                                         ultrapassado!</mat-error>
-                                    <mat-error *ngIf="frm?.get('receitaFonteMateriaOrganicaList')['controls'][i].get('precoPorQuilo').errors?.max">
+                                    <mat-error
+                                        *ngIf="frm?.get('receitaFonteMateriaOrganicaList')['controls'][i].get('precoPorQuilo').errors?.max">
                                         Valor máximo
                                         ({{frm?.get('receitaFonteMateriaOrganicaList')['controls'][i].get('precoPorQuilo').errors?.max.max}})
                                         ultrapassado!</mat-error>
-                                </mat-form-field>                            
+                                </mat-form-field>
                             </td>
                             <td>
                                 <button mat-button color="warn" (click)="excluirFonteMateriaOrganica(i)"
@@ -1399,7 +1435,7 @@
                             <td *ngIf="l">
                                 <mat-form-field>
                                     <mat-select [compareWith]="idListComparar" formControlName="adubo"
-                                    (selectionChange)="atualizaPessoaAduboPreco($event, frm?.get('receitaFonteNitrogenioList')['controls'][i].get('precoPorQuilo'))">
+                                        (selectionChange)="atualizaPessoaAduboPreco($event, frm?.get('receitaFonteNitrogenioList')['controls'][i].get('precoPorQuilo'))">
                                         <mat-option
                                             *ngFor="let fonteNitrogenio of fonteNitrogenioList | callback : filtraFonteAdubo : [frm, 'receitaFonteNitrogenioList']"
                                             [value]="fonteNitrogenio">
@@ -1447,19 +1483,23 @@
                                 <mat-form-field>
                                     <mat-label>Preço por Quilo</mat-label>
                                     <input matInput type="number" class="text-right" min="0" step="0.01"
-                                        formControlName="precoPorQuilo" 
+                                        formControlName="precoPorQuilo"
                                         [readonly]="!frm?.get('receitaFonteNitrogenioList')['controls'][i].get('adubo').value">
-                                    <mat-error *ngIf="frm?.get('receitaFonteNitrogenioList')['controls'][i].get('precoPorQuilo').errors?.required">Campo
+                                    <mat-error
+                                        *ngIf="frm?.get('receitaFonteNitrogenioList')['controls'][i].get('precoPorQuilo').errors?.required">
+                                        Campo
                                         Obrigatório!</mat-error>
-                                    <mat-error *ngIf="frm?.get('receitaFonteNitrogenioList')['controls'][i].get('precoPorQuilo').errors?.min">
+                                    <mat-error
+                                        *ngIf="frm?.get('receitaFonteNitrogenioList')['controls'][i].get('precoPorQuilo').errors?.min">
                                         Valor mínimo
                                         ({{frm?.get('receitaFonteNitrogenioList')['controls'][i].get('precoPorQuilo').errors?.min.min}})
                                         ultrapassado!</mat-error>
-                                    <mat-error *ngIf="frm?.get('receitaFonteNitrogenioList')['controls'][i].get('precoPorQuilo').errors?.max">
+                                    <mat-error
+                                        *ngIf="frm?.get('receitaFonteNitrogenioList')['controls'][i].get('precoPorQuilo').errors?.max">
                                         Valor máximo
                                         ({{frm?.get('receitaFonteNitrogenioList')['controls'][i].get('precoPorQuilo').errors?.max.max}})
                                         ultrapassado!</mat-error>
-                                </mat-form-field>                            
+                                </mat-form-field>
                             </td>
                             <td>
                                 <button mat-button color="warn" (click)="excluirFonteNitrogenio(i)"
@@ -1778,6 +1818,38 @@
                 </tbody>
             </table>
 
+            <table class="table table-striped m-4">
+                <thead class="thead-dark text-center">
+                    <tr>
+                        <th colspan="3">TOTAIS / CUSTOS</th>
+                    </tr>
+                    <tr>
+                        <th>Elemento</th>
+                        <th>Custo por [{{frm.get('formaPlantio').value}}] (R$)</th>
+                        <th>Custo por área plantada (R$)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Adubo Orgânico</td>
+                        <td class="text-right">0,00</td>
+                        <td class="text-right">0,00</td>
+                    </tr>
+                    <tr>
+                        <td>Adubo de Base</td>
+                        <td class="text-right">0,00</td>
+                        <td class="text-right">0,00</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Totais</th>
+                        <th class="text-right">0,00</th>
+                        <th class="text-right">0,00</th>
+                    </tr>
+                </tfoot>
+            </table>
+
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>
                 <button mat-button color="primary" (click)="nextStep()">Próximo</button>
@@ -1953,6 +2025,33 @@
                         </td>
                     </tr>
                 </tbody>
+            </table>
+
+            <table class="table table-striped m-4">
+                <thead class="thead-dark text-center">
+                    <tr>
+                        <th colspan="3">TOTAIS / CUSTOS</th>
+                    </tr>
+                    <tr>
+                        <th>Elemento</th>
+                        <th>Custo por [{{frm.get('formaPlantio').value}}] (R$)</th>
+                        <th>Custo por área plantada (R$)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Micronutriente</td>
+                        <td class="text-right">0,00</td>
+                        <td class="text-right">0,00</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Totais</th>
+                        <th class="text-right">0,00</th>
+                        <th class="text-right">0,00</th>
+                    </tr>
+                </tfoot>
             </table>
 
             <mat-action-row>
