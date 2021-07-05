@@ -12,7 +12,6 @@ import { AnaliseSoloParametro } from './../modelo/entidade/analise-solo-parametr
 import { Adubo } from './../modelo/entidade/adubo';
 import { Cultura } from '../modelo/entidade/cultura';
 import { UnidadeMedida } from './../modelo/entidade/unidade-medida';
-import { FonteMateriaOrganica } from '../modelo/entidade/fonte-materia-organica';
 import { ReceitaReferencia } from '../modelo/entidade/receita_referencia';
 
 @Injectable({ providedIn: 'root' })
@@ -42,11 +41,6 @@ export class ReceitarService extends CrudService<ReceitaFiltroDTO, Receita, Rece
 
     public unidadeMedidaList(): Observable<UnidadeMedida[]> {
         return this._http.get<UnidadeMedida[]>(`${environment.REST_API_URL}/unidade-medida`,
-            { headers: this.loginService.apiRequestHttpHeader });
-    }
-
-    public fonteMateriaOrganicaList(): Observable<FonteMateriaOrganica[]> {
-        return this._http.get<FonteMateriaOrganica[]>(`${environment.REST_API_URL}/fonte-materia-organica`,
             { headers: this.loginService.apiRequestHttpHeader });
     }
 

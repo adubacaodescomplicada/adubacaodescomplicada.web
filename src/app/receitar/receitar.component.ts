@@ -1,6 +1,5 @@
 import { AnaliseSoloParametro } from './../modelo/entidade/analise-solo-parametro';
 import { UnidadeMedida } from './../modelo/entidade/unidade-medida';
-import { FonteMateriaOrganica } from './../modelo/entidade/fonte-materia-organica';
 import { Adubo } from './../modelo/entidade/adubo';
 import { FormGroup, FormArray, FormControl, AbstractControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -39,7 +38,7 @@ export class ReceitarComponent implements OnInit {
   culturaList: Cultura[];
   analiseSoloParametroList: AnaliseSoloParametro[];
   unidadeMedidaList: UnidadeMedida[];
-  fonteMateriaOrganicaList: FonteMateriaOrganica[];
+  fonteMateriaOrganicaList: Adubo[];
   fonteFosforoList: Adubo[];
   fontePotassioList: Adubo[];
   fonteNitrogenioList: Adubo[];
@@ -83,9 +82,6 @@ export class ReceitarComponent implements OnInit {
       resolver[0].apoio.unidadeMedidaList.subscribe((lista) => {
         this.unidadeMedidaList = lista;
       });
-      resolver[0].apoio.fonteMateriaOrganicaList.subscribe((lista) => {
-        this.fonteMateriaOrganicaList = lista;
-      });
       resolver[0].apoio.receitaReferenciaList.subscribe((lista) => {
         this.receitaReferenciaList = lista;
       });
@@ -108,6 +104,8 @@ export class ReceitarComponent implements OnInit {
           idList = garantiaLista.filter(e => e.codigo === 'N')[0].aduboGarantiaList.flatMap(i => i.adubo.id);
           this.fonteNitrogenioList = aduboLista.filter(e => idList.indexOf(e.id) > -1);
 
+          this.fonteMateriaOrganicaList = aduboLista.filter(e => e.aduboTipo.codigo === 'materia_organica');
+          
           this.fonteMicroNutrienteList = aduboLista.filter(e => e.aduboTipo.codigo === 'micronutriente');
 
           garantiaLista.filter(e => e.codigo === '').flatMap(e => e.aduboGarantiaList.flat(a => a.adubo));
@@ -225,7 +223,7 @@ export class ReceitarComponent implements OnInit {
     return aduboTipo && aduboTipo.length && aduboTipo[0] === adubo.aduboTipo.codigo;
   }
 
-  filtraFonteMateriaOrganica(fonteMateriaOrganica: FonteMateriaOrganica, frm: FormGroup) {
+  filtraFonteMateriaOrganica(fonteMateriaOrganica: Adubo, frm: FormGroup) {
     const lista = (frm[0].get('receitaFonteMateriaOrganicaList') as FormArray);
     if (!lista) {
       return false;
@@ -379,7 +377,7 @@ export class ReceitarComponent implements OnInit {
   }
 
   private addLista(
-    result: { adubo: Adubo | FonteMateriaOrganica, perc: number }[],
+    result: { adubo: Adubo, perc: number }[],
     lista: ReceitaFonteAdubo[] | ReceitaFonteMateriaOrganica[]
   ) {
     if (lista && lista.length) {
@@ -427,7 +425,9 @@ export class ReceitarComponent implements OnInit {
     if (adubo) {
       result = this.getPessoaAduboPreco(adubo);
     }
-    controle.setValue(result.valor);
+    if (result) {
+      controle.setValue(result.valor);
+    }
   }
 
   private getPessoaAduboPreco(adubo: Adubo) {

@@ -1,7 +1,8 @@
-import { FonteMateriaOrganica } from './../modelo/entidade/fonte-materia-organica';
+import { Adubo } from "../modelo/entidade/adubo";
 
 export class ReceitaFonteMateriaOrganica {
     id: number;
-    fonteMateriaOrganica: FonteMateriaOrganica;
+    fonteMateriaOrganica: Adubo;
     valor: number;
+    precoPorQuilo: number;
 }

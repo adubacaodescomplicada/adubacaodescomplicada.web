@@ -288,7 +288,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         const result = this.fb.group({
             realizada: [receitaAmostragemSolo?.realizada, []],
             gesso: [receitaAmostragemSolo?.gesso, []],
-            precoPorQuilo: [receitaAmostragemSolo?.precoPorQuilo, []],
+            precoPorQuilo: [receitaAmostragemSolo?.precoPorQuilo, [Validators.min(0)]],
             calcio: [receitaAmostragemSolo?.calcio, []],
             aluminio: [receitaAmostragemSolo?.aluminio, []],
             satAluminio: [receitaAmostragemSolo?.satAluminio, []]
@@ -539,6 +539,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             id: [entidade.id, []],
             fonteMateriaOrganica: [entidade.fonteMateriaOrganica, [Validators.required]],
             valor: [entidade.valor ? entidade.valor : 0, [Validators.required, Validators.min(0)]],
+            precoPorQuilo: [entidade.precoPorQuilo, [Validators.min(0)]],
         });
 
         result.get('valor').valueChanges.subscribe(value => {
@@ -569,6 +570,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             id: [entidade.id, []],
             adubo: [entidade.adubo, [Validators.required]],
             valor: [entidade.valor ? entidade.valor : 0, [Validators.required, Validators.min(0)]],
+            precoPorQuilo: [entidade.precoPorQuilo, [Validators.min(0)]],
             totalFosforo: [, []],
             totalPotassio: [, []],
             totalNitrogenio: [, []],
