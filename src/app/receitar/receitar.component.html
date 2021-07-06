@@ -2047,23 +2047,6 @@
                 </tfoot>
             </table>
 
-            <mat-action-row>
-                <button mat-button color="warn" (click)="prevStep()">Anterior</button>
-                <button mat-button color="primary" (click)="nextStep()">Próximo</button>
-            </mat-action-row>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    PASSO 5
-                </mat-panel-title>
-                <mat-panel-description>
-                    Adubo Micronutriente
-                    <mat-icon>date_range</mat-icon>
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-
             <table class="table m-4">
                 <thead class="thead-dark">
                     <tr>
@@ -2257,10 +2240,10 @@
             </mat-action-row>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+        <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    PASSO 6
+                    PASSO 5
                 </mat-panel-title>
                 <mat-panel-description>
                     Modo de Aplicação
@@ -2358,10 +2341,10 @@
             </mat-action-row>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+        <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    PASSO 7
+                    PASSO 6
                 </mat-panel-title>
                 <mat-panel-description>
                     Resultado
@@ -2652,7 +2635,7 @@
                 <button mat-button color="primary" (click)="nextStep()">Final</button>
             </mat-action-row>
         </mat-expansion-panel>
-        -->
+        
     </mat-accordion>
 </form>
 <!-- [{{frm?.value | json}}] -->
