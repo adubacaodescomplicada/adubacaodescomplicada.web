@@ -11,6 +11,9 @@ export class Adubo implements EntidadeId {
     public descricao: string;
     public aduboTipo: AduboTipo;
     public quantidadeQuiloCova: number;
+    public paraCobertura: string;
+	public paraFertirrigacao: string;
+    
     public aduboGarantiaList: AduboGarantia[];
     public aduboPrecoList: AduboPreco[];
 
