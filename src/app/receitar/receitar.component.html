@@ -1330,11 +1330,11 @@
                         let-l="last">
                         <tr [formGroupName]="i">
                             <td *ngIf="!l">
-                                {{receitaFonteMateriaOrganica.value.fonteMateriaOrganica.nome}}
+                                {{receitaFonteMateriaOrganica.value.adubo.nome}}
                             </td>
                             <td *ngIf="l">
                                 <mat-form-field>
-                                    <mat-select [compareWith]="idListComparar" formControlName="fonteMateriaOrganica"
+                                    <mat-select [compareWith]="idListComparar" formControlName="adubo"
                                         (selectionChange)="atualizaPessoaAduboPreco($event, frm?.get('receitaFonteMateriaOrganicaList')['controls'][i].get('precoPorQuilo'))">
                                         <mat-option
                                             *ngFor="let fonteMateriaOrganica of fonteMateriaOrganicaList | callback : filtraFonteMateriaOrganica : [frm] "
@@ -1346,9 +1346,9 @@
                             </td>
                             <td>
                                 <mat-label
-                                    *ngIf="receitaFonteMateriaOrganica?.value.fonteMateriaOrganica?.quantidadeQuiloCova">
+                                    *ngIf="receitaFonteMateriaOrganica?.value.adubo?.quantidadeQuiloCova">
                                     Quantidade por Cova:
-                                    {{receitaFonteMateriaOrganica?.value.fonteMateriaOrganica?.quantidadeQuiloCova}}
+                                    {{receitaFonteMateriaOrganica?.value.adubo?.quantidadeQuiloCova}}
                                     kilos
                                 </mat-label>
                             </td>
@@ -1369,7 +1369,7 @@
                                     <mat-label>Preço por Quilo</mat-label>
                                     <input matInput type="number" class="text-right" min="0" step="0.01"
                                         formControlName="precoPorQuilo"
-                                        [readonly]="!frm?.get('receitaFonteMateriaOrganicaList')['controls'][i].get('fonteMateriaOrganica').value">
+                                        [readonly]="!frm?.get('receitaFonteMateriaOrganicaList')['controls'][i].get('adubo').value">
                                     <mat-error
                                         *ngIf="frm?.get('receitaFonteMateriaOrganicaList')['controls'][i].get('precoPorQuilo').errors?.required">
                                         Campo
@@ -1731,7 +1731,7 @@
                                     {{item.nome}}
                                 </mat-radio-button>
                             </mat-radio-group>
-                            {{frm?.value.formaIrrigacao | json}}
+                            <!-- {{frm?.value.formaIrrigacao | json}} -->
                         </td>
                     </tr>
                 </tbody>
@@ -1753,11 +1753,208 @@
                                     {{item.nome}}
                                 </mat-radio-button>
                             </mat-radio-group>
-                            {{frm?.value.formaAplicacaoAdubo | json}}
+                            <!-- {{frm?.value.formaAplicacaoAdubo | json}} -->
                         </td>
                     </tr>
                 </tbody>
             </table>
+
+            <table class="table m-4" *ngIf="frm?.value.formaAplicacaoAdubo?.codigo === 'cobertura'">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" class="text-center" colspan="4">
+                            ESCOLHA O ADUBO FONTE DE COBERTURA
+                            <!-- FRZ -->
+                        </th>
+                    </tr>
+                </thead>
+                <tbody formArrayName="receitaFonteCoberturaList">
+                    <ng-template ngFor let-receitaFonteCobertura
+                        [ngForOf]="frm?.get('receitaFonteCoberturaList')['controls']" let-i="index" let-f="first"
+                        let-l="last">
+                        <tr [formGroupName]="i">
+                            <td *ngIf="!l">
+                                {{receitaFonteCobertura.value.adubo.nome}}
+                            </td>
+                            <td *ngIf="l">
+                                <mat-form-field>
+                                    <mat-select [compareWith]="idListComparar" formControlName="adubo">
+                                        <mat-option
+                                            *ngFor="let fonteCobertura of fonteCoberturaList | callback : filtraFonteCobertura : [frm] "
+                                            [value]="fonteCobertura">
+                                            {{fonteCobertura.nome}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <mat-label>Valor</mat-label>
+                                    <input matInput type="number" class="text-right" formControlName="valor" step="1"
+                                        min="0" max="100">
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                                <mat-slider formControlName="valor"></mat-slider>
+                                %
+                            </td>
+                            <td>
+                                <div *ngIf="receitaFonteCobertura.value.adubo?.id" style="font-size: 70%;">
+                                    <p>
+                                        Boro:
+                                        {{receitaFonteCobertura.value.totalBoro *
+                                        (receitaFonteCobertura.value.valor / 100)}}
+                                        de {{receitaFonteCobertura.value.totalBoro}}
+                                        (g/planta)
+                                    </p>
+                                    <p>
+                                        Cobre:
+                                        {{receitaFonteCobertura.value.totalCobre *
+                                        (receitaFonteCobertura.value.valor / 100)}}
+                                        de {{receitaFonteCobertura.value.totalCobre}}
+                                        (g/planta)
+                                    </p>
+                                    <p>
+                                        Manganês:
+                                        {{receitaFonteCobertura.value.totalManganes *
+                                        (receitaFonteCobertura.value.valor / 100)}}
+                                        de {{receitaFonteCobertura.value.totalManganes}}
+                                        (g/planta)
+                                    </p>
+                                    <p>
+                                        Zinco:
+                                        {{receitaFonteCobertura.value.totalZinco *
+                                        (receitaFonteCobertura.value.valor / 100)}}
+                                        de {{receitaFonteCobertura.value.totalZinco}}
+                                        (g/planta)
+                                    </p>
+                                </div>
+                            </td>
+                            <td>
+                                <button mat-button color="warn" (click)="excluirFonteCobertura(i)" *ngIf="!f && l">
+                                    Excluir
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <tr *ngIf="(fonteCoberturaList | callback : filtraFonteCobertura : [frm])?.length > 1">
+                        <td colspan="4">
+                            <button mat-button color="warn" (click)="inserirFonteCobertura()"
+                                [disabled]="frm?.get('receitaFonteCoberturaList').invalid">
+                                Incluir
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr
+                        [ngClass]="frm?.value.receitaFonteCoberturaPercTotal < 100 ? 'table-danger' : frm?.value.receitaFonteCoberturaPercTotal > 100 ? 'table-warning' : frm?.value.receitaFonteCoberturaPercTotal === 100 ? 'table-success' : ''">
+                        <td colspan="2">Total Geral Percentual</td>
+                        <td>
+                            {{frm?.value.receitaFonteCoberturaPercTotal}}%
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <!-- <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p> -->
+
+            <table class="table m-4" *ngIf="frm?.value.formaAplicacaoAdubo?.codigo === 'fertirrigacao'">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" class="text-center" colspan="4">
+                            ESCOLHA O ADUBO FONTE DE FERTIRRIGACAO
+                            <!-- FRZ -->
+                        </th>
+                    </tr>
+                </thead>
+                <tbody formArrayName="receitaFonteFertirrigacaoList">
+                    <ng-template ngFor let-receitaFonteFertirrigacao
+                        [ngForOf]="frm?.get('receitaFonteFertirrigacaoList')['controls']" let-i="index" let-f="first"
+                        let-l="last">
+                        <tr [formGroupName]="i">
+                            <td *ngIf="!l">
+                                {{receitaFonteFertirrigacao.value.adubo.nome}}
+                            </td>
+                            <td *ngIf="l">
+                                <mat-form-field>
+                                    <mat-select [compareWith]="idListComparar" formControlName="adubo">
+                                        <mat-option
+                                            *ngFor="let fonteFertirrigacao of fonteFertirrigacaoList | callback : filtraFonteFertirrigacao : [frm] "
+                                            [value]="fonteFertirrigacao">
+                                            {{fonteFertirrigacao.nome}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <mat-label>Valor</mat-label>
+                                    <input matInput type="number" class="text-right" formControlName="valor" step="1"
+                                        min="0" max="100">
+                                    <mat-error>Campo Obrigatório!</mat-error>
+                                </mat-form-field>
+                                <mat-slider formControlName="valor"></mat-slider>
+                                %
+                            </td>
+                            <td>
+                                <div *ngIf="receitaFonteFertirrigacao.value.adubo?.id" style="font-size: 70%;">
+                                    <p>
+                                        Boro:
+                                        {{receitaFonteFertirrigacao.value.totalBoro *
+                                        (receitaFonteFertirrigacao.value.valor / 100)}}
+                                        de {{receitaFonteFertirrigacao.value.totalBoro}}
+                                        (g/planta)
+                                    </p>
+                                    <p>
+                                        Cobre:
+                                        {{receitaFonteFertirrigacao.value.totalCobre *
+                                        (receitaFonteFertirrigacao.value.valor / 100)}}
+                                        de {{receitaFonteFertirrigacao.value.totalCobre}}
+                                        (g/planta)
+                                    </p>
+                                    <p>
+                                        Manganês:
+                                        {{receitaFonteFertirrigacao.value.totalManganes *
+                                        (receitaFonteFertirrigacao.value.valor / 100)}}
+                                        de {{receitaFonteFertirrigacao.value.totalManganes}}
+                                        (g/planta)
+                                    </p>
+                                    <p>
+                                        Zinco:
+                                        {{receitaFonteFertirrigacao.value.totalZinco *
+                                        (receitaFonteFertirrigacao.value.valor / 100)}}
+                                        de {{receitaFonteFertirrigacao.value.totalZinco}}
+                                        (g/planta)
+                                    </p>
+                                </div>
+                            </td>
+                            <td>
+                                <button mat-button color="warn" (click)="excluirFonteFertirrigacao(i)" *ngIf="!f && l">
+                                    Excluir
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <tr *ngIf="(fonteFertirrigacaoList | callback : filtraFonteFertirrigacao : [frm])?.length > 1">
+                        <td colspan="4">
+                            <button mat-button color="warn" (click)="inserirFonteFertirrigacao()"
+                                [disabled]="frm?.get('receitaFonteFertirrigacaoList').invalid">
+                                Incluir
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr
+                        [ngClass]="frm?.value.receitaFonteFertirrigacaoPercTotal < 100 ? 'table-danger' : frm?.value.receitaFonteFertirrigacaoPercTotal > 100 ? 'table-warning' : frm?.value.receitaFonteFertirrigacaoPercTotal === 100 ? 'table-success' : ''">
+                        <td colspan="2">Total Geral Percentual</td>
+                        <td>
+                            {{frm?.value.receitaFonteFertirrigacaoPercTotal}}%
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <!-- <p>Observação: os valores acima não podem ser menores ou maiores que 100%</p> -->
+
 
             <table class="table">
                 <thead class="thead-dark">

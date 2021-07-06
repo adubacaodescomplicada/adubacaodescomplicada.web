@@ -7,7 +7,6 @@ import { Receita } from './receita';
 import { ReceitaFiltroDTO } from './receita-filtro-dto';
 import { Cultura } from './../modelo/entidade/cultura';
 import { ModoAplicacao } from './../modelo/entidade/modo-aplicacao';
-import { ReceitaFonteMateriaOrganica } from './receita.fonte.materia.organica';
 import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
 import { Espacamento } from '../modelo/entidade/espacamento';
 import { ReceitaAmostragemSolo } from '../modelo/entidade/receita-amostragem-solo';
@@ -196,6 +195,12 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
 
             receitaFonteMicroNutrienteList: this.criarFormReceitaFonteAduboList(entidade.receitaFonteMicroNutrienteList),
             receitaFonteMicroNutrientePercTotal: [entidade.receitaFonteMicroNutrientePercTotal, []],
+
+            receitaFonteCoberturaList: this.criarFormReceitaFonteAduboList(entidade.receitaFonteCoberturaList),
+            receitaFonteCoberturaPercTotal: [entidade.receitaFonteCoberturaPercTotal, []],
+
+            receitaFonteFertirrigacaoList: this.criarFormReceitaFonteAduboList(entidade.receitaFonteFertirrigacaoList),
+            receitaFonteFertirrigacaoPercTotal: [entidade.receitaFonteFertirrigacaoPercTotal, []],
 
             formaIrrigacao: [entidade.formaIrrigacao, []],
             formaAplicacaoAdubo: [entidade.formaAplicacaoAdubo, []],
@@ -517,10 +522,10 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         return 0;
     }
 
-    public criarFormReceitaFonteMateriaOrganicaList(lista: ReceitaFonteMateriaOrganica[]): FormArray {
+    public criarFormReceitaFonteMateriaOrganicaList(lista: ReceitaFonteAdubo[]): FormArray {
         if (!lista) {
             lista = [];
-            lista.push(new ReceitaFonteMateriaOrganica());
+            lista.push(new ReceitaFonteAdubo());
         }
         const listaCtrl = [];
         for (const ent of lista) {
@@ -531,13 +536,13 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         return result;
     }
 
-    public criarFormReceitaFonteMateriaOrganica(entidade: ReceitaFonteMateriaOrganica): FormGroup {
+    public criarFormReceitaFonteMateriaOrganica(entidade: ReceitaFonteAdubo): FormGroup {
         if (!entidade) {
             return null;
         }
         const result = this.fb.group({
             id: [entidade.id, []],
-            fonteMateriaOrganica: [entidade.fonteMateriaOrganica, [Validators.required]],
+            adubo: [entidade.adubo, [Validators.required]],
             valor: [entidade.valor ? entidade.valor : 0, [Validators.required, Validators.min(0)]],
             precoPorQuilo: [entidade.precoPorQuilo, [Validators.min(0)]],
         });
@@ -654,6 +659,8 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         this.somaReceitaFontePotassioPercTotal(ctrl, receita);
         this.somaReceitaFonteNitrogenioPercTotal(ctrl, receita);
         this.somaReceitaFonteMicroNutrientePercTotal(ctrl, receita);
+        this.somaReceitaFonteCoberturaPercTotal(ctrl, receita);
+        this.somaReceitaFonteFertirrigacaoPercTotal(ctrl, receita);
         this.necessidadeAdubo(ctrl, receita);
     }
 
@@ -680,6 +687,16 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
     private somaReceitaFonteMicroNutrientePercTotal(ctrl: FormGroup, receita: Receita) {
         const result = receita.receitaFonteMicroNutrienteList?.map(r => r.valor).reduce((a, b) => a + b);
         ctrl.get('receitaFonteMicroNutrientePercTotal').setValue(result, { emitEvent: false });
+    }
+
+    private somaReceitaFonteCoberturaPercTotal(ctrl: FormGroup, receita: Receita) {
+        const result = receita.receitaFonteCoberturaList?.map(r => r.valor).reduce((a, b) => a + b);
+        ctrl.get('receitaFonteCoberturaPercTotal').setValue(result, { emitEvent: false });
+    }
+
+    private somaReceitaFonteFertirrigacaoPercTotal(ctrl: FormGroup, receita: Receita) {
+        const result = receita.receitaFonteFertirrigacaoList?.map(r => r.valor).reduce((a, b) => a + b);
+        ctrl.get('receitaFonteFertirrigacaoPercTotal').setValue(result, { emitEvent: false });
     }
 
     private necessidadeAdubo(ctrl: FormGroup, receita: Receita) {
@@ -799,6 +816,27 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             totalExcessoDeficitManganes += item['totalManganes'] * (item.valor / 100);
             totalExcessoDeficitZinco += item['totalZinco'] * (item.valor / 100);
         }
+        for (const item of receita.receitaFonteCoberturaList) {
+            totalExcessoDeficitNitrogenio += item['totalNitrogenio'] * (item.valor / 100);
+            totalExcessoDeficitFosforo += item['totalFosforo'] * (item.valor / 100);
+            totalExcessoDeficitPotassio += item['totalPotassio'] * (item.valor / 100);
+
+            totalExcessoDeficitBoro += item['totalBoro'] * (item.valor / 100);
+            totalExcessoDeficitCobre += item['totalCobre'] * (item.valor / 100);
+            totalExcessoDeficitManganes += item['totalManganes'] * (item.valor / 100);
+            totalExcessoDeficitZinco += item['totalZinco'] * (item.valor / 100);
+        }
+        for (const item of receita.receitaFonteFertirrigacaoList) {
+            totalExcessoDeficitNitrogenio += item['totalNitrogenio'] * (item.valor / 100);
+            totalExcessoDeficitFosforo += item['totalFosforo'] * (item.valor / 100);
+            totalExcessoDeficitPotassio += item['totalPotassio'] * (item.valor / 100);
+
+            totalExcessoDeficitBoro += item['totalBoro'] * (item.valor / 100);
+            totalExcessoDeficitCobre += item['totalCobre'] * (item.valor / 100);
+            totalExcessoDeficitManganes += item['totalManganes'] * (item.valor / 100);
+            totalExcessoDeficitZinco += item['totalZinco'] * (item.valor / 100);
+        }
+
         ctrl.get('totalExcessoDeficitNitrogenio').setValue(totalExcessoDeficitNitrogenio, { emitEvent: false });
         ctrl.get('totalExcessoDeficitFosforo').setValue(totalExcessoDeficitFosforo, { emitEvent: false });
         ctrl.get('totalExcessoDeficitPotassio').setValue(totalExcessoDeficitPotassio, { emitEvent: false });

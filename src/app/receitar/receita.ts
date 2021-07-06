@@ -9,7 +9,6 @@ import { CulturaTipo } from '../modelo/entidade/cultura.tipo';
 import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
 import { Espacamento } from '../modelo/entidade/espacamento';
 import { ReceitaAmostragemSolo } from '../modelo/entidade/receita-amostragem-solo';
-import { ReceitaFonteMateriaOrganica } from './receita.fonte.materia.organica';
 import { FormaPlantio } from '../modelo/entidade/forma-plantio';
 import { FormaIrrigacao } from '../modelo/entidade/forma-irrigacao';
 
@@ -44,7 +43,7 @@ export class Receita {
 
     espacamento: Espacamento;
 
-    receitaFonteMateriaOrganicaList: ReceitaFonteMateriaOrganica[];
+    receitaFonteMateriaOrganicaList: ReceitaFonteAdubo[];
     receitaFonteMateriaOrganicaPercTotal: number;
 
     receitaFonteFosforoList: ReceitaFonteAdubo[];
@@ -58,6 +57,12 @@ export class Receita {
 
     receitaFonteMicroNutrienteList: ReceitaFonteAdubo[];
     receitaFonteMicroNutrientePercTotal: number;
+
+    receitaFonteCoberturaList: ReceitaFonteAdubo[];
+    receitaFonteCoberturaPercTotal: number;
+
+    receitaFonteFertirrigacaoList: ReceitaFonteAdubo[];
+    receitaFonteFertirrigacaoPercTotal: number;
 
     formaIrrigacao: FormaIrrigacao;
     formaAplicacaoAdubo: FormaAplicacaoAdubo;

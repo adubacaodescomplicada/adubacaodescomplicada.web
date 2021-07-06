@@ -14,7 +14,6 @@ import { idListComparar, pad } from '../comum/ferramenta/ferramenta-comum';
 import { Receita } from './receita';
 import { Pessoa } from '../modelo/entidade/pessoa';
 import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
-import { ReceitaFonteMateriaOrganica } from './receita.fonte.materia.organica';
 import { FormaAplicacaoAdubo } from '../modelo/entidade/forma-aplicacao-adubo';
 import { ReceitaFonteAdubo } from './receita.fonte.adubo';
 import { ReceitaReferencia } from '../modelo/entidade/receita_referencia';
@@ -43,6 +42,8 @@ export class ReceitarComponent implements OnInit {
   fontePotassioList: Adubo[];
   fonteNitrogenioList: Adubo[];
   fonteMicroNutrienteList: Adubo[];
+  fonteCoberturaList: Adubo[];
+  fonteFertirrigacaoList: Adubo[];
   formaIrrigacaoList: FormaIrrigacao[];
   formaAplicacaoAduboList: FormaAplicacaoAdubo[];
   receitaReferenciaList: ReceitaReferencia[];
@@ -93,20 +94,24 @@ export class ReceitarComponent implements OnInit {
         this.aduboList = aduboLista;
 
         resolver[0].apoio.garantiaList.subscribe((garantiaLista) => {
-          let idList: string[] = [];
+          let idList: number[] = [];
 
           idList = garantiaLista.filter(e => e.codigo === 'P2O5')[0].aduboGarantiaList.flatMap(i => i.adubo.id);
-          this.fonteFosforoList = aduboLista.filter(e => idList.indexOf(e.id) > -1);
+          this.fonteFosforoList = aduboLista.filter((e: Adubo) => idList.indexOf(e.id) > -1);
 
           idList = garantiaLista.filter(e => e.codigo === 'K2O')[0].aduboGarantiaList.flatMap(i => i.adubo.id);
-          this.fontePotassioList = aduboLista.filter(e => idList.indexOf(e.id) > -1);
+          this.fontePotassioList = aduboLista.filter((e: Adubo) => idList.indexOf(e.id) > -1);
 
           idList = garantiaLista.filter(e => e.codigo === 'N')[0].aduboGarantiaList.flatMap(i => i.adubo.id);
-          this.fonteNitrogenioList = aduboLista.filter(e => idList.indexOf(e.id) > -1);
+          this.fonteNitrogenioList = aduboLista.filter((e: Adubo) => idList.indexOf(e.id) > -1);
 
-          this.fonteMateriaOrganicaList = aduboLista.filter(e => e.aduboTipo.codigo === 'materia_organica');
-          
-          this.fonteMicroNutrienteList = aduboLista.filter(e => e.aduboTipo.codigo === 'micronutriente');
+          this.fonteMateriaOrganicaList = aduboLista.filter((e: Adubo) => e.aduboTipo.codigo === 'materia_organica');
+
+          this.fonteMicroNutrienteList = aduboLista.filter((e: Adubo) => e.aduboTipo.codigo === 'micronutriente');
+
+          this.fonteCoberturaList = aduboLista.filter((e: Adubo) => e.paraCobertura === 'S');
+
+          this.fonteFertirrigacaoList = aduboLista.filter((e: Adubo) => e.paraFertirrigacao === 'S');
 
           garantiaLista.filter(e => e.codigo === '').flatMap(e => e.aduboGarantiaList.flat(a => a.adubo));
         });
@@ -130,8 +135,8 @@ export class ReceitarComponent implements OnInit {
          { id: 9, nome: 'Tubos perfurados' },
       ];
       this.formaAplicacaoAduboList = [
-        { id: 1, nome: 'A lanço ou manual', eficienciaNitrogenio: 0, eficienciaFosforo: 0, eficienciaPotassio: 0 },
-        { id: 2, nome: 'Fertirrigação (via água de irrigação)', eficienciaNitrogenio: 0, eficienciaFosforo: 0, eficienciaPotassio: 0 },
+        { id: 1, nome: 'A lanço ou manual', codigo: 'cobertura', eficienciaNitrogenio: 0, eficienciaFosforo: 0, eficienciaPotassio: 0 },
+        { id: 2, nome: 'Fertirrigação (via água de irrigação)', codigo: 'fertirrigacao', eficienciaNitrogenio: 0, eficienciaFosforo: 0, eficienciaPotassio: 0 },
      ];
             
     });
@@ -313,9 +318,39 @@ export class ReceitarComponent implements OnInit {
     return !achou;
   }
 
+  filtraFonteCobertura(adubo: Adubo, frm: FormGroup) {
+    const lista = (frm[0].get('receitaFonteCoberturaList') as FormArray);
+    if (!lista) {
+      return false;
+    }
+    let achou = false;
+    for (let i = 0; i < lista.value.length - 1; i++) {
+      if (lista.value[i].adubo.id === adubo.id) {
+        achou = true;
+        break;
+      }
+    }
+    return !achou;
+  }
+
+  filtraFonteFertirrigacao(adubo: Adubo, frm: FormGroup) {
+    const lista = (frm[0].get('receitaFonteFertirrigacaoList') as FormArray);
+    if (!lista) {
+      return false;
+    }
+    let achou = false;
+    for (let i = 0; i < lista.value.length - 1; i++) {
+      if (lista.value[i].adubo.id === adubo.id) {
+        achou = true;
+        break;
+      }
+    }
+    return !achou;
+  }
+
   inserirFonteMateriaOrganica() {
     const lista = (this.frm.get('receitaFonteMateriaOrganicaList') as FormArray);
-    lista.push(this.serviceForm.criarFormReceitaFonteMateriaOrganica(new ReceitaFonteMateriaOrganica()));
+    lista.push(this.serviceForm.criarFormReceitaFonteMateriaOrganica(new ReceitaFonteAdubo()));
   }
 
   excluirFonteMateriaOrganica(idx: number) {
@@ -358,8 +393,28 @@ export class ReceitarComponent implements OnInit {
     lista.push(this.serviceForm.criarFormReceitaFonteAdubo(new ReceitaFonteAdubo()));
   }
 
+  inserirFonteCobertura() {
+    const lista = (this.frm.get('receitaFonteCoberturaList') as FormArray);
+    lista.push(this.serviceForm.criarFormReceitaFonteAdubo(new ReceitaFonteAdubo()));
+  }
+
+  inserirFonteFertirrigacao() {
+    const lista = (this.frm.get('receitaFonteFertirrigacaoList') as FormArray);
+    lista.push(this.serviceForm.criarFormReceitaFonteAdubo(new ReceitaFonteAdubo()));
+  }
+
   excluirFonteMicroNutriente(idx: number) {
     const lista = (this.frm.get('receitaFonteMicroNutrienteList') as FormArray);
+    lista.removeAt(idx);
+  }
+
+  excluirFonteCobertura(idx: number) {
+    const lista = (this.frm.get('receitaFonteCoberturaList') as FormArray);
+    lista.removeAt(idx);
+  }
+
+  excluirFonteFertirrigacao(idx: number) {
+    const lista = (this.frm.get('receitaFonteFertirrigacaoList') as FormArray);
     lista.removeAt(idx);
   }
 
@@ -378,7 +433,7 @@ export class ReceitarComponent implements OnInit {
 
   private addLista(
     result: { adubo: Adubo, perc: number }[],
-    lista: ReceitaFonteAdubo[] | ReceitaFonteMateriaOrganica[]
+    lista: ReceitaFonteAdubo[]
   ) {
     if (lista && lista.length) {
       for (const linha of lista) {
