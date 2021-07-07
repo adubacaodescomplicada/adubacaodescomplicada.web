@@ -1296,7 +1296,7 @@
                     </tr>
                 </tfoot>
             </table>
-            
+
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>
                 <button mat-button color="primary" (click)="nextStep()">Próximo</button>
@@ -1345,8 +1345,7 @@
                                 </mat-form-field>
                             </td>
                             <td>
-                                <mat-label
-                                    *ngIf="receitaFonteMateriaOrganica?.value.adubo?.quantidadeQuiloCova">
+                                <mat-label *ngIf="receitaFonteMateriaOrganica?.value.adubo?.quantidadeQuiloCova">
                                     Quantidade por Cova:
                                     {{receitaFonteMateriaOrganica?.value.adubo?.quantidadeQuiloCova}}
                                     kilos
@@ -1762,7 +1761,7 @@
             <table class="table m-4" *ngIf="frm?.value.formaAplicacaoAdubo?.codigo === 'cobertura'">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center" colspan="4">
+                        <th scope="col" class="text-center" colspan="5">
                             ESCOLHA O ADUBO FONTE DE COBERTURA
                             <!-- FRZ -->
                         </th>
@@ -1778,7 +1777,9 @@
                             </td>
                             <td *ngIf="l">
                                 <mat-form-field>
-                                    <mat-select [compareWith]="idListComparar" formControlName="adubo">
+                                    <mat-select [compareWith]="idListComparar" formControlName="adubo"
+                                        (selectionChange)="atualizaPessoaAduboPreco($event, frm?.get('receitaFonteCoberturaList')['controls'][i].get('precoPorQuilo'))">
+                                        >
                                         <mat-option
                                             *ngFor="let fonteCobertura of fonteCoberturaList | callback : filtraFonteCobertura : [frm] "
                                             [value]="fonteCobertura">
@@ -1829,6 +1830,28 @@
                                     </p>
                                 </div>
                             </td>
+                            <td class="text-right">
+                                <mat-form-field>
+                                    <mat-label>Preço por Quilo</mat-label>
+                                    <input matInput type="number" class="text-right" min="0" step="0.01"
+                                        formControlName="precoPorQuilo"
+                                        [readonly]="!frm?.get('receitaFonteCoberturaList')['controls'][i].get('adubo').value">
+                                    <mat-error
+                                        *ngIf="frm?.get('receitaFonteCoberturaList')['controls'][i].get('precoPorQuilo').errors?.required">
+                                        Campo
+                                        Obrigatório!</mat-error>
+                                    <mat-error
+                                        *ngIf="frm?.get('receitaFonteCoberturaList')['controls'][i].get('precoPorQuilo').errors?.min">
+                                        Valor mínimo
+                                        ({{frm?.get('receitaFonteCoberturaList')['controls'][i].get('precoPorQuilo').errors?.min.min}})
+                                        ultrapassado!</mat-error>
+                                    <mat-error
+                                        *ngIf="frm?.get('receitaFonteCoberturaList')['controls'][i].get('precoPorQuilo').errors?.max">
+                                        Valor máximo
+                                        ({{frm?.get('receitaFonteCoberturaList')['controls'][i].get('precoPorQuilo').errors?.max.max}})
+                                        ultrapassado!</mat-error>
+                                </mat-form-field>
+                            </td>
                             <td>
                                 <button mat-button color="warn" (click)="excluirFonteCobertura(i)" *ngIf="!f && l">
                                     Excluir
@@ -1837,7 +1860,7 @@
                         </tr>
                     </ng-template>
                     <tr *ngIf="(fonteCoberturaList | callback : filtraFonteCobertura : [frm])?.length > 1">
-                        <td colspan="4">
+                        <td colspan="5">
                             <button mat-button color="warn" (click)="inserirFonteCobertura()"
                                 [disabled]="frm?.get('receitaFonteCoberturaList').invalid">
                                 Incluir
@@ -1860,7 +1883,7 @@
             <table class="table m-4" *ngIf="frm?.value.formaAplicacaoAdubo?.codigo === 'fertirrigacao'">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center" colspan="4">
+                        <th scope="col" class="text-center" colspan="5">
                             ESCOLHA O ADUBO FONTE DE FERTIRRIGACAO
                             <!-- FRZ -->
                         </th>
@@ -1876,7 +1899,9 @@
                             </td>
                             <td *ngIf="l">
                                 <mat-form-field>
-                                    <mat-select [compareWith]="idListComparar" formControlName="adubo">
+                                    <mat-select [compareWith]="idListComparar" formControlName="adubo"
+                                        (selectionChange)="atualizaPessoaAduboPreco($event, frm?.get('receitaFonteFertirrigacaoList')['controls'][i].get('precoPorQuilo'))">
+                                        >
                                         <mat-option
                                             *ngFor="let fonteFertirrigacao of fonteFertirrigacaoList | callback : filtraFonteFertirrigacao : [frm] "
                                             [value]="fonteFertirrigacao">
@@ -1927,6 +1952,28 @@
                                     </p>
                                 </div>
                             </td>
+                            <td class="text-right">
+                                <mat-form-field>
+                                    <mat-label>Preço por Quilo</mat-label>
+                                    <input matInput type="number" class="text-right" min="0" step="0.01"
+                                        formControlName="precoPorQuilo"
+                                        [readonly]="!frm?.get('receitaFonteFertirrigacaoList')['controls'][i].get('adubo').value">
+                                    <mat-error
+                                        *ngIf="frm?.get('receitaFonteFertirrigacaoList')['controls'][i].get('precoPorQuilo').errors?.required">
+                                        Campo
+                                        Obrigatório!</mat-error>
+                                    <mat-error
+                                        *ngIf="frm?.get('receitaFonteFertirrigacaoList')['controls'][i].get('precoPorQuilo').errors?.min">
+                                        Valor mínimo
+                                        ({{frm?.get('receitaFonteFertirrigacaoList')['controls'][i].get('precoPorQuilo').errors?.min.min}})
+                                        ultrapassado!</mat-error>
+                                    <mat-error
+                                        *ngIf="frm?.get('receitaFonteFertirrigacaoList')['controls'][i].get('precoPorQuilo').errors?.max">
+                                        Valor máximo
+                                        ({{frm?.get('receitaFonteFertirrigacaoList')['controls'][i].get('precoPorQuilo').errors?.max.max}})
+                                        ultrapassado!</mat-error>
+                                </mat-form-field>
+                            </td>
                             <td>
                                 <button mat-button color="warn" (click)="excluirFonteFertirrigacao(i)" *ngIf="!f && l">
                                     Excluir
@@ -1935,7 +1982,7 @@
                         </tr>
                     </ng-template>
                     <tr *ngIf="(fonteFertirrigacaoList | callback : filtraFonteFertirrigacao : [frm])?.length > 1">
-                        <td colspan="4">
+                        <td colspan="5">
                             <button mat-button color="warn" (click)="inserirFonteFertirrigacao()"
                                 [disabled]="frm?.get('receitaFonteFertirrigacaoList').invalid">
                                 Incluir
@@ -1946,7 +1993,7 @@
                 <tfoot>
                     <tr
                         [ngClass]="frm?.value.receitaFonteFertirrigacaoPercTotal < 100 ? 'table-danger' : frm?.value.receitaFonteFertirrigacaoPercTotal > 100 ? 'table-warning' : frm?.value.receitaFonteFertirrigacaoPercTotal === 100 ? 'table-success' : ''">
-                        <td colspan="2">Total Geral Percentual</td>
+                        <td colspan="3">Total Geral Percentual</td>
                         <td>
                             {{frm?.value.receitaFonteFertirrigacaoPercTotal}}%
                         </td>
@@ -2635,7 +2682,7 @@
                 <button mat-button color="primary" (click)="nextStep()">Final</button>
             </mat-action-row>
         </mat-expansion-panel>
-        
+
     </mat-accordion>
 </form>
 <!-- [{{frm?.value | json}}] -->
