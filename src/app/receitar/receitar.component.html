@@ -1394,7 +1394,7 @@
                         </tr>
                     </ng-template>
                     <tr *ngIf="(fonteMateriaOrganicaList | callback : filtraFonteMateriaOrganica : [frm])?.length > 1">
-                        <td colspan="4" *ngIf="false">
+                        <td colspan="5" *ngIf="false">
                             <button mat-button color="warn" (click)="inserirFonteMateriaOrganica()"
                                 [disabled]="frm?.get('receitaFonteMateriaOrganicaList').invalid">
                                 Incluir
@@ -1405,7 +1405,7 @@
                 <!-- <tfoot>
                     <tr
                         [ngClass]="frm?.value.receitaFonteMateriaOrganicaPercTotal < 100 ? 'table-danger' : frm?.value.receitaFonteMateriaOrganicaPercTotal > 100 ? 'table-warning' : frm?.value.receitaFonteMateriaOrganicaPercTotal === 100 ? 'table-success' : ''">
-                        <td colspan="2">Total Geral Percentual</td>
+                        <td colspan="4">Total Geral Percentual</td>
                         <td>
                             {{frm?.value.receitaFonteMateriaOrganicaPercTotal}}%
                         </td>
@@ -1502,26 +1502,26 @@
                             </td>
                             <td>
                                 <button mat-button color="warn" (click)="excluirFonteNitrogenio(i)"
-                                    *ngIf="false && !f && l">
+                                    *ngIf="!f && l">
                                     Excluir
                                 </button>
                             </td>
                         </tr>
                     </ng-template>
-                    <!-- <tr
+                    <tr
                         *ngIf="(fonteNitrogenioList | callback : filtraFonteAdubo : [frm, 'receitaFonteNitrogenioList'])?.length > 1">
-                        <td colspan="4">
+                        <td colspan="6">
                             <button mat-button color="warn" (click)="inserirFonteNitrogenio()"
                                 [disabled]="frm?.get('receitaFonteNitrogenioList').invalid">
                                 Incluir
                             </button>
                         </td>
-                    </tr> -->
+                    </tr>
                 </tbody>
                 <tfoot>
                     <tr
                         [ngClass]="frm?.value.receitaFonteNitrogenioPercTotal < 100 ? 'table-danger' : frm?.value.receitaFonteNitrogenioPercTotal > 100 ? 'table-warning' : frm?.value.receitaFonteNitrogenioPercTotal === 100 ? 'table-success' : ''">
-                        <td colspan="2">Total Geral Percentual</td>
+                        <td colspan="4">Total Geral Percentual</td>
                         <td colspan="2">
                             {{frm?.value.receitaFonteNitrogenioPercTotal}}%
                         </td>
@@ -1602,7 +1602,7 @@
                     </ng-template>
                     <tr
                         *ngIf="(fonteFosforoList | callback : filtraFonteAdubo : [frm, 'receitaFonteFosforoList'])?.length > 1">
-                        <td colspan="4">
+                        <td colspan="5">
                             <button mat-button color="warn" (click)="inserirFonteFosforo()"
                                 [disabled]="frm?.get('receitaFonteFosforoList').invalid">
                                 Incluir
@@ -1613,7 +1613,7 @@
                 <tfoot>
                     <tr
                         [ngClass]="frm?.value.receitaFonteFosforoPercTotal < 100 ? 'table-danger' : frm?.value.receitaFonteFosforoPercTotal > 100 ? 'table-warning' : frm?.value.receitaFonteFosforoPercTotal === 100 ? 'table-success' : ''">
-                        <td colspan="2">Total Geral Percentual</td>
+                        <td colspan="3">Total Geral Percentual</td>
                         <td colspan="2">
                             {{frm?.value.receitaFonteFosforoPercTotal}}%
                         </td>
@@ -1694,7 +1694,7 @@
                     </ng-template>
                     <tr
                         *ngIf="(fontePotassioList | callback : filtraFonteAdubo : [frm, 'receitaFontePotassioList'])?.length > 1">
-                        <td colspan="4">
+                        <td colspan="5">
                             <button mat-button color="warn" (click)="inserirFontePotassio()"
                                 [disabled]="frm?.get('receitaFontePotassioList').invalid">
                                 Incluir
@@ -1705,8 +1705,8 @@
                 <tfoot>
                     <tr
                         [ngClass]="frm?.value.receitaFontePotassioPercTotal < 100 ? 'table-danger' : frm?.value.receitaFontePotassioPercTotal > 100 ? 'table-warning' : frm?.value.receitaFontePotassioPercTotal === 100 ? 'table-success' : ''">
-                        <td colspan="2">Total Geral Percentual</td>
-                        <td colspan="2">
+                        <td colspan="4">Total Geral Percentual</td>
+                        <td colspan="1">
                             {{frm?.value.receitaFontePotassioPercTotal}}%
                         </td>
                     </tr>
@@ -1779,11 +1779,11 @@
                                 <mat-form-field>
                                     <mat-select [compareWith]="idListComparar" formControlName="adubo"
                                         (selectionChange)="atualizaPessoaAduboPreco($event, frm?.get('receitaFonteCoberturaList')['controls'][i].get('precoPorQuilo'))">
-                                        >
                                         <mat-option
                                             *ngFor="let fonteCobertura of fonteCoberturaList | callback : filtraFonteCobertura : [frm] "
                                             [value]="fonteCobertura">
-                                            {{fonteCobertura.nome}}</mat-option>
+                                            {{fonteCobertura.nome}}
+                                        </mat-option>
                                     </mat-select>
                                     <mat-error>Campo Obrigatório!</mat-error>
                                 </mat-form-field>
@@ -1860,7 +1860,7 @@
                         </tr>
                     </ng-template>
                     <tr *ngIf="(fonteCoberturaList | callback : filtraFonteCobertura : [frm])?.length > 1">
-                        <td colspan="5">
+                        <td colspan="6">
                             <button mat-button color="warn" (click)="inserirFonteCobertura()"
                                 [disabled]="frm?.get('receitaFonteCoberturaList').invalid">
                                 Incluir
@@ -1871,7 +1871,7 @@
                 <tfoot>
                     <tr
                         [ngClass]="frm?.value.receitaFonteCoberturaPercTotal < 100 ? 'table-danger' : frm?.value.receitaFonteCoberturaPercTotal > 100 ? 'table-warning' : frm?.value.receitaFonteCoberturaPercTotal === 100 ? 'table-success' : ''">
-                        <td colspan="2">Total Geral Percentual</td>
+                        <td colspan="5">Total Geral Percentual</td>
                         <td>
                             {{frm?.value.receitaFonteCoberturaPercTotal}}%
                         </td>
@@ -1901,11 +1901,11 @@
                                 <mat-form-field>
                                     <mat-select [compareWith]="idListComparar" formControlName="adubo"
                                         (selectionChange)="atualizaPessoaAduboPreco($event, frm?.get('receitaFonteFertirrigacaoList')['controls'][i].get('precoPorQuilo'))">
-                                        >
                                         <mat-option
                                             *ngFor="let fonteFertirrigacao of fonteFertirrigacaoList | callback : filtraFonteFertirrigacao : [frm] "
                                             [value]="fonteFertirrigacao">
-                                            {{fonteFertirrigacao.nome}}</mat-option>
+                                            {{fonteFertirrigacao.nome}}
+                                        </mat-option>
                                     </mat-select>
                                     <mat-error>Campo Obrigatório!</mat-error>
                                 </mat-form-field>
@@ -1982,7 +1982,7 @@
                         </tr>
                     </ng-template>
                     <tr *ngIf="(fonteFertirrigacaoList | callback : filtraFonteFertirrigacao : [frm])?.length > 1">
-                        <td colspan="5">
+                        <td colspan="6">
                             <button mat-button color="warn" (click)="inserirFonteFertirrigacao()"
                                 [disabled]="frm?.get('receitaFonteFertirrigacaoList').invalid">
                                 Incluir
@@ -1993,7 +1993,7 @@
                 <tfoot>
                     <tr
                         [ngClass]="frm?.value.receitaFonteFertirrigacaoPercTotal < 100 ? 'table-danger' : frm?.value.receitaFonteFertirrigacaoPercTotal > 100 ? 'table-warning' : frm?.value.receitaFonteFertirrigacaoPercTotal === 100 ? 'table-success' : ''">
-                        <td colspan="3">Total Geral Percentual</td>
+                        <td colspan="5">Total Geral Percentual</td>
                         <td>
                             {{frm?.value.receitaFonteFertirrigacaoPercTotal}}%
                         </td>
@@ -2172,7 +2172,7 @@
                         </tr>
                     </ng-template>
                     <tr *ngIf="(fonteMicroNutrienteList | callback : filtraFonteMicroNutriente : [frm])?.length > 1">
-                        <td colspan="4">
+                        <td colspan="5">
                             <button mat-button color="warn" (click)="inserirFonteMicroNutriente()"
                                 [disabled]="frm?.get('receitaFonteMicroNutrienteList').invalid">
                                 Incluir
@@ -2183,7 +2183,7 @@
                 <tfoot>
                     <tr
                         [ngClass]="frm?.value.receitaFonteMicroNutrientePercTotal < 100 ? 'table-danger' : frm?.value.receitaFonteMicroNutrientePercTotal > 100 ? 'table-warning' : frm?.value.receitaFonteMicroNutrientePercTotal === 100 ? 'table-success' : ''">
-                        <td colspan="2">Total Geral Percentual</td>
+                        <td colspan="4">Total Geral Percentual</td>
                         <td>
                             {{frm?.value.receitaFonteMicroNutrientePercTotal}}%
                         </td>
@@ -2380,7 +2380,26 @@
                 </tr>
             </table>
 
-            [{{frm?.value.modoAplicacao | json}}]
+            <p>
+                [{{frm?.value.modoAplicacao | json}}]
+            </p>
+
+            <p>
+                [{{frm?.value.cultura | json}}]
+            </p>
+
+            <ol type="1">
+                <li *ngFor="let fp of frm?.value.cultura?.culturaFormaParcelamentoList">
+                    Período (de {{fp.periodoInicial}} até {{fp.periodoFinal}} dias)
+                    <ol type="1">
+                        <li *ngFor="let fpg of fp.culturaFormaParcelamentoGarantiaList">
+                            [Elemento {{fpg.garantia.nome}}] => {{fpg.quantidade}} 
+                        </li>
+                    </ol>
+                </li>
+            </ol>
+
+
 
             <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Anterior</button>

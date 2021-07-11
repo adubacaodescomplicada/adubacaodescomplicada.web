@@ -1,4 +1,5 @@
 import { EntidadeId } from '../entidade-id';
+import { CulturaFormaParcelamento } from './cultura-forma-parcelamento';
 import { CulturaIdadePlantio } from './cultura-idade-plantio';
 import { CulturaNecessidadeAduboFormacao } from './cultura-necessidade-adubo-formacao';
 import { CulturaNecessidadeAduboProducao } from './cultura-necessidade-adubo-producao';
@@ -22,6 +23,7 @@ export class Cultura implements EntidadeId {
     public observacaoColeta: string;
     public metaSaturacaoBase: number;
     public culturaIdadePlantioList: CulturaIdadePlantio[];
+    public culturaFormaParcelamentoList: CulturaFormaParcelamento[];
     public espacamentoQuantidade: number;
     public unidadeProdutividade: string;
     public culturaNecessidadeAduboFormacaoList: CulturaNecessidadeAduboFormacao[];
