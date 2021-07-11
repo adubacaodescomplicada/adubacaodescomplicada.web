@@ -1,16 +1,17 @@
-import { ReceitaModoAplicacao } from '../modelo/entidade/receita-modo-aplicacao';
-import { ReceitaFonteAdubo } from './receita-fonte-adubo';
-import { FormaAplicacaoAdubo } from './../modelo/entidade/forma-aplicacao-adubo';
-import { Adubo } from './../modelo/entidade/adubo';
-import { CulturaIdadePlantio } from './../modelo/entidade/cultura-idade-plantio';
-import { Pessoa } from '../modelo/entidade/pessoa';
-import { Cultura } from '../modelo/entidade/cultura';
-import { ModoProducao } from '../modelo/entidade/modo-producao';
-import { ReceitaAnaliseSoloParametro } from './receita-analise-solo-parametro';
-import { Espacamento } from '../modelo/entidade/espacamento';
-import { ReceitaAmostragemSolo } from '../modelo/entidade/receita-amostragem-solo';
-import { FormaPlantio } from '../modelo/entidade/forma-plantio';
-import { FormaIrrigacao } from '../modelo/entidade/forma-irrigacao';
+import { Adubo } from "./adubo";
+import { Cultura } from "./cultura";
+import { CulturaIdadePlantio } from "./cultura-idade-plantio";
+import { Espacamento } from "./espacamento";
+import { FormaAplicacaoAdubo } from "./forma-aplicacao-adubo";
+import { FormaIrrigacao } from "./forma-irrigacao";
+import { FormaPlantio } from "./forma-plantio";
+import { ModoProducao } from "./modo-producao";
+import { Pessoa } from "./pessoa";
+import { ReceitaAmostragemSolo } from "./receita-amostragem-solo";
+import { ReceitaAnaliseSoloParametro } from "./receita-analise-solo-parametro";
+import { ReceitaFonteAdubo } from "./receita-fonte-adubo";
+import { ReceitaModoAplicacao } from "./receita-modo-aplicacao";
+
 
 export class Receita {
 

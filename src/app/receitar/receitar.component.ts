@@ -1,26 +1,26 @@
-import { AnaliseSoloParametro } from './../modelo/entidade/analise-solo-parametro';
-import { UnidadeMedida } from './../modelo/entidade/unidade-medida';
-import { Adubo } from './../modelo/entidade/adubo';
 import { FormGroup, FormArray, FormControl, AbstractControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatCheckbox } from '@angular/material/checkbox';
 
-import { Cultura } from '../modelo/entidade/cultura';
 import { ReceitarService } from './receitar.service';
 import { MensagemService } from './../comum/servico/mensagem/mensagem.service';
 import { LoginService } from './../seguranca/login/login.service';
 import { ReceitarFormService } from './receitar-form.service';
 import { idListComparar, pad } from '../comum/ferramenta/ferramenta-comum';
-import { Receita } from './receita';
 import { Pessoa } from '../modelo/entidade/pessoa';
-import { ReceitaAnaliseSoloParametro } from './receita-analise-solo-parametro';
+import { AnaliseSoloParametro } from './../modelo/entidade/analise-solo-parametro';
+import { UnidadeMedida } from './../modelo/entidade/unidade-medida';
+import { Adubo } from './../modelo/entidade/adubo';
+import { Cultura } from '../modelo/entidade/cultura';
 import { FormaAplicacaoAdubo } from '../modelo/entidade/forma-aplicacao-adubo';
-import { ReceitaFonteAdubo } from './receita-fonte-adubo';
 import { ReceitaReferencia } from '../modelo/entidade/receita-referencia';
 import { PessoaAduboPreco } from '../modelo/entidade/pessoa-adubo-preco';
-import { MatCheckbox } from '@angular/material/checkbox';
 import { FormaIrrigacao } from '../modelo/entidade/forma-irrigacao';
 import { CulturaTipo } from '../modelo/entidade/cultura-tipo';
+import { Receita } from '../modelo/entidade/receita';
+import { ReceitaAnaliseSoloParametro } from '../modelo/entidade/receita-analise-solo-parametro';
+import { ReceitaFonteAdubo } from '../modelo/entidade/receita-fonte-adubo';
 
 @Component({
   selector: 'app-receitar',
@@ -78,7 +78,6 @@ export class ReceitarComponent implements OnInit {
               this.culturaTipoList.push(e.culturaTipo);
             }
           });
-
         this.culturaList = lista;
       });
 

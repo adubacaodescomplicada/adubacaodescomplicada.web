@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 
 import { CrudService } from './../_crud/crud.service';
 import { environment } from './../../environments/environment';
-import { Receita } from './receita';
 import { ReceitaFiltroDTO } from './receita-filtro-dto';
 import { LoginService } from './../seguranca/login/login.service';
 import { AnaliseSoloParametro } from './../modelo/entidade/analise-solo-parametro';
@@ -13,6 +12,7 @@ import { Adubo } from './../modelo/entidade/adubo';
 import { Cultura } from '../modelo/entidade/cultura';
 import { UnidadeMedida } from './../modelo/entidade/unidade-medida';
 import { ReceitaReferencia } from '../modelo/entidade/receita-referencia';
+import { Receita } from '../modelo/entidade/receita';
 
 @Injectable({ providedIn: 'root' })
 export class ReceitarService extends CrudService<ReceitaFiltroDTO, Receita, Receita> {

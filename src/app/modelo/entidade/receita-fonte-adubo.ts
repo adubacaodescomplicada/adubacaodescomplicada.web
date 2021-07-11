@@ -1,4 +1,4 @@
-import { Adubo } from '../modelo/entidade/adubo';
+import { Adubo } from "./adubo";
 
 export class ReceitaFonteAdubo {
 

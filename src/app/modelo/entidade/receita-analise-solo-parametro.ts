@@ -1,5 +1,5 @@
-import { AnaliseSoloParametro } from '../modelo/entidade/analise-solo-parametro';
-import { UnidadeMedida } from '../modelo/entidade/unidade-medida';
+import { AnaliseSoloParametro } from "./analise-solo-parametro";
+import { UnidadeMedida } from "./unidade-medida";
 
 export class ReceitaAnaliseSoloParametro {
 

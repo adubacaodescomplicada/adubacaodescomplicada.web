@@ -3,15 +3,15 @@ import { Validators, FormGroup, FormArray } from '@angular/forms';
 import { distinctUntilChanged, pairwise } from 'rxjs/operators';
 
 import { CrudFormService } from '../_crud/crud-form.service';
-import { Receita } from './receita';
 import { ReceitaFiltroDTO } from './receita-filtro-dto';
 import { Cultura } from './../modelo/entidade/cultura';
 import { ReceitaModoAplicacao } from '../modelo/entidade/receita-modo-aplicacao';
-import { ReceitaAnaliseSoloParametro } from './receita-analise-solo-parametro';
 import { Espacamento } from '../modelo/entidade/espacamento';
 import { ReceitaAmostragemSolo } from '../modelo/entidade/receita-amostragem-solo';
-import { ReceitaFonteAdubo } from './receita-fonte-adubo';
 import { AnaliseSoloParametro } from '../modelo/entidade/analise-solo-parametro';
+import { Receita } from '../modelo/entidade/receita';
+import { ReceitaAnaliseSoloParametro } from '../modelo/entidade/receita-analise-solo-parametro';
+import { ReceitaFonteAdubo } from '../modelo/entidade/receita-fonte-adubo';
 
 const faixaArgilaFosforo = [
     [null, 16, [[null, 12, 'baixo'], [12, 18, 'medio'], [18, null, 'adequado']]],
