@@ -12,7 +12,7 @@ import { AnaliseSoloParametro } from './../modelo/entidade/analise-solo-parametr
 import { Adubo } from './../modelo/entidade/adubo';
 import { Cultura } from '../modelo/entidade/cultura';
 import { UnidadeMedida } from './../modelo/entidade/unidade-medida';
-import { ReceitaReferencia } from '../modelo/entidade/receita_referencia';
+import { ReceitaReferencia } from '../modelo/entidade/receita-referencia';
 
 @Injectable({ providedIn: 'root' })
 export class ReceitarService extends CrudService<ReceitaFiltroDTO, Receita, Receita> {

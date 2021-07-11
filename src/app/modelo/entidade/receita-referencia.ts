@@ -1,5 +1,5 @@
 import { EntidadeId } from '../entidade-id';
-import { ReceitaReferenciaAnaliseSoloParametro } from './receita_referencia_analise_solo_parametro';
+import { ReceitaReferenciaAnaliseSoloParametro } from './receita-referencia-analise-solo-parametro';
 
 export class ReceitaReferencia implements EntidadeId {
 

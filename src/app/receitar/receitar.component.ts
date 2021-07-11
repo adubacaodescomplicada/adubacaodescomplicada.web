@@ -13,13 +13,14 @@ import { ReceitarFormService } from './receitar-form.service';
 import { idListComparar, pad } from '../comum/ferramenta/ferramenta-comum';
 import { Receita } from './receita';
 import { Pessoa } from '../modelo/entidade/pessoa';
-import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
+import { ReceitaAnaliseSoloParametro } from './receita-analise-solo-parametro';
 import { FormaAplicacaoAdubo } from '../modelo/entidade/forma-aplicacao-adubo';
-import { ReceitaFonteAdubo } from './receita.fonte.adubo';
-import { ReceitaReferencia } from '../modelo/entidade/receita_referencia';
+import { ReceitaFonteAdubo } from './receita-fonte-adubo';
+import { ReceitaReferencia } from '../modelo/entidade/receita-referencia';
 import { PessoaAduboPreco } from '../modelo/entidade/pessoa-adubo-preco';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { FormaIrrigacao } from '../modelo/entidade/forma-irrigacao';
+import { CulturaTipo } from '../modelo/entidade/cultura-tipo';
 
 @Component({
   selector: 'app-receitar',
@@ -35,6 +36,8 @@ export class ReceitarComponent implements OnInit {
 
   aduboList: Adubo[];
   culturaList: Cultura[];
+  culturaTipo: CulturaTipo;
+  culturaTipoList: CulturaTipo[];
   analiseSoloParametroList: AnaliseSoloParametro[];
   unidadeMedidaList: UnidadeMedida[];
   fonteMateriaOrganicaList: Adubo[];
@@ -64,18 +67,17 @@ export class ReceitarComponent implements OnInit {
         this.aduboList = lista;
       });
       resolver[0].apoio.culturaList.subscribe((lista) => {
+        this.culturaTipoList = [];
         lista = lista
           .sort((a, b) => a['nome'].localeCompare(b['nome']))
-          .sort((a, b) => a['classificacao'].localeCompare(b['classificacao']))
-          .reduce((acc, cur, idx, src) => {
-            let classificacaoIdx = acc.map(l => l.nome).indexOf(cur.classificacao);
-            if (classificacaoIdx < 0) {
-              acc.push({ nome: cur.classificacao, lista: [cur] });
-            } else {
-              acc[classificacaoIdx].lista.push(cur);
+          .sort((a, b) => a['culturaTipo']['nome'].localeCompare(b['culturaTipo']['nome']));
+        lista
+          .forEach(e => {
+            let achou = this.culturaTipoList.map(ct => ct.codigo).indexOf(e.culturaTipo.codigo);
+            if (achou < 0) {
+              this.culturaTipoList.push(e.culturaTipo);
             }
-            return acc;
-          }, []);
+          });
 
         this.culturaList = lista;
       });
@@ -157,7 +159,7 @@ export class ReceitarComponent implements OnInit {
     entidade.pessoa = new Pessoa();
     entidade.pessoa.id = this.loginService.dadosLogin.pessoa_id;
     entidade.pessoa.nome = this.loginService.dadosLogin.nome;
-    entidade.culturaTipo = null;
+    entidade.modoProducao = null;
     entidade.formaPlantio = null;
     entidade.cultura = null;
     entidade.receitaAnaliseSoloParametroList = [];
@@ -218,10 +220,8 @@ export class ReceitarComponent implements OnInit {
     return idListComparar(o1, o2);
   }
 
-  filtraCulturaTipo(cultura: Cultura, culturaTipo: string) {
-    return culturaTipo && culturaTipo.length && (
-      (culturaTipo === 'F' && cultura.formacao === 'S') ||
-      (culturaTipo === 'P' && cultura.producao === 'S'));
+  filtraCulturaTipo(cultura: Cultura, culturaTipo: any[]) {
+    return culturaTipo && cultura.culturaTipo.codigo === culturaTipo[0].codigo;
   }
 
   filtraAduboTipo(adubo: Adubo, aduboTipo: string) {
@@ -511,14 +511,16 @@ export class ReceitarComponent implements OnInit {
   }
 
   public culturaMudou(event, frm) {
-    frm.get('culturaTipo').setValue(null);
+    frm.get('modoProducao').setValue(null);
     frm.get('espacamento.quantidade').setValue(null);
+    if (event.source._id === 'culturaTipo') {
+      frm.get('cultura').setValue(null);
+    }
   }
 
   public exibeParametroSolo(codigo: string) {
     let exibe = this.frm.value.referencia.receitaReferenciaAnaliseSoloParametroList.filter(
       rrasp => rrasp.analiseSoloParametro.codigo === codigo).length > 0;
-    //console.log("exibe parametro => ", exibe);
     return exibe;
   }
 

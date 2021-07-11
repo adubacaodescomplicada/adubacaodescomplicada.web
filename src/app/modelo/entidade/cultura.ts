@@ -3,13 +3,14 @@ import { CulturaFormaParcelamento } from './cultura-forma-parcelamento';
 import { CulturaIdadePlantio } from './cultura-idade-plantio';
 import { CulturaNecessidadeAduboFormacao } from './cultura-necessidade-adubo-formacao';
 import { CulturaNecessidadeAduboProducao } from './cultura-necessidade-adubo-producao';
+import { CulturaTipo } from './cultura-tipo';
 
 export class Cultura implements EntidadeId {
 
     public id: number;
     public nome: string;
     public codigo: string;
-    public classificacao: string;
+    public culturaTipo: CulturaTipo;
     public formacao: string;
     public producao: string;
     public cultivoEmSolo: string;

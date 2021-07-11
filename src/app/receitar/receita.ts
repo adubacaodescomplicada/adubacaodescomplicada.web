@@ -1,12 +1,12 @@
-import { ModoAplicacao } from './../modelo/entidade/modo-aplicacao';
-import { ReceitaFonteAdubo } from './receita.fonte.adubo';
+import { ReceitaModoAplicacao } from '../modelo/entidade/receita-modo-aplicacao';
+import { ReceitaFonteAdubo } from './receita-fonte-adubo';
 import { FormaAplicacaoAdubo } from './../modelo/entidade/forma-aplicacao-adubo';
 import { Adubo } from './../modelo/entidade/adubo';
 import { CulturaIdadePlantio } from './../modelo/entidade/cultura-idade-plantio';
 import { Pessoa } from '../modelo/entidade/pessoa';
 import { Cultura } from '../modelo/entidade/cultura';
-import { CulturaTipo } from '../modelo/entidade/cultura.tipo';
-import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
+import { ModoProducao } from '../modelo/entidade/modo-producao';
+import { ReceitaAnaliseSoloParametro } from './receita-analise-solo-parametro';
 import { Espacamento } from '../modelo/entidade/espacamento';
 import { ReceitaAmostragemSolo } from '../modelo/entidade/receita-amostragem-solo';
 import { FormaPlantio } from '../modelo/entidade/forma-plantio';
@@ -18,7 +18,7 @@ export class Receita {
     data: string;
     pessoa: Pessoa;
     cultura: Cultura;
-    culturaTipo: CulturaTipo | string;
+    modoProducao: ModoProducao | string;
     formaPlantio: FormaPlantio | string;
     receitaAnaliseSoloParametroList: ReceitaAnaliseSoloParametro[];
     idadePlantio: CulturaIdadePlantio;
@@ -72,6 +72,6 @@ export class Receita {
     necessidadeDeManganes: number;
     necessidadeDeZinco: number;
 
-    modoAplicacao: ModoAplicacao;
+    receitaModoAplicacao: ReceitaModoAplicacao;
 
 }

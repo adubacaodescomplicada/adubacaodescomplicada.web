@@ -26,16 +26,32 @@
             </tr>
 
             <tr>
+                <th scope="row" class="align-middle">Tipo de Cultura</th>
+                <td>    
+                    <mat-form-field>
+                        <mat-select [(ngModel)]="culturaTipo" [ngModelOptions]="{standalone: true}" id="culturaTipo"
+                            #culturaTipoCpn="ngModel" required
+                            [compareWith]="idListComparar"
+                            (selectionChange)="culturaMudou($event, frm)">
+                            <mat-option *ngFor="let tipo of culturaTipoList" [value]="tipo">
+                                {{tipo.nome}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="!culturaTipoCpn.valid">
+                            Campo Obrigatório!
+                        </mat-error>
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr *ngIf="culturaTipoCpn.valid">
                 <th scope="row" class="align-middle">Cultura</th>
                 <td>
                     <mat-form-field>
-                        <mat-select formControlName="cultura" [compareWith]="idListComparar"
+                        <mat-select formControlName="cultura" [compareWith]="idListComparar" id="cultura"
                             (selectionChange)="culturaMudou($event, frm)">
-                            <mat-optgroup *ngFor="let classificacao of culturaList" [label]="classificacao.nome">
-                                <mat-option *ngFor="let cultura of classificacao.lista" [value]="cultura">
-                                    {{cultura.nome}}
-                                </mat-option>
-                            </mat-optgroup>
+                            <mat-option *ngFor="let cultura of culturaList | callback : filtraCulturaTipo : [culturaTipo]" [value]="cultura">
+                                {{cultura.nome}}
+                            </mat-option>
                         </mat-select>
                         <mat-error *ngIf="frm?.controls.cultura.touched && frm?.controls.cultura.hasError('required')">
                             Campo Obrigatório!
@@ -44,9 +60,9 @@
                 </td>
             </tr>
             <tr *ngIf="frm?.value.cultura">
-                <th scope="row" class="align-middle">Tipo ({{frm?.value.cultura?.classificacao}})</th>
+                <th scope="row" class="align-middle">Modo Produção </th>
                 <td>
-                    <mat-radio-group formControlName="culturaTipo">
+                    <mat-radio-group formControlName="modoProducao">
                         <mat-radio-button style="margin-right: 16px" value="F"
                             *ngIf="frm?.value.cultura.formacao === 'S'">
                             Formação
@@ -69,13 +85,13 @@
                         </mat-radio-button>
                     </mat-radio-group>
                     <mat-error style="font-size: 75%;"
-                        *ngIf="frm?.controls.culturaTipo.touched && frm?.controls.culturaTipo.hasError('required')">
+                        *ngIf="frm?.controls.modoProducao.touched && frm?.controls.modoProducao.hasError('required')">
                         Campo Obrigatório!
                     </mat-error>
                 </td>
             </tr>
 
-            <tr *ngIf="frm?.value.cultura && frm?.value.culturaTipo === 'F'">
+            <tr *ngIf="frm?.value.cultura && frm?.value.modoProducao === 'F'">
                 <th scope="row" class="align-middle">Idade Plantio</th>
                 <td>
                     <mat-form-field>
@@ -89,7 +105,7 @@
                     </mat-form-field>
                 </td>
             </tr>
-            <tr *ngIf="frm?.value.cultura && frm?.value.culturaTipo === 'P'">
+            <tr *ngIf="frm?.value.cultura && frm?.value.modoProducao === 'P'">
                 <th scope="row" class="align-middle">Produtividade Esperada</th>
                 <td>
                     <mat-form-field>
@@ -2306,7 +2322,7 @@
                 </tr>
             </table>
 
-            <table class="res" formGroupName="modoAplicacao">
+            <table class="res" formGroupName="receitaModoAplicacao">
                 <tr>
                     <td width="80%">
                         SE FOR FEITA ADUBAÇÃO PARCELADA A LANÇO OU FERTIRRIGAÇÃO, INFORME QUANTAS VEZES POR MÊS OS
@@ -2318,15 +2334,15 @@
                             <mat-label>Valor</mat-label>
                             <input matInput type="number" class="text-right" formControlName="quantidadePorMes" min="0"
                                 step="1">
-                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.quantidadePorMes?.errors?.required">
+                            <mat-error *ngIf="frm.get('receitaModoAplicacao')?.controls?.quantidadePorMes?.errors?.required">
                                 Campo Obrigatório!
                             </mat-error>
-                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.quantidadePorMes?.errors?.min">
-                                Valor mínimo ({{frm.get('modoAplicacao')?.controls?.quantidadePorMes?.errors?.min.min}})
+                            <mat-error *ngIf="frm.get('receitaModoAplicacao')?.controls?.quantidadePorMes?.errors?.min">
+                                Valor mínimo ({{frm.get('receitaModoAplicacao')?.controls?.quantidadePorMes?.errors?.min.min}})
                                 ultrapassado!
                             </mat-error>
-                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.quantidadePorMes?.errors?.max">
-                                Valor máximo ({{frm.get('modoAplicacao')?.controls?.quantidadePorMes?.errors?.max.max}})
+                            <mat-error *ngIf="frm.get('receitaModoAplicacao')?.controls?.quantidadePorMes?.errors?.max">
+                                Valor máximo ({{frm.get('receitaModoAplicacao')?.controls?.quantidadePorMes?.errors?.max.max}})
                                 ultrapassado!
                             </mat-error>
                         </mat-form-field>
@@ -2341,15 +2357,15 @@
                             <mat-label>Valor</mat-label>
                             <input matInput type="number" class="text-right" formControlName="totalMeses" min="0"
                                 step="1">
-                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.totalMeses?.errors?.required">
+                            <mat-error *ngIf="frm.get('receitaModoAplicacao')?.controls?.totalMeses?.errors?.required">
                                 Campo Obrigatório!
                             </mat-error>
-                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.totalMeses?.errors?.min">
-                                Valor mínimo ({{frm.get('modoAplicacao')?.controls?.totalMeses?.errors?.min.min}})
+                            <mat-error *ngIf="frm.get('receitaModoAplicacao')?.controls?.totalMeses?.errors?.min">
+                                Valor mínimo ({{frm.get('receitaModoAplicacao')?.controls?.totalMeses?.errors?.min.min}})
                                 ultrapassado!
                             </mat-error>
-                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.totalMeses?.errors?.max">
-                                Valor máximo ({{frm.get('modoAplicacao')?.controls?.totalMeses?.errors?.max.max}})
+                            <mat-error *ngIf="frm.get('receitaModoAplicacao')?.controls?.totalMeses?.errors?.max">
+                                Valor máximo ({{frm.get('receitaModoAplicacao')?.controls?.totalMeses?.errors?.max.max}})
                                 ultrapassado!
                             </mat-error>
                         </mat-form-field>
@@ -2364,15 +2380,15 @@
                             <mat-label>Valor</mat-label>
                             <input matInput type="number" class="text-right" formControlName="totalSafra" min="0"
                                 step="1">
-                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.totalSafra?.errors?.required">
+                            <mat-error *ngIf="frm.get('receitaModoAplicacao')?.controls?.totalSafra?.errors?.required">
                                 Campo Obrigatório!
                             </mat-error>
-                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.totalSafra?.errors?.min">
-                                Valor mínimo ({{frm.get('modoAplicacao')?.controls?.totalSafra?.errors?.min.min}})
+                            <mat-error *ngIf="frm.get('receitaModoAplicacao')?.controls?.totalSafra?.errors?.min">
+                                Valor mínimo ({{frm.get('receitaModoAplicacao')?.controls?.totalSafra?.errors?.min.min}})
                                 ultrapassado!
                             </mat-error>
-                            <mat-error *ngIf="frm.get('modoAplicacao')?.controls?.totalSafra?.errors?.max">
-                                Valor máximo ({{frm.get('modoAplicacao')?.controls?.totalSafra?.errors?.max.max}})
+                            <mat-error *ngIf="frm.get('receitaModoAplicacao')?.controls?.totalSafra?.errors?.max">
+                                Valor máximo ({{frm.get('receitaModoAplicacao')?.controls?.totalSafra?.errors?.max.max}})
                                 ultrapassado!
                             </mat-error>
                         </mat-form-field>
@@ -2381,7 +2397,7 @@
             </table>
 
             <p>
-                [{{frm?.value.modoAplicacao | json}}]
+                [{{frm?.value.receitaModoAplicacao | json}}]
             </p>
 
             <p>

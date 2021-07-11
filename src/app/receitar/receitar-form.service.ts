@@ -6,11 +6,11 @@ import { CrudFormService } from '../_crud/crud-form.service';
 import { Receita } from './receita';
 import { ReceitaFiltroDTO } from './receita-filtro-dto';
 import { Cultura } from './../modelo/entidade/cultura';
-import { ModoAplicacao } from './../modelo/entidade/modo-aplicacao';
-import { ReceitaAnaliseSoloParametro } from './receita.analise.solo.parametro';
+import { ReceitaModoAplicacao } from '../modelo/entidade/receita-modo-aplicacao';
+import { ReceitaAnaliseSoloParametro } from './receita-analise-solo-parametro';
 import { Espacamento } from '../modelo/entidade/espacamento';
 import { ReceitaAmostragemSolo } from '../modelo/entidade/receita-amostragem-solo';
-import { ReceitaFonteAdubo } from './receita.fonte.adubo';
+import { ReceitaFonteAdubo } from './receita-fonte-adubo';
 import { AnaliseSoloParametro } from '../modelo/entidade/analise-solo-parametro';
 
 const faixaArgilaFosforo = [
@@ -163,7 +163,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             id: [entidade.id, []],
             data: [entidade.data, [Validators.required]],
             pessoa: [entidade.pessoa, [Validators.required]],
-            culturaTipo: [entidade.culturaTipo, [Validators.required]],
+            modoProducao: [entidade.modoProducao, [Validators.required]],
             formaPlantio: [entidade.formaPlantio, [Validators.required]],
             cultura: [entidade.cultura, [Validators.required]],
             idadePlantio: [entidade.idadePlantio, []],
@@ -227,11 +227,12 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
             necessidadeDeManganes: [entidade.necessidadeDeManganes, []],
             necessidadeDeZinco: [entidade.necessidadeDeZinco, []],
 
-            modoAplicacao: this.criarFormModoAplicacao(entidade.modoAplicacao),
+            receitaModoAplicacao: this.criarFormReceitaModoAplicacao(entidade.receitaModoAplicacao),
+
         });
 
         /*
-        result.get('culturaTipo').setValue('F');
+        result.get('modoProducao').setValue('F');
         result.get('cultura').setValue({
             armazanamentoEnvio: 'e',
             codigo: 'ABACATE',
@@ -276,9 +277,9 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         });
         */
 
-        result.get('modoAplicacao').valueChanges.subscribe((c: ModoAplicacao) => {
+        result.get('receitaModoAplicacao').valueChanges.subscribe((c: ReceitaModoAplicacao) => {
             let value = c.quantidadePorMes && c.totalMeses ? c.quantidadePorMes * c.totalMeses : 0;
-            result.get('modoAplicacao.totalSafra')?.setValue(value, { emitEvent: false });
+            result.get('receitaModoAplicacao.totalSafra')?.setValue(value, { emitEvent: false });
         });
 
         this.calculaForm(result, result.value);
@@ -302,11 +303,11 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         return result;
     }
 
-    public criarFormModoAplicacao(modoAplicacao: ModoAplicacao) {
+    public criarFormReceitaModoAplicacao(entidade: ReceitaModoAplicacao) {
         const result = this.fb.group({
-            quantidadePorMes: [modoAplicacao?.quantidadePorMes, [Validators.required, Validators.min(0)]],
-            totalMeses: [modoAplicacao?.totalMeses, [Validators.required, Validators.min(0)]],
-            totalSafra: [modoAplicacao?.totalSafra, [Validators.min(1)]],
+            quantidadePorMes: [entidade?.quantidadePorMes, [Validators.required, Validators.min(0)]],
+            totalMeses: [entidade?.totalMeses, [Validators.required, Validators.min(0)]],
+            totalSafra: [entidade?.totalSafra, [Validators.min(1)]],
         });
 
         return result;
@@ -703,7 +704,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         let necessidadeDeNitrogenioTemp = null;
         let necessidadeDeFosforoTemp = null;
         let necessidadeDePotassioTemp = null;
-        if (receita.culturaTipo === 'F') {
+        if (receita.modoProducao === 'F') {
             if (receita.idadePlantio) {
                 const fosforo = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'fosforo_melich');
                 const potassio = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'potassio');
@@ -719,7 +720,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
                     }
                 }
             }
-        } else if (receita.culturaTipo === 'P') {
+        } else if (receita.modoProducao === 'P') {
             if (receita.produtividadeEsperada > 0) {
                 const fosforo = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'fosforo_melich');
                 const potassio = this.receitaAnaliseSoloParametroCalcAvaliacaoGetControl(ctrl, 'potassio');
@@ -744,7 +745,7 @@ export class ReceitarFormService extends CrudFormService<ReceitaFiltroDTO, Recei
         let eficienciaDeNitrogenioTemp = null;
         let eficienciaDeFosforoTemp = null;
         let eficienciaDePotassioTemp = null;
-        const numeroPlantasHectare = receita.culturaTipo === 'F' ?
+        const numeroPlantasHectare = receita.modoProducao === 'F' ?
             1 :
             receita.espacamento.quantidadePlanta / receita.espacamento.area;
 
