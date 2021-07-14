@@ -67,6 +67,10 @@
                             *ngIf="frm?.value.cultura.formacao === 'S'">
                             Formação
                         </mat-radio-button>
+                        <mat-radio-button style="margin-right: 16px" value="M"
+                            *ngIf="frm?.value.cultura.manutencao === 'S'">
+                            Manutenção
+                        </mat-radio-button>
                         <mat-radio-button style="margin-right: 16px" value="P"
                             *ngIf="frm?.value.cultura.producao === 'S'">
                             Produção
@@ -75,10 +79,10 @@
                             *ngIf="frm?.value.cultura.cultivoEmSolo === 'S'">
                             Cultivo em solo (campo)
                         </mat-radio-button>
-                        <mat-radio-button style="margin-right: 16px" value="FS"
+                        <!-- <mat-radio-button style="margin-right: 16px" value="FS"
                             *ngIf="frm?.value.cultura.cultivoForaSolo === 'S'">
                             Cultivo fora do solo (semi-hidropônico)
-                        </mat-radio-button>
+                        </mat-radio-button> -->
                         <mat-radio-button style="margin-right: 16px" value="HI"
                             *ngIf="frm?.value.cultura.cultivoHidroponico === 'S'">
                             Hidropônico
