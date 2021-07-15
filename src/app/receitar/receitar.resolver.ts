@@ -30,7 +30,7 @@ export class ReceitarResolver implements Resolve<any> {
         unidadeMedidaList: this.service.unidadeMedidaList(),
         aduboList: this.service.aduboList(),
         garantiaList: this.service.garantiaList(),
-        receitaReferenciaList: this.service.receitaReferenciaList(),
+        referenciaBibliograficaList: this.service.referenciaBibliograficaList(),
         pessoaAduboPrecoList: this._pessoaAduboPrecoRestService.filtrar(filtro),
       }
     };

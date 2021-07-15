@@ -14,7 +14,7 @@ import { UnidadeMedida } from './../modelo/entidade/unidade-medida';
 import { Adubo } from './../modelo/entidade/adubo';
 import { Cultura } from '../modelo/entidade/cultura';
 import { FormaAplicacaoAdubo } from '../modelo/entidade/forma-aplicacao-adubo';
-import { ReceitaReferencia } from '../modelo/entidade/receita-referencia';
+import { ReferenciaBibliografica } from '../modelo/entidade/referencia-bibliografica';
 import { PessoaAduboPreco } from '../modelo/entidade/pessoa-adubo-preco';
 import { FormaIrrigacao } from '../modelo/entidade/forma-irrigacao';
 import { CulturaTipo } from '../modelo/entidade/cultura-tipo';
@@ -49,7 +49,7 @@ export class ReceitarComponent implements OnInit {
   fonteFertirrigacaoList: Adubo[];
   formaIrrigacaoList: FormaIrrigacao[];
   formaAplicacaoAduboList: FormaAplicacaoAdubo[];
-  receitaReferenciaList: ReceitaReferencia[];
+  referenciaBibliograficaList: ReferenciaBibliografica[];
   pessoaAduboPrecoList: PessoaAduboPreco[];
 
   constructor(
@@ -84,9 +84,9 @@ export class ReceitarComponent implements OnInit {
       resolver[0].apoio.unidadeMedidaList.subscribe((lista) => {
         this.unidadeMedidaList = lista;
       });
-      resolver[0].apoio.receitaReferenciaList.subscribe((lista) => {
-        this.receitaReferenciaList = lista;
-      });
+      // resolver[0].apoio.referenciaBibliograficaList.subscribe((lista) => {
+      //   this.referenciaBibliograficaList = lista;
+      // });
       resolver[0].apoio.pessoaAduboPrecoList.subscribe((lista) => {
         this.pessoaAduboPrecoList = lista;
       });
@@ -176,7 +176,7 @@ export class ReceitarComponent implements OnInit {
   public referenciaChange(event) {
     let entidade: Receita = this.frm.value;
 
-    this.analiseSoloParametroList = event.value.receitaReferenciaAnaliseSoloParametroList.map(a => a.analiseSoloParametro).sort((a, b) => a.ordem - b.ordem);
+    this.analiseSoloParametroList = event.value.referenciaBibliograficaAnaliseSoloParametroList.map(a => a.analiseSoloParametro).sort((a, b) => a.ordem - b.ordem);
 
     entidade.receitaAnaliseSoloParametroList = [];
     for (const analiseSoloParametro of this.analiseSoloParametroList) {
@@ -498,6 +498,7 @@ export class ReceitarComponent implements OnInit {
   public realizadaChange(checkbox: MatCheckbox, checked: boolean, controle: FormControl) {
     controle.setValue(checked ? 'S' : 'N');
     checkbox.checked = controle.value === 'S';
+
   }
 
   public arrayIntegerTamanho(tamanho): number[] {
@@ -515,10 +516,18 @@ export class ReceitarComponent implements OnInit {
     if (event.source._id === 'culturaTipo') {
       frm.get('cultura').setValue(null);
     }
+    this.atualizaReferenciaBibliograficaList(frm.get('cultura').value);
+  }
+
+  atualizaReferenciaBibliograficaList(cultura: Cultura) {
+    this.referenciaBibliograficaList = [];
+    if (cultura) {
+      cultura.referenciaBibliograficaCulturaList.forEach(r => this.referenciaBibliograficaList.push(r.referenciaBibliografica));
+    }
   }
 
   public exibeParametroSolo(codigo: string) {
-    let exibe = this.frm.value.referencia.receitaReferenciaAnaliseSoloParametroList.filter(
+    let exibe = this.frm.value.referencia.referenciaBibliograficaAnaliseSoloParametroList.filter(
       rrasp => rrasp.analiseSoloParametro.codigo === codigo).length > 0;
     return exibe;
   }

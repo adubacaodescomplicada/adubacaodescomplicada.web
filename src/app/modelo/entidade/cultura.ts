@@ -4,6 +4,7 @@ import { CulturaIdadePlantio } from './cultura-idade-plantio';
 import { CulturaNecessidadeAduboFormacao } from './cultura-necessidade-adubo-formacao';
 import { CulturaNecessidadeAduboProducao } from './cultura-necessidade-adubo-producao';
 import { CulturaTipo } from './cultura-tipo';
+import { ReferenciaBibliograficaCultura } from './referencia-bibliografica-cultura';
 
 export class Cultura implements EntidadeId {
 
@@ -11,8 +12,6 @@ export class Cultura implements EntidadeId {
     public nome: string;
     public codigo: string;
     public culturaTipo: CulturaTipo;
-    public formacao: string;
-    public producao: string;
     public cultivoEmSolo: string;
     public cultivoForaSolo: string;
     public cultivoHidroponico: string;
@@ -29,5 +28,6 @@ export class Cultura implements EntidadeId {
     public unidadeProdutividade: string;
     public culturaNecessidadeAduboFormacaoList: CulturaNecessidadeAduboFormacao[];
     public culturaNecessidadeAduboProducaoList: CulturaNecessidadeAduboProducao[];
+    public referenciaBibliograficaCulturaList: ReferenciaBibliograficaCultura[];
     public formaPlantio: string[];
 }

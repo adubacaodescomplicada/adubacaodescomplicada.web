@@ -11,7 +11,7 @@ import { AnaliseSoloParametro } from './../modelo/entidade/analise-solo-parametr
 import { Adubo } from './../modelo/entidade/adubo';
 import { Cultura } from '../modelo/entidade/cultura';
 import { UnidadeMedida } from './../modelo/entidade/unidade-medida';
-import { ReceitaReferencia } from '../modelo/entidade/receita-referencia';
+import { ReferenciaBibliografica } from '../modelo/entidade/referencia-bibliografica';
 import { Receita } from '../modelo/entidade/receita';
 
 @Injectable({ providedIn: 'root' })
@@ -49,8 +49,8 @@ export class ReceitarService extends CrudService<ReceitaFiltroDTO, Receita, Rece
             { headers: this.loginService.apiRequestHttpHeader });
     }
 
-    public receitaReferenciaList(): Observable<ReceitaReferencia[]> {
-        return this._http.get<ReceitaReferencia[]>(`${environment.REST_API_URL}/receita-referencia`,
+    public referenciaBibliograficaList(): Observable<ReferenciaBibliografica[]> {
+        return this._http.get<ReferenciaBibliografica[]>(`${environment.REST_API_URL}/referencia-bibliografica`,
             { headers: this.loginService.apiRequestHttpHeader });
     }
 

@@ -5,6 +5,7 @@ import { Espacamento } from "./espacamento";
 import { FormaAplicacaoAdubo } from "./forma-aplicacao-adubo";
 import { FormaIrrigacao } from "./forma-irrigacao";
 import { FormaPlantio } from "./forma-plantio";
+import { IdadeFaseCultivo } from "./idade-fase-cultivo";
 import { ModoProducao } from "./modo-producao";
 import { Pessoa } from "./pessoa";
 import { ReceitaAmostragemSolo } from "./receita-amostragem-solo";
@@ -19,6 +20,7 @@ export class Receita {
     data: string;
     pessoa: Pessoa;
     cultura: Cultura;
+    idadeFaseCultivo: IdadeFaseCultivo | string;
     modoProducao: ModoProducao | string;
     formaPlantio: FormaPlantio | string;
     receitaAnaliseSoloParametroList: ReceitaAnaliseSoloParametro[];
